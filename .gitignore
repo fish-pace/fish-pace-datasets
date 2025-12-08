@@ -2,5 +2,4 @@
 test/
 __pycache__
 core.*
-data/raw
-data/matchups
+_temp_data/
