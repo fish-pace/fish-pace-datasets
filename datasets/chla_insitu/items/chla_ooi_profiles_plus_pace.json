@@ -4,7 +4,7 @@
   "id": "chla_ooi_profiles_plus_pace",
   "properties": {
     "title": "OOI CHLA profile metrics (0–200 m, 10 m bins) with PACE matchups",
-    "description": "Depth-binned CHLA profile metrics from OOI Profilers and Moorings (Mar 2024–Dec 2025), binned from 0–200 m in 10 m bins using unadjusted CHLA values, matched to PACE OCI Level-3 4 km v3.1 Daily Rrs, chlor_a, and Kd_490. Profiles are matched to PACE Level-3 pixels within ±24 hours of the profile start time and to the nearest 4 km grid cell in latitude/longitude.",
+    "description": "Depth-binned CHLA profile metrics from OOI Profilers and Moorings (Mar 2024–Dec 2025), binned from 0–200 m in 10 m bins using unadjusted CHLA values, matched to PACE OCI Level-3 4 km v3.1 Daily Rrs, chlor_a, and Kd_490. Profiles are matched to PACE Level-3 pixels within ±24 hours of the profile start time and to the nearest 4 km grid cell in latitude/longitude.\n\nHow to load\n\nASSET_URL use 'Copy URL' on left\n\nPython df = pandas.read_parquet('ASSET_URL')\n\nR  df <- arrow::read_parquet('ASSET_URL')",
     "created": "2025-12-08T21:52:32Z",
     "start_datetime": "2024-03-01T00:00:00Z",
     "end_datetime": "2025-12-05T23:59:59Z",
