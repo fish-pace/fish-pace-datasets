@@ -4,7 +4,7 @@
   "id": "chla_argo_profiles",
   "properties": {
     "title": "Argo CHLA profile metrics (0–200 m, 10 m bins)",
-    "description": "Per-profile CHLA metrics from global BGC-Argo floats (Mar 2024–Nov 2025), depth-binned from 0–200 m in 10 m bins using unadjusted CHLA values.\n\nHow to load\n\nASSET_URL use 'Copy URL' on left\n\nPython\n import pandas as pd<br>  df = pd.read_parquet('ASSET_URL')\n\nR\n  library(arrow)\n  df <- read_parquet('ASSET_URL')",
+    "description": "Per-profile CHLA metrics from global BGC-Argo floats (Mar 2024–Nov 2025), depth-binned from 0–200 m in 10 m bins using unadjusted CHLA values.\n\nHow to load\n\nASSET_URL use 'Copy URL' on left\n\nPython df = pandas.read_parquet('ASSET_URL')\n\nR  df <- arrow::read_parquet('ASSET_URL')",
     "created": "2025-12-04T00:38:00Z",
     "start_datetime": "2024-03-01T00:00:00Z",
     "end_datetime": "2025-11-30T23:59:59Z",
