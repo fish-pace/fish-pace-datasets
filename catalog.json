@@ -10,6 +10,12 @@
       "href": "./datasets/chla_insitu/collection.json",
       "type": "application/json",
       "title": "CHLA(z) in situ profiles and PACE matchups"
+    },
+    {
+      "rel": "child",
+      "href": "./datasets/SEAMAP/collection.json",
+      "type": "application/json",
+      "title": "SEAMAP Gulf of Mexico surveys with total live biomass"
     }
   ]
 }

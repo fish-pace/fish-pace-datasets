@@ -1,0 +1,60 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "plankton_master_2024_present",
+  "properties": {
+    "title": "SEAMAP (Gulf of Mexico) survey data (2024\u2013present)",
+    "description": "Station-based fish survey and environmental data table derived from SEAMAP Gulf of Mexico surveys. Includes station metadata, environmental fields (temperature, salinity, winds, Secchi, etc.), total live biomass (kg) per survey and many BIO_* columns representing species (or taxon) biomass values by code.\n\nNote: BIO_* code definitions and biomass units depend on the SEAMAP export; see dataset README for mapping/units.\n\nHow to load\n\nASSET_URL use 'Copy URL' on left\n\nPython df = pandas.read_parquet('ASSET_URL')\n\nR  df <- arrow::read_parquet('ASSET_URL')",
+    "created": "2026-01-15T02:13:45Z",
+    "start_datetime": "2024-06-02T00:00:00Z",
+    "end_datetime": "2024-11-25T00:00:00Z",
+    "platform": "SEAMAP (Gulf of Mexico)",
+    "variables": [
+      "station_metadata",
+      "environmental",
+      "total_live_biomass",
+      "species_biomass_by_taxon_code"
+    ],
+    "table:primary_key": [
+      "STATIONID",
+      "CRUISEID"
+    ],
+    "table:time_field": "Loc_date",
+    "table:lat_field": "Latitude",
+    "table:lon_field": "Longitude",
+    "table:bio_columns_prefix": "BIO_",
+    "table:bio_columns_count": 3159
+  },
+  "geometry": null,
+  "bbox": [
+    -97.243,
+    24.6915,
+    -60.7365,
+    30.39
+  ],
+  "assets": {
+    "data": {
+      "href": "../data/seamap_with_species.parquet",
+      "type": "application/x-parquet",
+      "roles": [
+        "data"
+      ],
+      "title": "SEAMAP GOM table (Parquet)"
+    },
+    "source_csv": {
+      "href": "../data/seamap_with_species.csv",
+      "type": "text/csv",
+      "roles": [
+        "data"
+      ],
+      "title": "Original CSV export"
+    }
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json"
+    }
+  ]
+}
