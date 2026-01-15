@@ -1,0 +1,72 @@
+{
+  "type": "Collection",
+  "stac_version": "1.0.0",
+  "id": "chla-profiles",
+  "title": "CHLA(z) in situ profile metrics (with optional PACE matchups)",
+  "description": "CHLA(z) in situ profile metrics from multiple observing platforms (e.g., BGC-Argo, OOI), depth-binned 0–200 m in 10 m bins. Some items include matchups to PACE OCI Level-3 4 km v3.1 Daily products (Rrs, chlor_a, Kd_490).",
+  "license": "Open access where specified by each dataset's source; see per-item metadata.",
+  "keywords": [
+    "chlorophyll-a",
+    "CHLA",
+    "profiles",
+    "ocean color",
+    "BGC-Argo",
+    "OOI",
+    "PACE",
+    "matchups",
+    "Fish-PACE"
+  ],
+  "providers": [
+    {
+      "name": "Fish-PACE Tutorials",
+      "roles": ["host", "processor"],
+      "url": "https://github.com/fish-pace/fish-pace-datasets"
+    }
+  ],
+  "extent": {
+    "spatial": {
+      "bbox": [[-180.0, -90.0, 180.0, 90.0]]
+    },
+    "temporal": {
+      "interval": [["2024-01-01T00:00:00Z", null]]
+    }
+  },
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "Fish-PACE Tutorial Datasets"
+    },
+    {
+      "rel": "parent",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "Fish-PACE Tutorial Datasets"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_argo_profiles.json",
+      "type": "application/geo+json",
+      "title": "Global Bio-Argo CHLA profile metrics (0–200 m, 10 m bins)"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_argo_profiles_plus_pace.json",
+      "type": "application/geo+json",
+      "title": "Global Bio-Argo CHLA profile metrics with PACE matchups"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_ooi_profiles.json",
+      "type": "application/geo+json",
+      "title": "Global OOI CHLA profile metrics (0–200 m, 10 m bins)"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_ooi_profiles_plus_pace.json",
+      "type": "application/geo+json",
+      "title": "Global OOI CHLA profile metrics with PACE matchups"
+    }
+  ]
+}

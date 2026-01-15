@@ -1,0 +1,15 @@
+{
+  "type": "Catalog",
+  "stac_version": "1.0.0",
+  "id": "fish-pace-datasets",
+  "title": "Fish-PACE Tutorial Datasets",
+  "description": "Datasets used in Fish-PACE tutorials and hackweek exercises.",
+  "links": [
+    {
+      "rel": "child",
+      "href": "./datasets/chla_insitu/collection.json",
+      "type": "application/json",
+      "title": "CHLA(z) in situ profiles and PACE matchups"
+    }
+  ]
+}
