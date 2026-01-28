@@ -10,12 +10,21 @@
     "platform": "various",
     "variables": ["CHLA"],
     "tutorial_notebook": "../notebooks/chla.ipynb",
-    "file_name": "insitu_chl_usa.xlsx"
+    "file_name": [
+      "insitu_chl_usa.csv",
+      "insitu_chl_usa.xlsx"
+    ]
   },
   "geometry": null,
   "bbox": [-180.0, -90.0, 180.0, 90.0],
   "assets": {
-    "data": {
+    "csv": {
+      "href": "../data/insitu_chl_usa.csv",
+      "type": "text/csv",
+      "roles": ["data"],
+      "title": "insitu_chl_usa.csv"
+    },
+    "excel": {
       "href": "../data/insitu_chl_usa.xlsx",
       "type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "roles": ["data"],
@@ -30,3 +39,4 @@
     }
   ]
 }
+
