@@ -41,27 +41,15 @@
     },
     {
       "rel": "item",
-      "href": "./items/chla_argo_profiles.json",
+      "href": "./items/insitu_chl_usa_2025.json",
       "type": "application/geo+json",
-      "title": "Global Bio-Argo CHLA profile metrics (0–200 m, 10 m bins)"
+      "title": "In-situ CHLA with depth for 2024"
     },
     {
       "rel": "item",
-      "href": "./items/chla_argo_profiles_plus_pace.json",
+      "href": "./items/insitu_chl_usa.json",
       "type": "application/geo+json",
-      "title": "Global Bio-Argo CHLA profile metrics with PACE matchups"
-    },
-    {
-      "rel": "item",
-      "href": "./items/chla_ooi_profiles.json",
-      "type": "application/geo+json",
-      "title": "Global OOI CHLA profile metrics (0–200 m, 10 m bins)"
-    },
-    {
-      "rel": "item",
-      "href": "./items/chla_ooi_profiles_plus_pace.json",
-      "type": "application/geo+json",
-      "title": "Global OOI CHLA profile metrics with PACE matchups"
+      "title": "In-situ CHLA with depth"
     }
   ]
 }
