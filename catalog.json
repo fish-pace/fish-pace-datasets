@@ -22,7 +22,6 @@
       "href": "./datasets/chla_insitu/collection.json",
       "type": "application/json",
       "title": "CHLA(z) in situ abundance"
-    },
-
+    }
   ]
 }
