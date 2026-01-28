@@ -1,0 +1,790 @@
+datetime,lat,lon,chl,depth,station,cruise,experiment,affiliations,doi,source,fluorescence?,pressure,FishRegion
+2024-10-02 17:04:01,34.0831,-120.003,3.44636,0.0,7,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,no,,West Coast
+2024-10-02 18:13:43,34.2036,-119.928,2.83528,0.0,5,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,no,,West Coast
+2024-10-02 19:04:15,34.2498,-119.907,0.187719,50.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 19:05:08,34.2498,-119.907,1.65875,30.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 19:05:45,34.2498,-119.907,8.81183,20.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 19:06:19,34.2498,-119.907,9.00979,10.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 19:06:43,34.2498,-119.907,6.8388,5.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 19:07:19,34.2498,-119.907,4.3413,0.0,4,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-10-02 21:05:27,34.3439,-119.863,0.997198,0.0,2,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,no,,West Coast
+2024-10-02 21:48:28,34.3915,-119.841,0.604383,0.0,1,pb339,Plumes_and_Blooms,University_of_California_Santa_Barbara,10.5067/SeaBASS/PLUMES_AND_BLOOMS/DATA001,SeaBASS,yes,,West Coast
+2024-05-18 09:23:00,25.638,-80.108,0.2201,2.22,2,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-18 15:46:00,25.01,-80.38,0.1761,3.31,MR,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-18 15:46:00,25.01,-80.38,0.4426,34.7,MR,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-18 20:45:00,24.8208,-80.7567,0.3139,2.43,7,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-18 21:59:00,24.718,-80.688,0.0987,2.78,9.5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-18 23:09:00,24.7133,-80.8317,0.2528,2.86,12,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-18 23:54:00,24.7883,-80.86,0.5604,2.52,10,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-19 03:22:00,24.5983,-81.1833,0.1902,2.61,18,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-19 04:03:00,24.675,-81.205,0.4878,2.65,16,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-19 06:15:00,24.538,-81.413,0.1738,3.12,LK,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-05-19 06:15:00,24.538,-81.413,0.2215,30.8,LK,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-19 09:08:00,24.478,-81.717,0.2116,15.5,WS,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-19 09:08:00,24.478,-81.717,0.1823,1.82,WS,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-05-19 12:06:00,24.654,-81.9049,0.5579,2.62,KW1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-19 15:15:00,25.0132,-82.0399,0.5948,4.09,KW4,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-19 18:13:00,25.4017,-82.21,0.2438,2.46,30,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-19 21:19:00,25.7417,-81.9433,0.5862,2.18,31,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-19 22:59:00,25.9117,-81.8,0.9577,2.49,33,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 03:32:00,26.4272,-81.9606,2.1788,2.35,CAL1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 04:45:00,26.3412,-82.0431,0.878,2.3,CAL3,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 06:41:00,26.1811,-82.2192,0.4339,2.17,CAL5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 10:53:00,26.5455,-82.2199,1.2819,2.17,RP1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-20 11:53:00,26.5496,-82.3321,0.4148,2.73,RP3,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 14:56:00,26.6864,-82.3402,0.5174,2.24,BG2,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 17:12:00,26.629,-82.554,0.3754,2.54,BG4,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 18:25:00,26.5952,-82.6947,0.2188,2.3,GP5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 20:51:00,26.4942,-83.0365,0.1186,2.49,BG7,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 21:24:00,29.9983,-87.1866,0.444,1.5,1,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-20 22:54:00,26.7294,-83.1049,0.0998,2.25,V9,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 00:29:00,26.8308,-82.9578,0.1685,2.35,V8,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 02:50:00,26.9604,-82.7502,0.244,2.41,V5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 05:05:00,27.0739,-82.5463,0.6273,2.39,V2,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 10:20:00,27.6504,-82.8383,0.8837,2.01,ROME5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 12:40:00,27.6186,-83.1333,0.2963,2.01,TB4,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-21 15:00:00,29.0901,-84.9192,0.121,3.0,2,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 16:20:00,27.6144,-83.4867,0.1387,2.58,TB10,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 17:04:00,28.0124,-83.5691,0.1609,2.2,CW7,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 18:29:00,29.036,-84.7088,0.125,1.8,3,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-21 21:45:00,28.9503,-84.534,0.116,1.8,4,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-21 22:25:00,28.0116,-83.0792,0.296,3.14,CW4,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 00:31:00,28.01,-82.849,1.6962,2.38,CW1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-22 02:10:00,27.8016,-82.8817,0.8228,2.69,TB1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-22 04:55:00,27.4586,-82.8467,0.2787,3.74,AMI2,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 07:31:00,27.3429,-83.1276,0.1553,2.59,AMI5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 11:04:00,27.1899,-83.5032,0.112,2.11,AMI9,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-22 13:36:00,26.971,-83.314,0.1068,2.61,L9,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-22 14:08:00,27.9094,-83.2019,0.25,1.8,5,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-22 16:48:00,27.1386,-82.9519,0.2085,3.12,L5,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 17:30:00,27.7021,-83.2452,0.175,1.8,6,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 19:41:00,27.3045,-82.5963,1.0251,3.19,L1,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-22 20:57:00,27.5272,-83.3674,0.085,1.8,7,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-23 04:36:00,25.9378,-82.4792,0.2523,3.19,CAL6,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-23 11:02:00,25.7333,-81.575,2.3683,2.49,41,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 13:07:00,25.5835,-81.4707,0.6029,1.97,45,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 14:25:00,25.5833,-81.2917,0.7093,2.73,49,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 14:26:00,26.1129,-82.1733,0.64,1.8,8,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 15:44:00,25.4533,-81.3083,1.2144,2.45,51,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 16:16:00,25.4533,-81.225,0.9864,2.77,53,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 17:10:00,25.3502,-81.1933,1.1172,2.44,55,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 17:43:00,25.3453,-81.1528,1.5066,2.51,54,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 18:27:00,25.35,-81.227,1.0134,2.51,56,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-23 18:47:00,26.2543,-82.2864,0.481,1.8,9,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 18:57:00,25.3517,-81.265,0.8834,2.44,57,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 20:35:00,25.352,-81.491,0.7834,2.68,57.2,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 21:40:00,25.352,-81.654,0.6922,2.72,57.3,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 21:48:00,26.334,-82.4972,0.245,1.4,10,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-23 22:58:00,25.1667,-81.6533,0.865,3.47,58,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-24 01:01:00,25.1693,-81.3363,0.7494,2.53,60,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-24 02:16:00,25.1651,-81.1645,5.8662,2.72,64,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-24 03:15:00,25.1017,-81.0933,1.6042,2.42,65,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-24 04:40:00,24.93,-81.1667,0.6014,2.53,68,WS24139,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-24 14:20:00,24.7827,-83.6346,0.08,1.8,11,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-05-24 16:41:00,24.7922,-83.8271,0.077,1.8,12,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-24 21:00:00,24.79,-84.0479,0.05,1.8,13,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-24 22:40:00,24.7932,-84.1729,0.106,3.0,14,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-25 18:41:00,23.9597,-83.5725,0.067,1.8,16,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-25 21:37:00,24.0282,-83.3888,0.08,1.8,17,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-05-26 13:16:00,24.3453,-81.2768,0.074,1.8,18,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-26 16:51:00,24.4305,-81.0145,0.047,1.8,19,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-26 20:02:00,24.4912,-80.7282,0.051,1.8,20,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-27 14:37:00,25.638,-79.9414,0.08,1.8,22,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-27 17:11:00,25.8096,-79.9384,0.052,1.8,23,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-27 21:26:00,26.1163,-79.9551,0.037,1.8,24,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-28 14:16:00,27.707,-79.5274,0.045,1.8,25,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-28 17:26:00,27.8866,-79.5302,0.033,1.8,26,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-28 20:31:00,28.0659,-79.6301,0.062,1.8,27,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-29 14:23:00,29.7662,-80.911,0.211,1.8,29,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-29 17:20:00,29.9273,-80.913,0.218,5.0,30,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-29 21:39:00,30.1039,-80.9127,0.191,5.0,31,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-30 14:15:00,29.6391,-79.1859,0.06,1.8,32,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-30 17:46:00,29.6322,-79.391,0.046,1.8,33,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-30 21:50:00,29.6407,-79.5767,0.04,1.8,34,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-31 20:09:00,30.4007,-81.1328,0.208,3.0,35,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-05-31 21:15:00,30.4482,-80.9699,0.162,3.0,36,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-06-01 17:33:00,32.5484,-79.7249,0.175,1.8,37,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-06-01 21:33:00,32.6445,-79.5975,0.176,3.0,38,NF2405_VIIRS,VIIRS_validation,"University_of_South_Florida,NOAA_National_Environmental_Satellite_Data_and_Information_Service,University_of_South_Florida",10.5067/SeaBASS/VIIRS_VALIDATION/DATA001,SeaBASS,no,,South Atlantic
+2024-07-20 06:54:00,25.638,-80.108,0.2134,2.36,2,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 05:28:00,25.638,-80.108,0.3281,2.31,2,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 11:44:00,25.01,-80.38,0.226,34.1,MR,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-07-23 11:44:00,25.01,-80.38,0.2376,2.32,MR,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-07-23 16:35:00,24.8208,-80.7567,0.2105,2.65,7,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 17:48:00,24.718,-80.688,0.1747,2.81,9.5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 19:02:00,24.7133,-80.8317,0.2683,3.01,12,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 19:45:00,24.7883,-80.86,0.2098,2.36,10,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 23:17:00,24.5983,-81.1833,0.2223,2.55,18,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-23 23:56:00,24.675,-81.205,0.4622,1.99,16,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-24 02:16:00,24.538,-81.413,0.145,2.87,LK,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-07-24 02:16:00,24.538,-81.413,0.3595,45.9,LK,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-07-24 05:09:00,24.478,-81.717,0.1856,3.85,WS,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-07-24 05:09:00,24.478,-81.717,0.3588,42.6,WS,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-07-24 13:34:00,24.93,-81.1667,0.5582,2.33,68,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-07-24 14:52:00,25.1017,-81.0933,3.5421,2.9,65,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 15:40:00,25.1651,-81.1645,3.8006,2.03,64,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 16:54:00,25.1693,-81.3363,0.6096,2.22,60,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 19:29:00,25.352,-81.654,0.9852,2.14,57.3,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 20:42:00,25.352,-81.491,1.3533,2.24,57.2,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 21:55:00,25.3517,-81.336,1.2366,2.85,57.1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-24 23:22:00,25.3453,-81.1528,1.9537,2.4,54,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 00:03:00,25.3502,-81.1933,2.0793,2.23,55,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 00:20:00,25.35,-81.227,2.2628,2.9,56,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 00:53:00,25.3517,-81.265,1.5974,2.23,57,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 01:52:00,25.4533,-81.225,1.9669,2.5,53,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 02:27:00,25.4533,-81.3083,1.3856,2.35,51,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 03:45:00,25.5833,-81.2917,1.7772,2.64,49,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 05:09:00,25.5835,-81.4707,1.8768,2.27,45,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 07:20:00,25.7333,-81.575,2.007,2.76,41,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 10:15:00,25.7417,-81.9433,0.3365,2.93,31,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 11:54:00,25.9117,-81.8,2.6636,3.0,33,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 15:22:00,26.1811,-82.2192,0.9144,2.47,CAL5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 17:10:00,26.3412,-82.0431,1.6751,2.72,CAL3,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 18:18:00,26.4272,-81.9606,3.2567,2.36,CAL1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 20:40:00,26.5455,-82.2199,1.8632,2.79,RP1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-25 21:42:00,26.5496,-82.3321,0.9193,2.36,RP3,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 01:51:00,26.629,-82.554,1.3946,2.78,BG4,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 03:01:00,26.5952,-82.6947,0.2904,2.45,GP5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 06:00:00,26.4942,-83.0365,0.0949,3.32,BG7,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 08:14:00,26.4067,-83.3456,0.0829,2.35,BG9,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 10:31:00,26.3178,-83.653,0.1194,2.86,BG11,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 13:14:00,26.229,-83.9597,0.1027,2.72,BG13,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 16:13:00,26.1386,-84.2655,0.1463,2.49,BG15,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-26 19:10:00,26.0485,-84.5709,0.1448,3.34,BG17,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-27 05:33:00,25.9142,-85.0183,0.1246,2.31,BG20,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-07-27 17:57:00,26.7294,-83.1049,0.4062,2.57,V9,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-27 21:45:00,26.9604,-82.7502,0.7193,2.81,V5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-27 23:46:00,27.0739,-82.5463,0.8212,2.59,V2,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 04:41:00,27.4586,-82.8467,0.7733,2.52,AMI2,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 07:25:00,27.3429,-83.1276,0.1843,2.95,AMI5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 10:55:00,27.1899,-83.5032,0.1024,3.43,AMI9,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 14:08:00,27.6144,-83.4867,0.1724,2.78,TB10,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 17:45:00,27.6186,-83.1333,0.7169,2.74,TB4,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 21:59:00,27.6504,-82.8383,1.8986,2.21,ROME5,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-28 23:35:00,27.8016,-82.8817,0.8592,2.63,TB1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-29 03:00:00,28.01,-82.849,2.8851,2.25,CW1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-29 05:00:00,28.0116,-83.0793,0.7438,2.71,CW4,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-30 00:43:00,25.9378,-82.4792,0.1598,2.68,CAL6,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-30 05:32:00,25.4017,-82.21,0.2059,1.94,30,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-30 08:28:00,25.0132,-82.0399,0.3144,2.3,KW4,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-07-30 11:12:00,24.654,-81.9049,0.4442,2.41,KW1,WS24205,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-14 10:10:00,25.638,-80.108,0.3375,2.1,2,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-14 16:42:00,25.01,-80.38,0.1772,2.9,MR,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-14 16:42:00,25.01,-80.38,0.2239,34.7,MR,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-09-14 21:27:00,24.8208,-80.7567,0.2108,2.36,7,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-09-14 22:28:00,24.718,-80.688,0.1126,2.33,9.5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-14 23:31:00,24.7133,-80.8317,0.2209,2.21,12,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-15 00:11:00,24.7883,-80.86,0.2526,2.16,10,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-15 03:38:00,24.5983,-81.1833,0.2291,2.6,18,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-15 04:18:00,24.675,-81.205,0.3051,2.16,16,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-15 06:35:00,24.538,-81.413,0.2453,2.66,LK,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-09-15 06:35:00,24.538,-81.413,0.2662,37.3,LK,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-09-15 09:19:00,24.478,-81.717,0.2403,2.78,WS,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-09-15 09:19:00,24.478,-81.717,0.2687,15.1,WS,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-09-15 12:08:00,24.654,-81.9049,0.5586,2.47,KW1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-09-15 15:13:00,25.0132,-82.0399,0.3792,2.67,KW4,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-15 18:24:00,25.4017,-82.21,0.3342,2.39,30,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-15 22:03:00,25.7417,-81.9433,0.8268,2.67,31,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-15 23:43:00,25.9117,-81.8,1.5998,2.43,33,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 03:54:00,26.1811,-82.2192,0.7489,2.56,CAL5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 05:55:00,26.3412,-82.0431,0.7181,2.47,CAL3,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 07:11:00,26.4272,-81.9606,2.4925,2.39,CAL1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 09:29:00,26.5455,-82.2199,2.8326,2.71,RP1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 10:36:00,26.5496,-82.3321,1.5054,2.24,RP3,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 12:53:00,26.6864,-82.3402,3.0565,2.5,BG2,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 15:22:00,26.629,-82.554,1.314,2.04,BG4,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 16:20:00,26.5952,-82.6947,0.6741,2.22,GP5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 18:45:00,26.4942,-83.0365,0.2433,1.85,BG7,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 20:37:00,26.7294,-83.1049,0.4434,2.42,V9,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-16 22:03:00,26.8308,-82.9578,1.9043,2.68,V8,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 00:17:00,26.9604,-82.7502,1.603,2.63,V5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 02:28:00,27.0739,-82.5463,1.5576,2.0,V2,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 04:38:00,27.3045,-82.5963,4.5195,2.57,L1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 07:34:00,27.1386,-82.9519,0.9958,2.53,L5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 10:12:00,26.971,-83.314,0.2537,2.08,L9,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 12:16:00,27.1899,-83.5032,0.1736,1.85,AMI9,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 15:30:00,27.3429,-83.1276,1.1229,2.23,AMI5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 18:06:00,27.4586,-82.8467,2.3646,2.39,AMI2,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-17 21:20:00,27.6186,-83.1333,1.7715,3.4,TB4,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-09-18 01:18:00,27.6144,-83.4867,0.1468,2.56,TB10,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-18 03:57:00,28.0124,-83.5691,0.5135,2.36,CW7,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-18 07:16:00,28.0116,-83.0792,2.4479,2.5,CW4,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-18 09:19:00,28.01,-82.849,3.9197,2.26,CW1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-18 10:56:00,27.8016,-82.8817,3.1476,2.67,TB1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-18 13:33:00,27.6504,-82.8383,2.3946,2.49,ROME5,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 00:42:00,25.9378,-82.4792,0.3148,2.82,CAL6,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 08:07:00,25.7333,-81.575,1.3797,2.56,41,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 10:11:00,25.5835,-81.4707,0.7181,2.41,45,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 11:37:00,25.5833,-81.2917,4.3161,2.7,49,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 12:51:00,25.4533,-81.3083,1.8445,2.43,51,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 13:25:00,25.4533,-81.225,2.6897,2.74,53,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 14:23:00,25.3517,-81.265,4.7896,2.09,57,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 14:45:00,25.35,-81.227,3.0608,3.13,56,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-09-19 15:13:00,25.3502,-81.1933,3.6002,2.91,55,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 15:49:00,25.3453,-81.1528,3.0061,2.78,54,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-19 17:16:00,25.3517,-81.336,0.8884,2.24,57.1,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 00:18:00,25.352,-81.654,0.9772,2.05,57.3,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 01:38:00,25.1667,-81.6533,0.8633,2.72,58,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 03:28:00,25.1693,-81.3363,0.6774,2.1,60,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 04:32:00,25.1651,-81.1645,2.2472,2.44,64,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 05:32:00,25.1017,-81.0933,5.9728,2.28,65,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-09-20 06:55:00,24.93,-81.1667,2.324,2.24,68,WS24258,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-09 23:07:00,24.93,-81.1667,0.9162,2.05,68,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 00:33:00,25.1017,-81.0933,8.8672,2.48,65,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 01:27:00,25.1651,-81.1645,2.0578,1.91,64,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 02:46:00,25.1693,-81.3363,1.3341,2.52,60,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 04:48:00,25.1667,-81.6533,0.749,2.5,58,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 06:45:00,25.352,-81.654,0.8743,2.9,57.3,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 08:11:00,25.352,-81.491,0.8168,2.46,57.2,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 09:24:00,25.3517,-81.336,0.9979,2.47,57.1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 10:08:00,25.3517,-81.265,0.5483,2.38,57,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 10:38:00,25.35,-81.227,1.5991,1.97,56,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 11:01:00,25.3502,-81.1933,1.4933,2.17,55,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 11:34:00,25.3453,-81.1528,2.1382,2.21,54,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 13:02:00,25.4533,-81.225,1.4203,2.02,53,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 13:40:00,25.4533,-81.3083,0.7626,2.24,51,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 15:01:00,25.5833,-81.2917,0.9486,2.31,49,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 16:17:00,25.5835,-81.4707,0.8278,1.78,45,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 18:39:00,25.7333,-81.575,2.6564,2.29,41,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 21:41:00,25.7417,-81.9433,1.8487,3.25,31,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-10 23:20:00,25.9117,-81.8,3.0519,2.79,33,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 03:13:00,26.1811,-82.2192,0.442,2.66,CAL5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 05:22:00,26.3412,-82.0431,0.8427,1.76,CAL3,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 06:43:00,26.4272,-81.9606,3.1102,2.07,CAL1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 09:11:00,26.5455,-82.2199,3.2612,2.51,RP1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 10:18:00,26.5496,-82.3321,1.3183,1.85,RP3,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 12:43:00,26.6864,-82.3402,1.8523,2.1,BG2,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 15:13:00,26.629,-82.554,1.147,2.35,BG4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 16:25:00,26.5952,-82.6947,0.7525,2.82,GP5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 19:29:00,26.4942,-83.0365,0.4951,3.1,BG7,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 21:17:00,26.7294,-83.1049,0.5353,3.36,V9,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-11 22:50:00,26.8308,-82.9578,0.5907,2.3,V8,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-11-12 01:44:00,26.9604,-82.7502,1.1985,2.21,V5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 04:11:00,27.0739,-82.5463,1.3771,2.13,V2,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 06:41:00,27.3045,-82.5963,4.0394,1.86,L1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 09:28:00,27.1386,-82.9519,2.4662,2.94,L5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-11-12 12:06:00,26.971,-83.314,0.3304,2.74,L9,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 14:07:00,27.1899,-83.5032,0.2302,2.58,AMI9,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 17:43:00,27.3429,-83.1276,0.4488,3.23,AMI5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 20:34:00,27.4586,-82.8467,1.6343,2.31,AMI2,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-12 22:51:00,27.6504,-82.8383,2.3865,1.94,ROME5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 00:46:00,27.8016,-82.8817,3.7249,2.58,TB1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 02:24:00,27.6751,-82.997,1.3681,2.02,TB3,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 03:25:00,27.6186,-83.1333,0.3078,3.41,TB4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2024-11-13 08:02:00,27.6144,-83.4867,0.2415,2.42,TB10,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 11:55:00,28.0124,-83.5691,0.5383,2.73,CW7,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 16:28:00,28.0116,-83.0792,4.7463,3.23,CW4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 19:24:00,28.01,-82.849,4.7722,2.52,CW1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 21:14:00,28.2391,-82.8952,1.2431,2.34,AC1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-13 23:48:00,28.2391,-83.2326,0.7849,3.24,AC4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-14 02:24:00,28.2391,-83.5719,0.6536,3.03,AC6,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-14 07:23:00,28.784,-83.623,1.2918,2.84,HB6,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-14 12:04:00,28.686,-83.31,2.011,2.87,HB4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-14 15:24:00,28.545,-82.891,0.916,1.92,HB1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-15 09:48:00,25.9378,-82.4792,0.5135,2.44,CAL6,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-15 13:57:00,25.4017,-82.21,0.7298,2.27,30,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-15 16:52:00,25.0132,-82.0399,0.7006,2.47,KW4,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-15 19:55:00,24.654,-81.9049,1.0126,1.8,KW1,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2024-11-16 17:41:00,24.478,-81.717,0.2414,2.56,WS,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-16 17:41:00,24.478,-81.717,0.2721,21.4,WS,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-11-16 21:00:00,24.538,-81.413,0.1766,2.52,LK,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-11-16 21:00:00,24.538,-81.413,0.2485,37.7,LK,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-11-16 23:17:00,24.675,-81.205,0.3984,2.21,16,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-11-16 23:58:00,24.5983,-81.1833,0.1759,2.11,18,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 05:27:00,24.7133,-80.8317,0.11,2.53,12,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 06:17:00,24.7883,-80.86,0.2866,2.09,10,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 07:27:00,24.8208,-80.7567,0.3269,2.16,7,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 08:38:00,24.718,-80.688,0.1652,2.43,9.5,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 15:16:00,25.01,-80.38,0.2157,3.18,MR,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-11-17 15:16:00,25.01,-80.38,0.2135,33.5,MR,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2024-11-17 23:41:00,25.638,-80.108,1.0759,2.1,2,WS24314,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-25 19:11:00,24.93,-81.1667,2.7461,1.85,68,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-25 20:40:00,25.1017,-81.0933,2.6996,1.12,65,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-25 21:37:00,25.1651,-81.1645,4.5071,1.64,64,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-25 22:50:00,25.1693,-81.3363,7.6409,1.15,60,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 00:59:00,25.1667,-81.6533,1.8159,1.11,58,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 02:44:00,25.352,-81.654,1.3728,2.03,57.3,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 04:02:00,25.352,-81.491,1.0124,1.36,57.2,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 05:51:00,25.3517,-81.336,1.6165,1.5,57.1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 06:49:00,25.3453,-81.1528,2.9282,1.56,54,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 07:30:00,25.3502,-81.1933,1.8717,1.79,55,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 07:49:00,25.35,-81.227,2.0383,2.04,56,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 08:21:00,25.3517,-81.265,2.846,1.77,57,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 09:21:00,25.4533,-81.225,2.3893,1.16,53,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 09:58:00,25.4533,-81.3083,1.5777,1.32,51,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 12:15:00,25.5835,-81.4707,1.2627,1.0,45,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 14:18:00,25.7333,-81.575,1.9856,1.43,41,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 17:24:00,25.7417,-81.9433,1.1125,1.34,31,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 19:10:00,25.9117,-81.8,2.6649,1.31,33,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-26 21:26:00,26.0742,-82.0093,3.6915,1.31,REDTIDE,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-01-26 23:09:00,26.1811,-82.2192,2.3891,1.55,CAL5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 00:57:00,26.3412,-82.0431,6.5587,1.81,CAL3,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 02:12:00,26.4272,-81.9606,1.9371,1.66,CAL1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 04:33:00,26.5455,-82.2199,1.9864,1.65,RP1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 05:41:00,26.5496,-82.3321,0.7785,1.9,RP3,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 07:53:00,26.6864,-82.3402,1.0304,1.49,BG2,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 10:10:00,26.629,-82.554,1.5768,1.47,BG4,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 11:18:00,26.5952,-82.6947,0.457,1.48,GP5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 13:43:00,26.4942,-83.0365,0.3889,1.56,BG7,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 15:34:00,26.7294,-83.1049,0.3326,1.89,V9,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 16:55:00,26.8308,-82.9578,0.3328,2.35,V8,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-27 19:16:00,26.9604,-82.7502,0.3172,1.14,V5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-01-27 21:27:00,27.0739,-82.5463,0.8377,1.57,V2,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-28 02:07:00,27.4586,-82.8467,0.9539,1.5,AMI2,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-28 04:46:00,27.3429,-83.1276,0.3108,1.46,AMI5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-28 08:04:00,27.1899,-83.5032,0.2612,1.48,AMI9,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-28 11:18:00,27.6144,-83.4867,0.2509,1.02,TB10,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-28 15:04:00,27.6186,-83.1333,0.6527,1.45,TB4,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 00:40:00,28.0116,-83.0793,0.9788,2.43,CW4,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 02:44:00,28.01,-82.849,0.9394,1.63,CW1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 04:24:00,27.8016,-82.8817,1.3932,1.83,TB1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 07:05:00,27.6504,-82.8383,1.0521,1.73,ROME5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 18:42:00,25.9378,-82.4792,0.4664,1.79,CAL6,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-29 23:46:00,25.4017,-82.21,0.3966,1.57,30,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-30 02:52:00,25.0132,-82.0399,1.2149,1.63,KW4,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-30 05:28:00,24.654,-81.9049,1.5812,1.9,KW1,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-01-30 06:34:00,24.5367,-81.8283,0.3595,1.96,24,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-30 11:13:00,24.478,-81.717,0.2876,20.8,WS,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-30 11:13:00,24.478,-81.717,0.2914,1.15,WS,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-30 13:50:00,24.538,-81.413,0.3441,1.79,LK,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-30 13:50:00,24.538,-81.413,0.4677,46.5,LK,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-30 16:20:00,24.675,-81.205,0.3315,2.75,16,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-30 17:01:00,24.5983,-81.1833,0.3616,2.16,18,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-30 19:33:00,24.7017,-81.03,0.2906,1.54,13,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-30 22:22:00,24.7883,-80.86,0.2201,2.37,10,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-30 23:02:00,24.7133,-80.8317,0.3015,2.8,12,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-31 00:27:00,24.718,-80.688,0.1392,2.28,9.5,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-31 01:51:00,24.8208,-80.7567,0.2703,2.77,7,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-31 06:34:00,25.01,-80.38,0.2216,33.4,MR,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-31 06:34:00,25.01,-80.38,0.1843,3.03,MR,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-01-31 12:14:00,25.1083,-80.38,0.3069,2.25,4,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-01-31 18:07:00,25.638,-80.108,0.3315,1.81,2,WS25024,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 03:22:00,25.638,-80.108,0.204,2.39,2,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 11:27:00,25.01,-80.38,0.1734,7.09,MR,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-03-25 11:27:00,25.01,-80.38,0.1895,2.15,MR,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-03-25 16:24:00,24.8208,-80.7567,0.2114,1.87,7,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 17:28:00,24.718,-80.688,0.0888,1.79,9.5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 19:13:00,24.7133,-80.8317,0.2789,1.92,12,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 20:05:00,24.7883,-80.86,0.1629,1.89,10,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-25 23:44:00,24.5983,-81.1833,0.2783,2.13,18,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-26 00:25:00,24.675,-81.205,0.208,1.94,16,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-26 03:22:00,24.538,-81.413,0.3885,2.16,LK,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-03-26 03:22:00,24.538,-81.413,0.5407,30.0,LK,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-03-26 06:27:00,24.478,-81.717,0.3124,12.3,WS,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-03-26 06:27:00,24.478,-81.717,0.2805,1.99,WS,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-03-26 09:50:00,24.654,-81.9049,0.6379,2.14,KW1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-26 13:02:00,25.0132,-82.0399,0.3897,2.45,KW4,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-26 20:26:00,24.93,-81.1667,0.6059,2.07,68,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-26 21:59:00,25.1017,-81.0933,1.9067,1.95,65,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-26 22:54:00,25.1651,-81.1645,2.742,1.88,64,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 00:14:00,25.1693,-81.3363,0.5778,1.9,60,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 02:25:00,25.1667,-81.6533,0.826,2.51,58,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 05:52:00,25.3453,-81.1528,1.0711,2.09,54,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 06:37:00,25.3502,-81.1933,0.8652,1.96,55,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 06:56:00,25.35,-81.227,0.4407,1.87,56,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 07:21:00,25.3517,-81.265,0.3606,2.03,57,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 08:00:00,25.3517,-81.336,0.7437,2.06,57.1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 09:00:00,25.352,-81.491,0.4605,1.98,57.2,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 10:09:00,25.352,-81.654,0.4632,2.17,57.3,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 12:30:00,25.4533,-81.3083,0.6678,2.29,51,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 13:07:00,25.4533,-81.225,1.143,2.9,53,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 14:34:00,25.5833,-81.2917,2.147,2.07,49,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 15:56:00,25.5835,-81.4707,0.7799,2.23,45,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 18:04:00,25.7333,-81.575,0.9733,2.12,41,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-27 22:36:00,25.4017,-82.21,0.2019,2.09,30,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 01:40:00,25.7417,-81.9433,0.4235,2.65,31,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 03:25:00,25.9117,-81.8,0.979,2.16,33,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 08:10:00,25.9378,-82.4792,0.1733,1.98,CAL6,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 11:08:00,26.1811,-82.2192,0.3611,2.01,CAL5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 13:06:00,26.3412,-82.0431,0.9159,2.43,CAL3,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 14:14:00,26.4272,-81.9606,1.9844,2.39,CAL1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 16:34:00,26.5455,-82.2199,1.1128,1.9,RP1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 17:41:00,26.5496,-82.3321,0.552,2.14,RP3,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 19:32:00,26.6864,-82.3402,1.9709,1.99,BG2,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 22:03:00,26.629,-82.554,0.2812,1.87,BG4,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-28 23:32:00,26.5952,-82.6947,0.1642,2.24,GP5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-29 02:00:00,26.4942,-83.0365,0.1618,2.54,BG7,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-29 04:13:00,26.7294,-83.1049,0.1642,3.98,V9,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-03-29 06:17:00,26.8308,-82.9578,0.1613,2.71,V8,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-03-29 08:40:00,26.9604,-82.7502,0.1851,2.16,V5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-29 11:01:00,27.0739,-82.5463,0.4653,2.42,V2,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-29 18:12:00,27.1899,-83.5032,0.1373,2.05,AMI9,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-29 21:55:00,27.3429,-83.1276,0.1957,2.36,AMI5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 00:21:00,27.4586,-82.8467,0.2734,2.72,AMI2,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 02:34:00,27.6504,-82.8383,1.2038,2.34,ROME5,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 04:54:00,27.6186,-83.1333,0.1575,1.98,TB4,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 14:03:00,27.6144,-83.4867,0.1867,2.75,TB10,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 16:45:00,28.0124,-83.5691,0.1978,2.16,CW7,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 20:12:00,28.0116,-83.0793,0.244,1.97,CW4,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 22:12:00,28.01,-82.849,2.0489,1.94,CW1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-03-30 23:57:00,27.8016,-82.8817,0.9524,1.76,TB1,HG25083,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 01:48:00,24.93,-81.1667,0.5203,2.71,68,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 03:16:00,25.1017,-81.0933,1.1961,2.89,65,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 04:14:00,25.1651,-81.1645,3.7558,2.89,64,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-11 05:35:00,25.1693,-81.3363,0.6443,2.09,60,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 07:50:00,25.1667,-81.6533,0.343,2.22,58,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 09:37:00,25.352,-81.654,0.3595,3.92,57.3,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-11 11:18:00,25.352,-81.491,0.3997,2.73,57.2,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-11 12:41:00,25.3517,-81.336,0.8657,1.9,57.1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 13:32:00,25.3517,-81.265,1.0815,2.48,57,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 14:04:00,25.35,-81.227,1.1131,3.63,56,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-11 14:26:00,25.3502,-81.1933,1.1404,3.11,55,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 15:05:00,25.3453,-81.1528,1.5067,2.85,54,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 16:30:00,25.4533,-81.225,1.2682,3.23,53,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 17:07:00,25.4533,-81.3083,1.2244,2.78,51,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 18:28:00,25.5833,-81.2917,1.0236,3.44,49,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 19:41:00,25.5835,-81.4707,0.9286,3.27,45,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-11 21:45:00,25.7333,-81.575,2.39,2.35,41,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 00:38:00,25.7417,-81.9433,0.5544,2.4,31,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 02:19:00,25.9117,-81.8,1.0417,2.77,33,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 06:06:00,26.1811,-82.2192,0.4427,3.25,CAL5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 08:06:00,26.3412,-82.0431,1.3467,2.88,CAL3,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 09:20:00,26.4272,-81.9606,7.5384,2.61,CAL1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 11:29:00,26.5455,-82.2199,4.5003,2.84,RP1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 12:50:00,26.5496,-82.3321,0.7815,3.99,RP3,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-12 15:06:00,26.6864,-82.3402,1.5011,3.22,BG2,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 17:40:00,26.629,-82.554,0.3512,2.72,BG4,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 18:55:00,26.5952,-82.6947,0.3143,3.63,GP5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 21:30:00,26.4942,-83.0365,0.1579,2.69,BG7,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-12 23:18:00,26.7294,-83.1049,0.1596,2.1,V9,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 00:54:00,26.8308,-82.9578,0.162,3.19,V8,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-13 03:05:00,26.9604,-82.7502,0.3003,2.81,V5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 05:12:00,27.0739,-82.5463,1.7331,2.25,V2,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 10:07:00,27.4586,-82.8467,1.102,2.51,AMI2,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 12:52:00,27.3429,-83.1276,0.2968,2.53,AMI5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 16:30:00,27.1899,-83.5032,0.1359,3.19,AMI9,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-13 19:32:00,27.6144,-83.4867,0.1389,2.08,TB10,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,Gulf of Mexico
+2025-05-13 23:00:00,27.6186,-83.1333,0.3312,3.06,TB4,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-14 01:22:00,27.6504,-82.8383,1.8527,2.72,ROME5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-14 03:14:00,27.8016,-82.8817,0.9303,3.03,TB1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-14 04:49:00,28.01,-82.849,5.6864,2.22,CW1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-14 07:02:00,28.0116,-83.0793,0.3299,2.44,CW4,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-14 20:40:00,25.9378,-82.4792,0.2378,2.06,CAL6,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-15 01:37:00,25.4017,-82.21,0.1354,2.31,30,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-15 04:33:00,25.0132,-82.0399,0.3008,2.16,KW4,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-15 07:14:00,24.654,-81.9049,0.4136,2.34,KW1,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,Gulf of Mexico
+2025-05-15 09:07:00,24.478,-81.717,0.2845,14.3,WS,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-15 09:07:00,24.478,-81.717,0.2991,2.62,WS,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-15 11:15:00,24.5367,-81.8283,0.2407,2.57,24,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-15 15:40:00,24.538,-81.413,0.5274,35.1,LK,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-15 15:40:00,24.538,-81.413,0.293,2.3,LK,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-15 17:37:00,24.5983,-81.1833,0.3447,2.29,18,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-15 18:14:00,24.675,-81.205,0.4105,2.85,16,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-15 19:37:00,24.7017,-81.03,0.2721,2.58,13,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-15 23:03:00,24.7883,-80.86,0.3119,2.22,10,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-15 23:42:00,24.7133,-80.8317,0.1383,2.72,12,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-16 00:37:00,24.718,-80.688,0.1085,2.62,9.5,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-16 01:53:00,24.8208,-80.7567,0.2422,2.39,7,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-16 05:14:00,25.01,-80.38,0.291,36.2,MR,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-16 05:14:00,25.01,-80.38,0.1366,2.95,MR,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,no,,South Atlantic
+2025-05-16 08:18:00,25.1083,-80.38,0.1596,2.28,4,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2025-05-16 14:25:00,25.638,-80.108,0.2766,2.46,2,WS25130,SFMBON,"University_of_South_Florida,University_of_South_Florida,University_of_South_Florida",10.5067/SeaBASS/SFMBON/DATA001,SeaBASS,yes,,South Atlantic
+2024-04-28 12:44:45,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.2,Hawaii
+2024-04-28 12:44:35,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.0,Hawaii
+2024-04-28 12:44:24,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,3.7,Hawaii
+2024-04-28 12:41:56,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.5,Hawaii
+2024-04-28 12:41:46,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.3,Hawaii
+2024-04-28 12:41:36,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.1,Hawaii
+2024-04-28 12:36:12,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.3,Hawaii
+2024-04-28 12:36:03,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.4,Hawaii
+2024-04-28 12:35:57,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.3,Hawaii
+2024-04-28 12:34:01,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.8,Hawaii
+2024-04-28 12:33:51,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.8,Hawaii
+2024-04-28 12:33:42,22.75,-158.0,0.14,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.9,Hawaii
+2024-04-28 12:31:58,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.6,Hawaii
+2024-04-28 12:31:49,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.4,Hawaii
+2024-04-28 12:31:38,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.5,Hawaii
+2024-04-28 12:30:14,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.1,Hawaii
+2024-04-28 12:30:04,22.75,-158.0,0.29,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.1,Hawaii
+2024-04-28 12:29:53,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.1,Hawaii
+2024-04-28 12:28:14,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.4,Hawaii
+2024-04-28 12:28:03,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.4,Hawaii
+2024-04-28 12:27:53,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.5,Hawaii
+2024-04-28 12:25:21,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.5,Hawaii
+2024-04-28 12:25:11,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.5,Hawaii
+2024-04-28 12:25:02,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.5,Hawaii
+2024-04-30 07:00:45,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.8,Hawaii
+2024-04-30 06:58:07,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.5,Hawaii
+2024-04-30 06:56:40,22.75,-158.0,0.11,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.8,Hawaii
+2024-04-30 06:55:25,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,58.9,Hawaii
+2024-04-30 06:54:19,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,75.0,Hawaii
+2024-04-30 06:52:48,22.75,-158.0,-9.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,84.7,Hawaii
+2024-04-30 06:51:35,22.75,-158.0,-9.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.5,Hawaii
+2024-04-30 06:50:08,22.75,-158.0,0.3,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,114.8,Hawaii
+2024-04-30 06:48:22,22.75,-158.0,0.28,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.3,Hawaii
+2024-04-30 06:46:55,22.75,-158.0,0.28,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,134.6,Hawaii
+2024-04-30 06:45:28,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.9,Hawaii
+2024-04-30 06:44:02,22.75,-158.0,0.06,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,175.2,Hawaii
+2024-07-17 13:04:25,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.4,Hawaii
+2024-07-17 13:04:12,22.75,-158.0,0.11,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.4,Hawaii
+2024-07-17 13:04:01,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.2,Hawaii
+2024-07-17 13:01:16,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,27.2,Hawaii
+2024-07-17 13:01:02,22.75,-158.0,0.12,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,26.8,Hawaii
+2024-07-17 13:00:49,22.75,-158.0,0.12,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,27.1,Hawaii
+2024-07-17 12:58:28,22.75,-158.0,0.18,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.8,Hawaii
+2024-07-17 12:58:09,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.9,Hawaii
+2024-07-17 12:57:50,22.75,-158.0,0.2,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.8,Hawaii
+2024-07-17 12:55:35,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.8,Hawaii
+2024-07-17 12:55:24,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.6,Hawaii
+2024-07-17 12:55:14,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.6,Hawaii
+2024-07-17 12:53:28,22.75,-158.0,0.29,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.2,Hawaii
+2024-07-17 12:53:19,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.2,Hawaii
+2024-07-17 12:53:00,22.75,-158.0,0.24,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.1,Hawaii
+2024-07-17 12:51:22,22.75,-158.0,0.18,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.1,Hawaii
+2024-07-17 12:51:07,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.2,Hawaii
+2024-07-17 12:50:54,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.0,Hawaii
+2024-07-17 12:49:07,22.75,-158.0,0.14,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.9,Hawaii
+2024-07-17 12:48:55,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.9,Hawaii
+2024-07-17 12:48:43,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.9,Hawaii
+2024-07-17 12:46:56,22.75,-158.0,0.06,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.4,Hawaii
+2024-07-17 12:46:46,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.4,Hawaii
+2024-07-17 12:46:35,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.7,Hawaii
+2024-07-20 06:58:01,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,3.6,Hawaii
+2024-07-20 06:56:26,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.3,Hawaii
+2024-07-20 06:54:54,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.1,Hawaii
+2024-07-20 06:53:42,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,59.9,Hawaii
+2024-07-20 06:52:33,22.75,-158.0,0.2,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,75.5,Hawaii
+2024-07-20 06:51:31,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,85.3,Hawaii
+2024-07-20 06:50:20,22.75,-158.0,0.34,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.3,Hawaii
+2024-07-20 06:48:03,22.75,-158.0,0.29,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,114.6,Hawaii
+2024-07-20 06:46:42,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.3,Hawaii
+2024-07-20 06:45:02,22.75,-158.0,0.2,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,134.4,Hawaii
+2024-07-20 06:43:34,22.75,-158.0,0.11,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.5,Hawaii
+2024-07-20 06:42:12,22.75,-158.0,0.06,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.4,Hawaii
+2024-08-17 00:50:22,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.1,Hawaii
+2024-08-17 00:50:09,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.0,Hawaii
+2024-08-17 00:49:43,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.0,Hawaii
+2024-08-17 00:47:11,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.1,Hawaii
+2024-08-17 00:46:56,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.1,Hawaii
+2024-08-17 00:46:40,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.1,Hawaii
+2024-08-17 00:44:35,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.0,Hawaii
+2024-08-17 00:44:21,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.0,Hawaii
+2024-08-17 00:44:09,22.75,-158.0,0.2,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.0,Hawaii
+2024-08-17 00:39:35,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.1,Hawaii
+2024-08-17 00:39:28,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.9,Hawaii
+2024-08-17 00:39:21,22.75,-158.0,0.18,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.1,Hawaii
+2024-08-17 00:37:49,22.75,-158.0,0.31,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.3,Hawaii
+2024-08-17 00:37:41,22.75,-158.0,0.26,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.3,Hawaii
+2024-08-17 00:37:34,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.4,Hawaii
+2024-08-17 00:35:52,22.75,-158.0,0.14,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,122.9,Hawaii
+2024-08-17 00:35:43,22.75,-158.0,0.15,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,122.9,Hawaii
+2024-08-17 00:35:36,22.75,-158.0,0.14,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.1,Hawaii
+2024-08-17 00:34:01,22.75,-158.0,0.05,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.8,Hawaii
+2024-08-17 00:33:53,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.9,Hawaii
+2024-08-17 00:33:46,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.8,Hawaii
+2024-08-17 00:31:52,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.4,Hawaii
+2024-08-17 00:31:44,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.2,Hawaii
+2024-08-17 00:31:37,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.1,Hawaii
+2024-08-18 18:48:03,22.75,-158.0,-9.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.2,Hawaii
+2024-08-18 18:46:17,22.75,-158.0,0.45,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,23.6,Hawaii
+2024-08-18 18:44:40,22.75,-158.0,-9.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.8,Hawaii
+2024-08-18 18:43:08,22.75,-158.0,0.43,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,58.6,Hawaii
+2024-08-18 18:41:41,22.75,-158.0,0.27,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.7,Hawaii
+2024-08-18 18:39:59,22.75,-158.0,0.28,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,83.6,Hawaii
+2024-08-18 18:38:39,22.75,-158.0,-9.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.9,Hawaii
+2024-08-18 18:36:27,22.75,-158.0,0.15,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,114.3,Hawaii
+2024-08-18 18:34:56,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.2,Hawaii
+2024-08-18 18:32:56,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,133.9,Hawaii
+2024-08-18 18:31:29,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.5,Hawaii
+2024-08-18 18:29:53,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,175.0,Hawaii
+2024-09-07 12:58:57,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.0,Hawaii
+2024-09-07 12:58:45,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.1,Hawaii
+2024-09-07 12:58:34,22.75,-158.0,0.05,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.2,Hawaii
+2024-09-07 12:56:22,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,26.9,Hawaii
+2024-09-07 12:56:14,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,26.8,Hawaii
+2024-09-07 12:56:04,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,26.8,Hawaii
+2024-09-07 12:53:55,22.75,-158.0,0.11,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.5,Hawaii
+2024-09-07 12:53:47,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.4,Hawaii
+2024-09-07 12:53:33,22.75,-158.0,0.15,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.4,Hawaii
+2024-09-07 12:50:59,22.75,-158.0,0.27,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.6,Hawaii
+2024-09-07 12:50:49,22.75,-158.0,0.27,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.4,Hawaii
+2024-09-07 12:48:55,22.75,-158.0,0.26,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.0,Hawaii
+2024-09-07 12:48:45,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.1,Hawaii
+2024-09-07 12:48:38,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.9,Hawaii
+2024-09-07 12:46:55,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.9,Hawaii
+2024-09-07 12:46:44,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.8,Hawaii
+2024-09-07 12:46:35,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.7,Hawaii
+2024-09-07 12:44:17,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,150.5,Hawaii
+2024-09-07 12:44:06,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,150.5,Hawaii
+2024-09-07 12:43:56,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,150.5,Hawaii
+2024-09-07 12:41:58,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.0,Hawaii
+2024-09-07 12:41:46,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.0,Hawaii
+2024-09-07 12:41:33,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.0,Hawaii
+2024-09-09 06:54:27,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.7,Hawaii
+2024-09-09 06:52:56,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,25.0,Hawaii
+2024-09-09 06:51:20,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.2,Hawaii
+2024-09-09 06:49:42,22.75,-158.0,0.12,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,59.0,Hawaii
+2024-09-09 06:48:21,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.8,Hawaii
+2024-09-09 06:46:28,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,83.7,Hawaii
+2024-09-09 06:44:56,22.75,-158.0,0.31,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,100.0,Hawaii
+2024-09-09 06:43:36,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,114.7,Hawaii
+2024-09-09 06:41:59,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,125.0,Hawaii
+2024-09-09 06:40:05,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,134.7,Hawaii
+2024-09-09 06:38:40,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.3,Hawaii
+2024-09-09 06:37:08,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.9,Hawaii
+2024-10-11 12:51:52,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.5,Hawaii
+2024-10-11 12:51:16,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.8,Hawaii
+2024-10-11 12:49:49,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,23.9,Hawaii
+2024-10-11 12:49:43,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.0,Hawaii
+2024-10-11 12:49:36,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,23.7,Hawaii
+2024-10-11 12:48:04,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,45.5,Hawaii
+2024-10-11 12:47:57,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,45.7,Hawaii
+2024-10-11 12:47:44,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,45.7,Hawaii
+2024-10-11 12:45:40,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.2,Hawaii
+2024-10-11 12:45:09,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.2,Hawaii
+2024-10-11 12:44:37,22.75,-158.0,0.2,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.2,Hawaii
+2024-10-11 12:43:01,22.75,-158.0,0.27,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.5,Hawaii
+2024-10-11 12:42:31,22.75,-158.0,0.29,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.4,Hawaii
+2024-10-11 12:41:59,22.75,-158.0,0.26,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.5,Hawaii
+2024-10-11 12:40:29,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.9,Hawaii
+2024-10-11 12:39:57,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.8,Hawaii
+2024-10-11 12:39:26,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.8,Hawaii
+2024-10-11 12:37:54,22.75,-158.0,0.05,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.4,Hawaii
+2024-10-11 12:37:23,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.3,Hawaii
+2024-10-11 12:36:51,22.75,-158.0,0.05,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.4,Hawaii
+2024-10-11 12:35:03,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.0,Hawaii
+2024-10-11 12:34:32,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.0,Hawaii
+2024-10-11 12:33:52,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.6,Hawaii
+2024-10-13 07:04:55,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,7.6,Hawaii
+2024-10-13 07:02:50,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.0,Hawaii
+2024-10-13 07:00:05,22.75,-158.0,0.12,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,47.7,Hawaii
+2024-10-13 06:58:48,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,59.2,Hawaii
+2024-10-13 06:57:28,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.7,Hawaii
+2024-10-13 06:55:40,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,84.6,Hawaii
+2024-10-13 06:54:23,22.75,-158.0,0.23,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.6,Hawaii
+2024-10-13 06:53:01,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,114.8,Hawaii
+2024-10-13 06:51:27,22.75,-158.0,0.12,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.5,Hawaii
+2024-10-13 06:49:39,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,133.4,Hawaii
+2024-10-13 06:47:58,22.75,-158.0,0.04,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.3,Hawaii
+2024-10-13 06:46:17,22.75,-158.0,0.03,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,175.5,Hawaii
+2024-12-19 14:02:10,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.9,Hawaii
+2024-12-19 14:02:00,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.7,Hawaii
+2024-12-19 14:01:49,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,8.4,Hawaii
+2024-12-19 13:59:41,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,28.3,Hawaii
+2024-12-19 13:59:32,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,28.1,Hawaii
+2024-12-19 13:59:24,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,28.5,Hawaii
+2024-12-19 13:56:56,22.75,-158.0,0.11,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.6,Hawaii
+2024-12-19 13:56:47,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.8,Hawaii
+2024-12-19 13:56:38,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.2,Hawaii
+2024-12-19 13:54:39,22.75,-158.0,0.15,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.3,Hawaii
+2024-12-19 13:54:32,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.3,Hawaii
+2024-12-19 13:54:23,22.75,-158.0,0.18,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.4,Hawaii
+2024-12-19 13:52:44,22.75,-158.0,0.26,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,97.6,Hawaii
+2024-12-19 13:52:36,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,97.8,Hawaii
+2024-12-19 13:52:30,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,97.7,Hawaii
+2024-12-19 13:50:58,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.6,Hawaii
+2024-12-19 13:50:50,22.75,-158.0,0.06,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.2,Hawaii
+2024-12-19 13:50:43,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.9,Hawaii
+2024-12-19 13:48:53,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.1,Hawaii
+2024-12-19 13:48:43,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.5,Hawaii
+2024-12-19 13:48:30,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.5,Hawaii
+2024-12-19 13:46:49,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.8,Hawaii
+2024-12-19 13:46:40,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.8,Hawaii
+2024-12-19 13:46:30,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.8,Hawaii
+2024-12-20 01:04:47,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.5,Hawaii
+2024-12-20 01:02:59,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.0,Hawaii
+2024-12-20 01:02:06,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.2,Hawaii
+2024-12-20 00:57:58,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.8,Hawaii
+2024-12-20 00:56:19,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.6,Hawaii
+2024-12-20 00:54:30,22.75,-158.0,0.06,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,122.8,Hawaii
+2024-12-20 00:53:00,22.75,-158.0,0.01,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.2,Hawaii
+2024-12-20 00:50:51,22.75,-158.0,0.0,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,172.2,Hawaii
+2024-12-20 16:18:41,22.75,-158.0,0.1,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,65.8,Hawaii
+2024-12-20 16:16:47,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.4,Hawaii
+2024-12-20 16:15:08,22.75,-158.0,0.17,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,84.2,Hawaii
+2024-12-20 16:13:37,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,88.0,Hawaii
+2024-12-20 16:11:14,22.75,-158.0,0.18,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,94.9,Hawaii
+2024-12-20 16:08:55,22.75,-158.0,0.24,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,100.0,Hawaii
+2024-12-20 16:06:34,22.75,-158.0,0.31,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,104.9,Hawaii
+2024-12-20 16:04:56,22.75,-158.0,0.28,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,108.3,Hawaii
+2024-12-20 16:02:50,22.75,-158.0,0.31,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,112.9,Hawaii
+2024-12-20 16:00:39,22.75,-158.0,0.19,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.6,Hawaii
+2024-12-20 15:58:55,22.75,-158.0,0.13,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,128.2,Hawaii
+2024-12-21 06:50:56,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.3,Hawaii
+2024-12-21 06:49:11,22.75,-158.0,0.07,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,25.0,Hawaii
+2024-12-21 06:47:26,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.5,Hawaii
+2024-12-21 06:45:51,22.75,-158.0,0.08,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,57.7,Hawaii
+2024-12-21 06:44:26,22.75,-158.0,0.09,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,76.8,Hawaii
+2024-12-21 06:42:46,22.75,-158.0,0.15,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,84.0,Hawaii
+2024-12-21 06:41:05,22.75,-158.0,0.25,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,97.1,Hawaii
+2024-12-21 06:39:56,22.75,-158.0,0.22,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,113.7,Hawaii
+2024-12-21 06:38:36,22.75,-158.0,0.21,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,125.3,Hawaii
+2024-12-21 06:37:16,22.75,-158.0,0.16,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,133.8,Hawaii
+2024-12-21 06:35:51,22.75,-158.0,0.05,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,152.6,Hawaii
+2024-12-21 06:33:50,22.75,-158.0,0.02,,Aloha,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,172.4,Hawaii
+2024-07-21 07:58:21,21.84666666666667,-158.1316666666667,0.07,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,7.4,Hawaii
+2024-07-21 07:56:28,21.84666666666667,-158.1316666666667,0.08,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.3,Hawaii
+2024-07-21 07:54:46,21.84666666666667,-158.1316666666667,0.09,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.4,Hawaii
+2024-07-21 07:52:31,21.84666666666667,-158.1316666666667,0.13,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.7,Hawaii
+2024-07-21 07:50:31,21.84666666666667,-158.1316666666667,0.21,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.2,Hawaii
+2024-07-21 07:48:47,21.84666666666667,-158.1316666666667,0.32,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.9,Hawaii
+2024-07-21 07:47:06,21.84666666666667,-158.1316666666667,0.13,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.0,Hawaii
+2024-07-21 07:45:12,21.84666666666667,-158.1316666666667,0.07,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.8,Hawaii
+2024-08-19 18:25:54,21.84666666666667,-158.1316666666667,0.31,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,3.8,Hawaii
+2024-08-19 18:24:11,21.84666666666667,-158.1316666666667,0.39,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.3,Hawaii
+2024-08-19 18:21:00,21.84666666666667,-158.1316666666667,0.49,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.0,Hawaii
+2024-08-19 18:19:29,21.84666666666667,-158.1316666666667,0.21,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.2,Hawaii
+2024-08-19 18:17:52,21.84666666666667,-158.1316666666667,0.16,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.3,Hawaii
+2024-08-19 18:16:17,21.84666666666667,-158.1316666666667,0.11,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,150.2,Hawaii
+2024-08-19 18:14:37,21.84666666666667,-158.1316666666667,0.07,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.7,Hawaii
+2024-10-14 07:49:04,21.84666666666667,-158.1316666666667,0.08,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,6.4,Hawaii
+2024-10-14 07:46:47,21.84666666666667,-158.1316666666667,0.08,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,23.9,Hawaii
+2024-10-14 07:44:39,21.84666666666667,-158.1316666666667,0.1,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,47.2,Hawaii
+2024-10-14 07:42:11,21.84666666666667,-158.1316666666667,0.21,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.3,Hawaii
+2024-10-14 07:40:33,21.84666666666667,-158.1316666666667,0.37,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.0,Hawaii
+2024-10-14 07:38:50,21.84666666666667,-158.1316666666667,0.12,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.8,Hawaii
+2024-10-14 07:37:06,21.84666666666667,-158.1316666666667,0.05,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.3,Hawaii
+2024-10-14 07:32:20,21.84666666666667,-158.1316666666667,0.03,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.0,Hawaii
+2024-12-22 07:25:28,21.84666666666667,-158.1316666666667,0.09,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.5,Hawaii
+2024-12-22 07:23:26,21.84666666666667,-158.1316666666667,0.1,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.0,Hawaii
+2024-12-22 07:21:40,21.84666666666667,-158.1316666666667,0.11,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.3,Hawaii
+2024-12-22 07:18:55,21.84666666666667,-158.1316666666667,0.18,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,75.6,Hawaii
+2024-12-22 07:17:22,21.84666666666667,-158.1316666666667,0.28,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,101.6,Hawaii
+2024-12-22 07:15:50,21.84666666666667,-158.1316666666667,0.19,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,127.4,Hawaii
+2024-12-22 07:14:15,21.84666666666667,-158.1316666666667,0.15,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,147.4,Hawaii
+2024-12-22 07:12:42,21.84666666666667,-158.1316666666667,0.05,,Kaena,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.5,Hawaii
+2024-04-27 23:45:26,21.34333333333333,-158.2733333333333,0.07,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,5.2,Hawaii
+2024-04-27 23:42:37,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,23.5,Hawaii
+2024-04-27 23:38:25,21.34333333333333,-158.2733333333333,0.1,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.8,Hawaii
+2024-04-27 23:30:07,21.34333333333333,-158.2733333333333,0.15,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.0,Hawaii
+2024-04-27 23:28:40,21.34333333333333,-158.2733333333333,0.35,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.1,Hawaii
+2024-04-27 23:27:23,21.34333333333333,-158.2733333333333,0.14,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,122.2,Hawaii
+2024-04-27 23:25:50,21.34333333333333,-158.2733333333333,0.07,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,147.4,Hawaii
+2024-04-27 23:24:24,21.34333333333333,-158.2733333333333,0.03,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.5,Hawaii
+2024-07-16 01:24:23,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.3,Hawaii
+2024-07-16 01:22:26,21.34333333333333,-158.2733333333333,0.17,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.3,Hawaii
+2024-07-16 01:20:51,21.34333333333333,-158.2733333333333,0.29,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.3,Hawaii
+2024-07-16 01:19:21,21.34333333333333,-158.2733333333333,0.3,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.0,Hawaii
+2024-07-16 01:17:43,21.34333333333333,-158.2733333333333,0.1,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,125.0,Hawaii
+2024-07-16 01:16:02,21.34333333333333,-158.2733333333333,0.06,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.3,Hawaii
+2024-07-16 01:14:40,21.34333333333333,-158.2733333333333,0.05,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.8,Hawaii
+2024-08-16 13:15:58,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.5,Hawaii
+2024-08-16 13:13:16,21.34333333333333,-158.2733333333333,0.1,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,25.0,Hawaii
+2024-08-16 13:11:26,21.34333333333333,-158.2733333333333,0.13,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,44.0,Hawaii
+2024-08-16 13:09:35,21.34333333333333,-158.2733333333333,0.31,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.1,Hawaii
+2024-08-16 13:08:00,21.34333333333333,-158.2733333333333,0.39,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.4,Hawaii
+2024-08-16 13:06:30,21.34333333333333,-158.2733333333333,0.25,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.3,Hawaii
+2024-08-16 13:04:50,21.34333333333333,-158.2733333333333,0.12,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.9,Hawaii
+2024-08-16 13:03:05,21.34333333333333,-158.2733333333333,0.06,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.0,Hawaii
+2024-09-07 01:29:28,21.34333333333333,-158.2733333333333,0.07,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.1,Hawaii
+2024-09-07 01:23:23,21.34333333333333,-158.2733333333333,0.12,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.5,Hawaii
+2024-09-07 01:21:49,21.34333333333333,-158.2733333333333,0.23,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.2,Hawaii
+2024-09-07 01:20:21,21.34333333333333,-158.2733333333333,0.24,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.5,Hawaii
+2024-09-07 01:18:51,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.0,Hawaii
+2024-09-07 01:17:14,21.34333333333333,-158.2733333333333,0.01,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,148.8,Hawaii
+2024-09-07 01:15:43,21.34333333333333,-158.2733333333333,0.02,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,175.0,Hawaii
+2024-10-11 00:08:51,21.34333333333333,-158.2733333333333,0.07,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,4.5,Hawaii
+2024-10-11 00:06:33,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,24.1,Hawaii
+2024-10-11 00:04:51,21.34333333333333,-158.2733333333333,0.14,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,46.5,Hawaii
+2024-10-11 00:03:21,21.34333333333333,-158.2733333333333,0.21,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,74.0,Hawaii
+2024-10-11 00:01:57,21.34333333333333,-158.2733333333333,0.24,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,99.8,Hawaii
+2024-10-11 00:00:21,21.34333333333333,-158.2733333333333,0.19,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,123.1,Hawaii
+2024-10-10 23:58:51,21.34333333333333,-158.2733333333333,0.05,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.0,Hawaii
+2024-10-10 23:57:26,21.34333333333333,-158.2733333333333,0.03,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,174.6,Hawaii
+2024-12-19 01:39:28,21.34333333333333,-158.2733333333333,0.08,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,7.0,Hawaii
+2024-12-19 01:37:21,21.34333333333333,-158.2733333333333,0.1,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,26.2,Hawaii
+2024-12-19 01:35:01,21.34333333333333,-158.2733333333333,0.09,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,43.5,Hawaii
+2024-12-19 01:33:31,21.34333333333333,-158.2733333333333,0.18,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,73.9,Hawaii
+2024-12-19 01:32:16,21.34333333333333,-158.2733333333333,0.27,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,98.3,Hawaii
+2024-12-19 01:30:46,21.34333333333333,-158.2733333333333,0.12,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,124.3,Hawaii
+2024-12-19 01:29:17,21.34333333333333,-158.2733333333333,0.05,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,149.3,Hawaii
+2024-12-19 01:27:47,21.34333333333333,-158.2733333333333,0.02,,Kahe,,HOTS,,https://hahana.soest.hawaii.edu/hot/hot-dogs/interface.html,HOTS,,173.0,Hawaii
