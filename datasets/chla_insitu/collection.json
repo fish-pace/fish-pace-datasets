@@ -1,26 +1,21 @@
 {
   "type": "Collection",
   "stac_version": "1.0.0",
-  "id": "chla-profiles",
-  "title": "CHLA(z) in situ profile metrics (with optional PACE matchups)",
-  "description": "CHLA(z) in situ profile metrics from multiple observing platforms (e.g., BGC-Argo, OOI), depth-binned 0–200 m in 10 m bins. Some items include matchups to PACE OCI Level-3 4 km v3.1 Daily products (Rrs, chlor_a, Kd_490).",
+  "id": "chla-insitu",
+  "title": "CHLA(z) in situ data",
+  "description": "CHLA(z) in situ data from multiple observing platforms.",
   "license": "Open access where specified by each dataset's source; see per-item metadata.",
   "keywords": [
     "chlorophyll-a",
     "CHLA",
     "profiles",
     "ocean color",
-    "BGC-Argo",
-    "OOI",
-    "PACE",
-    "matchups",
-    "Fish-PACE"
   ],
   "providers": [
     {
-      "name": "Fish-PACE Tutorials",
+      "name": "Fish-PACE",
       "roles": ["host", "processor"],
-      "url": "https://github.com/fish-pace/fish-pace-datasets"
+      "url": "https://github.com/fish-pace"
     }
   ],
   "extent": {

@@ -18,7 +18,7 @@
       "roles": ["producer"]
     },
     {
-      "name": "Fish-PACE Tutorials",
+      "name": "Fish-PACE",
       "roles": ["host", "processor"],
       "url": "https://github.com/fish-pace/fish-pace-datasets"
     }

@@ -7,15 +7,22 @@
   "links": [
     {
       "rel": "child",
-      "href": "./datasets/chla_insitu/collection.json",
+      "href": "./datasets/chla_z/collection.json",
       "type": "application/json",
-      "title": "CHLA(z) in situ profiles and PACE matchups"
+      "title": "CHLA(z) depth profiles with PACE matchups"
     },
     {
       "rel": "child",
       "href": "./datasets/SEAMAP/collection.json",
       "type": "application/json",
       "title": "SEAMAP Gulf of Mexico surveys with total live biomass"
-    }
+    },
+    {
+      "rel": "child",
+      "href": "./datasets/chla_insitu/collection.json",
+      "type": "application/json",
+      "title": "CHLA(z) in situ abundance"
+    },
+
   ]
 }

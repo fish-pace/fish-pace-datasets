@@ -1,0 +1,34 @@
+{
+  "type": "Feature",
+  "stac_version": "1.0.0",
+  "id": "chla_ooi_profiles",
+  "properties": {
+    "title": "OOI CHLA profile metrics (0–200 m, 10 m bins)",
+    "description": "Per-profile CHLA metrics from OOI Profilers and Moorings (Mar 2024–Dec 2025), depth-binned from 0–200 m in 10 m bins using unadjusted CHLA values.\n\nHow to load\n\nASSET_URL use 'Copy URL' on left\n\nPython df = pandas.read_parquet('ASSET_URL')\n\nR  df <- arrow::read_parquet('ASSET_URL')",
+    "created": "2025-12-08T21:52:32Z",
+    "start_datetime": "2024-03-01T00:00:00Z",
+    "end_datetime": "2025-12-05T23:59:59Z",
+    "platform": "OOI Profilers and Moorings",
+    "variables": ["CHLA"],
+    "tutorial_notebook": "../notebooks/ooi.ipynb",
+    "file_name": "CHLA_ooi_profiles.parquet"
+  },
+  "geometry": null,
+  "bbox": [-180.0, -90.0, 180.0, 90.0],
+  "assets": {
+    "data": {
+      "href": "../data/CHLA_ooi_profiles.parquet",
+      "type": "application/x-parquet",
+      "roles": ["data"],
+      "title": "CHLA_ooi_profiles.parquet"
+    }
+  },
+  "links": [
+    {
+      "rel": "collection",
+      "href": "../collection.json",
+      "type": "application/json",
+      "title": "CHLA(z) in situ profile datasets"
+    }
+  ]
+}
