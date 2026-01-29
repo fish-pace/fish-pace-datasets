@@ -27,10 +27,16 @@
       "title": "MVCO IFCB daily taxonomic abundance (wide; objects/mL)"
     },
     "notebook-ifcb": {
-      "href": "https://github.com/fish-pace/fish-pace-datasets/blob/main/notebooks/ifcb.ipynb",
+      "href": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/ifcb/notebooks/ifcb.ipynb",
       "type": "text/html",
       "roles": ["documentation"],
-      "title": "Tutorial notebook: Exploring MVCO IFCB data"
+      "title": "Tutorial notebook: Exploring MVCO IFCB abundance data"
+    },
+    "notebook-methods": {
+      "href": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/ifcb/notebooks/Get_WHOI_IFCB.ipynb",
+      "type": "text/html",
+      "roles": ["documentation"],
+      "title": "Methods notebook: Processing MVCO IFCB data"
     }
   },
   "links": [
