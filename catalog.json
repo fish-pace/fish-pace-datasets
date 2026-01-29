@@ -22,6 +22,12 @@
       "href": "./datasets/chla_insitu/collection.json",
       "type": "application/json",
       "title": "CHLA(z) in situ abundance"
+    },
+    {
+      "rel": "child",
+      "href": "./datasets/ifcb/collection.json",
+      "type": "application/json",
+      "title": "Phytoplankton abundance (object per ml) from IFCB"
     }
   ]
 }
