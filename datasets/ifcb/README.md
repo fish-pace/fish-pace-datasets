@@ -1,49 +1,53 @@
-# CHLA in situ profile datasets
+# IFCB datasets
 
-This dataset group contains chlorophyll-a (CHLA) vertical profile metrics derived
-from in situ observations, with optional matchups to PACE satellite products.
+## What is IFCB data?
 
-## What is included
+The **Imaging FlowCytobot (IFCB)** is an instrument that continuously samples seawater and takes images of individual particles as they flow past a camera. Each detected particle is saved as a small image called a **Region of Interest (ROI)**. An ROI usually represents a single phytoplankton cell, zooplankton, detritus particle, or other object in the water.
 
-- CHLA(z) profile metrics from:
-  - BGC-Argo floats (global)
-  - OOI Profilers and Moorings
-- Depth range: 0–200 m (10 m bins)
-- Some datasets include matchups to:
-  - PACE OCI Level-3 Daily products
-  - Rrs (multi-band), chlor_a, Kd_490
+For each sampling period (called a **bin**), IFCB records thousands of ROIs along with metadata describing when, where, and how much water was analyzed. Automated classifiers are often applied to the ROI images, producing a table of **class scores** that estimate how likely each ROI belongs to different species or functional groups.
 
-## Which file should I use?
+## How do we compute abundance (objects per mL)?
 
-- **I want in situ profiles only**
-  - `CHLA_argo_profiles.parquet`
-  - `CHLA_ooi_profiles.parquet`
+Abundance is calculated by combining **object counts** with the **volume of water analyzed**:
 
-- **I want to compare in situ profiles to PACE**
-  - `CHLA_argo_profiles_plus_PACE.parquet`
-  - `CHLA_ooi_profiles_plus_PACE.parquet`
+1. **Count objects**  
+   Each row in a `*_class_scores.csv` file corresponds to **one ROI (one detected object)**.  
+   To estimate species-level counts, each ROI is assigned to the class with the highest classification score (“winner”), sometimes requiring the score to exceed a confidence threshold.
 
-## Platforms
+2. **Get analyzed volume**  
+   For each bin, IFCB metadata includes volume analyzed (`ml_analyzed` in our dataset), the total volume of seawater (in milliliters) that passed the detector during that sample.
 
-| Platform | CHLA measurement | Description |
-|--------|------------------|-------------|
-| BGC-Argo | Fluorescence-based chlorophyll-a | Autonomous profiling floats (global coverage) |
-| OOI | Fluorescence-based chlorophyll-a | Fixed moorings and mobile profilers |
+3. **Compute abundance**  
 
-## Matchup details (for +PACE files)
+   $$
+   \text{objects per mL} = \frac{\text{number of ROIs (or ROIs of a given species)}}{\text{ml\_analyzed}}
+   $$
 
-- Time window: ±24 hours
-- Spatial method: nearest 4 km PACE pixel
-- Satellite products: PACE OCI L3 Rrs v3.1 Daily
+This converts image-based counts into a physically meaningful concentration. Abundance per mL.
+
+## FCB files per bin
+
+For a given bin `DYYYYMMDDTHHMMSS_IFCBXXX`, we have:
+
+* *_class_scores.csv
+    - One row per ROI (detected object)
+    - Columns = classifier scores (probabilities)
+
+* *_features.csv
+    - One row per ROI (object)
+    - Contains morphological / size features, e.g.: area, equivalent spherical diameter (ESD), major/minor axis, perimeter, biovolume
+
+This notebook is just using the class_scores.csv file.
 
 ## How to get started
 
 Start with one of these notebooks:
-- `notebooks/argopy.ipynb`
-- `notebooks/argo-matchups.ipynb`
-- `notebooks/ooi.ipynb`
+- `notebooks/ifcb.ipynb`
 
 ## Provenance and metadata
+
+Data prep
+- `notebooks/Get_WHOI_IFCB.ipynb`
 
 Formal metadata for each file is provided via STAC:
 - See `collection.json`
