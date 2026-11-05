@@ -2,5 +2,5 @@
 test/
 __pycache__
 core.*
-_temp_data/
+_temp_data
 Untitled*
