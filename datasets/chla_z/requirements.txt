@@ -1,0 +1,19 @@
+# Python packages for the CHLA-Z notebooks (argopy, ooi, argo-matchups) and src/.
+# argopy is pinned exactly because it sets how BGC-Argo data are fetched
+# (expert mode, ERDDAP synthetic-BGC); record its version with each release.
+argopy==1.5.0
+xarray>=2025.1
+netCDF4>=1.7
+h5netcdf>=1.3
+h5py>=3.11  # h5netcdf no longer installs it; needed to open netCDF4/HDF5 files with h5netcdf
+dask>=2025.1
+pandas>=2.2
+numpy>=2.0
+pyarrow>=18
+scipy>=1.13
+scikit-learn>=1.5
+scikit-image>=0.24
+earthaccess>=0.12
+fsspec>=2024.10
+matplotlib>=3.9
+cartopy>=0.24
