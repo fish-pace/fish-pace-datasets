@@ -4,8 +4,8 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 ## Repo state (2026-11-06, ~22:30 UTC)
 
-- Branch `chla-z-rebuild`, commits `f43cf48` (fetch fixes, `requirements.txt`,
-  GDAC note) and the one adding this handoff. **Not pushed.** No PR yet.
+- Branch `chla-z-rebuild` (pushed to origin), commits `f43cf48` (fetch fixes, `requirements.txt`,
+  GDAC note) and the handoff commits. No PR yet.
 - Work is the CHLA-Z training-table rebuild, tracked in fish-pace/fish-pace-datasets#4.
   Poster Methods text lives in fish-pace/2026-go-bgc-hackweek#8.
 
