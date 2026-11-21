@@ -9,6 +9,46 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - Work is the CHLA-Z training-table rebuild, tracked in fish-pace/fish-pace-datasets#4.
   Poster Methods text lives in fish-pace/2026-go-bgc-hackweek#8.
 
+## Decisions (Eli, 2026-11-21) — supersede the open questions below
+
+- **Argo: ascending profiles only** (`DIRECTION == "A"`), filtered before QC,
+  binning and indexing. The D/A options further down are settled.
+- **Date range: extend** — Argo 2024-03 to 2026-10, OOI to 2026-11-01.
+- **File names: overwrite in place**; the old files stay at tag `2025_11_01`.
+- **OOI Sauzède correction: apply it** (keep `d17c522`, `chla_ratio` column).
+- **Scope: run on my own, through a PR here**, with no release (Eli cuts it). Also
+  a hackweek-repo branch that re-runs the methods notebook against this branch's data.
+- **Anything that hits ERDDAP must recover**: one file per unit of work, skip
+  what's already done, retry with backoff, one process per unit.
+
+## Plan in progress (2026-11-21, nothing run yet)
+
+1. `src/chla_z_build.py` + a CLI driver; notebooks call the same functions.
+2. Argo: one process per month → `_temp_data/argo_profiles_monthly/`, then
+   ascending only, QC {1,2,5,8} before binning, and only profiles with ≥1 good level.
+   Build the index from the profile table, so TIME/LAT/LON match it.
+3. OOI: unit = (dataset, month) raw CSV via `requests` with a timeout and
+   retries; daily bins never cross months, so bin per month and concatenate.
+   Merge with Sauzède. Save `df_dedup`; assert `profile_id` is unique.
+4. PACE: unit = (product, granule); open each granule once for both platforms,
+   with vectorized `isel`. AOP/BGC/KD V3.2 plus NRT; snap bands with `round()`;
+   assert 172 bands = the old labels. Dedup per product (non-NRT first, then the
+   closest centre time), then merge on `profile_id`.
+5. Hackweek repo branch: `DATA_RELEASE = "chla-z-rebuild"` (raw URLs accept
+   branch names), re-run, report changes.
+
+## Environment (2026-11-21)
+
+- **`~` has a quota; `~/shared-public` does not.** Home filled up on 2026-11-21
+  (ENOSPC although `df` showed 79 GB free). Put venvs, pip temp files and big
+  outputs on `~/shared-public`, and keep `~` for repos.
+- Hub image changed: `/srv/conda/bin/python3.12` is gone, so `~/.venvs/chla-z` is
+  broken (its `run/` scripts are still there). Rebuild with
+  `/srv/conda/envs/notebook/bin/python3.13 -m venv` on shared-public.
+- Hub restarted with 16 GB (was 3.9 GB). Check `/sys/fs/cgroup/memory.max`.
+- **Clean up `~/shared-public` after the poster work** (Eli): keep what the
+  poster needs; older hackweek leftovers can go. Not before.
+
 ## What shipped this session
 
 - **Argo monthly files rebuilt** from Ifremer ERDDAP (snapshot 2026-11-06, argopy
