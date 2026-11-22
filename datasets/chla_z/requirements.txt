@@ -15,5 +15,6 @@ scikit-learn>=1.5
 scikit-image>=0.24
 earthaccess>=0.12
 fsspec>=2024.10
+requests>=2.31  # chla_z_build.py OOI ERDDAP fetch (timeouts, retries)
 matplotlib>=3.9
 cartopy>=0.24

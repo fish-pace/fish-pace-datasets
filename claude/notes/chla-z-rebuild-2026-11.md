@@ -1,0 +1,166 @@
+# CHLA-Z training tables: November 2026 rebuild
+
+Rebuild of the four `datasets/chla_z/data/` tables with the 2026 GO-BGC Hackweek
+fixes (fish-pace/fish-pace-datasets#4). Run on the PACE hub on 2026-11-21 by an
+agent, from Eli's decisions below. The release before it is `2025_11_01`.
+
+## Decisions (Eli Holmes, 2026-11-21)
+
+| Question | Decision |
+|---|---|
+| Argo descending profiles | **Drop them**; ascending (`DIRECTION == "A"`) only |
+| Date range | **Extend** to 2024-03-01 – 2026-10-31 for both platforms |
+| File names | **Overwrite in place**; old files stay at tag `2025_11_01` |
+| OOI Sauzède fluorescence:chla correction | **Apply** (`chla_ratio` column kept) |
+| Release | Not part of this work; Eli reviews the PR and cuts it |
+| Network code | Anything hitting ERDDAP must resume and retry unattended |
+
+## How it is built
+
+`src/chla_z_build.py` holds all processing; `src/chla_z_tables.py` writes the
+files and their parquet metadata; `datasets/chla_z/build.py` is the driver. The
+three notebooks call the same functions, so they describe what actually ran.
+
+Every stage is a set of independent units, each written to its own file
+atomically (`.part` then rename), skipped on rerun, and run in a fresh process
+(`ProcessPoolExecutor(max_tasks_per_child=1)`), so an OOM kill loses one unit:
+
+| Stage | Unit | Output under `notebooks/_temp_data/` |
+|---|---|---|
+| `argo` | month | `argo_profiles_monthly/argo_chla_profiles_YYYY-MM.parquet` + `.stats.json` |
+| `ooi-fetch` | dataset × month | `ooi_raw/<id>/<YYYY-MM>.csv.gz` or `.empty` |
+| `ooi` | dataset | `ooi_daily/<id>.parquet` or `.empty` |
+| `pace --product P` | PACE granule | `matchups_v3_2/<P>/<granule>.parquet` or `.empty` |
+
+ERDDAP: retries with backoff on connection errors, timeouts, 408/429/5xx. A
+404 is only "empty" if its body says "no matching results"; any other 404 or
+4xx raises. Months outside a dataset's ERDDAP `time_coverage` are not asked
+for. A CSV is parsed before it is kept, so a truncated download is refetched.
+
+The Argo monthly `.nc` files were not refetched: they are the 2026-11-06
+Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
+
+## Things that look odd but are deliberate
+
+- **Argo bins are (A, B], OOI bins are [A, B).** The Argo code (2025
+  `average_profile()`: `depth > z_min & depth <= z_max`) never matched its own
+  metadata, which said `PRES >= A and PRES < B`. The rebuild keeps the code's
+  behaviour (that is what the model was trained on) and fixes the metadata. OOI
+  has always used `pd.cut(right=False)`. The difference is one level at a bin
+  edge; flagged for Eli, not changed.
+- **Argo profiles with no QC-passing level are dropped.** The 2025 table kept
+  every profile, even all-NaN ones, because it never filtered on QC.
+- **TIME/LAT/LON "first" is exact.** Within an ascending profile they are
+  constant (checked on 2025-07: 0 of 3,183 profiles vary). `POSITION_QC` 8
+  (interpolated) positions are kept, as before.
+- **The vectorized binning equals the notebook function.** On 2025-07,
+  `argo_bin_profiles()` and `summarize_profile_binned()` agree on every cell of
+  1,972 profiles.
+- **OOI lat/lon are per day, not per (day, bin).** The 2025 code took them per
+  (day, bin) and pivoted on (date, lat, lon), so a position change within a day
+  could split one day into two rows. Rows are otherwise reproduced: 9,776 of
+  the 9,782 old OOI profiles reappear, and with the Sauzède ratio undone their
+  surface CHLA equals the old value (median ratio 1.000).
+- **31 OOI datasets the 2025 notebook skipped as "no data in time range" were
+  queried again** for the extended range. All still have no data, so the site
+  list is the same 30. Three exclusions stay for date-independent reasons (no
+  `qc_agg`; 2000 m and deeper).
+- **OOI time is near noon at moorings.** It is now the mean of each day's good
+  samples, not midnight, which removed the duplicate OOI rows of 2025, but for
+  continuously sampling moorings `solar_hour` carries little information.
+- **PACE band names come from round().** V3.2 AOP band centres are fractional;
+  `round()` maps all 172 onto the 2025 integer names (the 2025 names were
+  `int()` of V3.1 centres; 640–643 included). The code raises if that ever stops
+  being one-to-one. Kd_490 is the KD band nearest 490 nm (489.674 nm).
+- **Standard before NRT, then closest window centre**, per product, and
+  chlor_a/Kd are attached only when they come from the same day and stream as
+  the Rrs file. NRT only fills dates with no standard V3.2 file (April 2026 on;
+  in practice mostly October 2026). Duplicate KD_NRT granules (two name
+  patterns for some days) are handled by the same rule.
+- **Matching is unchanged from 2025:** profile time within 24 h after the
+  granule's `time_coverage_start`, nearest 4 km cell. The pixel read is one dask
+  `vindex` per granule instead of one `.sel` per profile; the nearest-index
+  rule is the same.
+
+## Run log (2026-11-21)
+
+- Hub: 16 GB, 4 cores. The Rrs matchups are CPU-bound (decompressing 172-band
+  chunks): about 60 s of wall time per granule overall with 6 workers.
+- Bug found and fixed during the run: OOI mean time was computed as an int64
+  mean and read back as nanoseconds, but pandas 3 stores these as microseconds,
+  so every OOI time landed in 1970. Fixed with `Series.mean()` on the datetimes;
+  checked that every `profile_id` day equals its time's day.
+- PACE: Rrs 1,137, chlor_a 1,138 and Kd 1,176 granules, 0 failed units in
+  any stage. Rrs took ~19 h (2026-11-21 18:07 to 2026-11-22 13:24 UTC),
+  sharing the 4 cores with chlor_a and Kd until 22:49.
+- `pace-merge` (`logs/pace_merge_stats.json`): Argo 59,583 profiles → 56,912
+  with a matching Rrs granule (2,084 NRT), 9,542 with any non-NaN Rrs; OOI
+  13,664 → 13,102 (242 NRT), 3,187 with Rrs. chlor_a/Kd from a different
+  granule than Rrs or missing (left NaN): 25 and 22 Argo rows, 0 OOI.
+- `argopy.ipynb` cell 19 read `datasets/chla-z/` (404 since the folder is
+  `chla_z`); fixed so the notebook runs end to end.
+- Tables written from the venv built from `requirements.txt`. The notebooks
+  were then executed in the hub's notebook env (pandas 2.3.3); their rewrites
+  of the tables were checked equal to the venv's and the venv's were kept.
+- Things that changed counts and are expected:
+  - OOI `CHLA_0_10` drops 6,101 → 5,325 although rows rise: the 9
+    `DEPTH_OVERRIDE_M` instruments (12–187 m) published z = 0 and so filled
+    the surface bin in 2025.
+  - 2025 OOI `_plus_PACE` had 10,989 rows for 6,415 profile_ids (duplicates);
+    now one row per profile_id.
+  - The 2025 Argo and OOI `_plus_PACE` both have exactly 2,770 rows with Rrs.
+    Checked: coincidence, the values differ.
+
+### Before / after
+
+**CHLA_argo_profiles.parquet**
+
+| | 2025_11_01 | rebuild |
+|---|---:|---:|
+| rows | 15,833 | 59,583 |
+| unique profile_id | 15,792 | 59,583 |
+| floats / instruments | 537 | 907 |
+| non-NaN CHLA bins | 196,309 | 1,166,607 |
+| CHLA_0_10 non-NaN | 13,044 | 58,464 |
+| first | 2024-03-01 | 2024-03-01 |
+| last | 2025-11-29 | 2026-10-31 |
+
+**CHLA_argo_profiles_plus_PACE.parquet**
+
+| | 2025_11_01 | rebuild |
+|---|---:|---:|
+| rows | 14,916 | 56,912 |
+| unique profile_id | 14,916 | 56,912 |
+| floats / instruments | 534 | 906 |
+| non-NaN CHLA bins | 185,080 | 1,114,318 |
+| CHLA_0_10 non-NaN | 12,278 | 55,830 |
+| first | 2024-03-05 | 2024-03-05 |
+| last | 2025-11-29 | 2026-10-31 |
+| rows with any Rrs | 2,770 | 9,542 |
+| NRT PACE rows | 1,684 | 2,084 |
+
+**CHLA_ooi_profiles.parquet**
+
+| | 2025_11_01 | rebuild |
+|---|---:|---:|
+| rows | 9,782 | 13,664 |
+| unique profile_id | 9,782 | 13,664 |
+| floats / instruments | 30 | 30 |
+| non-NaN CHLA bins | 61,331 | 80,464 |
+| CHLA_0_10 non-NaN | 6,101 | 5,325 |
+| first | 2024-03-01 | 2024-03-01 |
+| last | 2025-12-05 | 2026-10-31 |
+
+**CHLA_ooi_profiles_plus_PACE.parquet**
+
+| | 2025_11_01 | rebuild |
+|---|---:|---:|
+| rows | 10,989 | 13,102 |
+| unique profile_id | 6,415 | 13,102 |
+| floats / instruments | 30 | 30 |
+| non-NaN CHLA bins | 66,686 | 76,944 |
+| CHLA_0_10 non-NaN | 7,013 | 5,108 |
+| first | 2024-03-06 | 2024-03-05 |
+| last | 2025-12-05 | 2026-10-31 |
+| rows with any Rrs | 2,770 | 3,187 |
+| NRT PACE rows | 2,207 | 242 |
