@@ -15,11 +15,13 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   [notes/argo-gdac-vs-erddap.md](notes/argo-gdac-vs-erddap.md).
 - Downstream: fish-pace/2026-go-bgc-hackweek (PR #19) reads
   `DATA_RELEASE = "2026_11_23"`.
+- Open loose ends (not tasks): the repo has no `LICENSE` or README
+  "Reuse and citation" section; `argo-fetch` has only been run on 2024-03.
 - My local `2025_11_01` tag is one commit behind GitHub's (GitHub's adds the
   Sauzède LUT); the four tables are identical in both. `git fetch --tags`
   warns about it.
 
-## Method notebooks (branch `pipeline-notebooks`, PR open 2026-11-23)
+## Method notebooks (PR #11, merged 2026-11-23; branch deleted)
 
 - `datasets/chla_z/notebooks/01`–`04` show the data methods (Argo, OOI, PACE,
   OLCI) on small live samples and assert against the released tables;
