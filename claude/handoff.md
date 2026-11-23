@@ -7,7 +7,9 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - Branch `chla-z-rebuild`: the CHLA-Z training-table rebuild
   (fish-pace/fish-pace-datasets#4) is built; PR #9 is open for Eli's review.
   All four `datasets/chla_z/data/` tables are overwritten in place; the old
-  ones are at tag `2025_11_01`. No release cut (Eli does that).
+  ones are at tag `2025_11_01`. No release cut (Eli does that). Two new tables,
+  `CHLA_{argo,ooi}_profiles_plus_OLCI.parquet` (2026-11-23): OLCI for every
+  profile, flagged by PACE match.
 - Decisions, deliberate oddities, run log, before/after tables:
   [notes/chla-z-rebuild-2026-11.md](notes/chla-z-rebuild-2026-11.md).
   Argo source comparison (GDAC vs ERDDAP, why ERDDAP):
