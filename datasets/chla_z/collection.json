@@ -3,7 +3,7 @@
   "stac_version": "1.0.0",
   "id": "chla-profiles",
   "title": "CHLA(z) in situ profile metrics (with optional PACE matchups)",
-  "description": "CHLA(z) in situ profile metrics from multiple observing platforms (e.g., BGC-Argo, OOI), depth-binned 0–200 m in 10 m bins. Some items include matchups to PACE OCI Level-3 4 km v3.1 Daily products (Rrs, chlor_a, Kd_490).",
+  "description": "CHLA(z) in situ profile metrics from BGC-Argo (ascending profiles) and OOI, depth-binned 0–200 m in 10 m bins, March 2024–October 2026. Some items include matchups to PACE OCI Level-3 4 km V3.2 Daily products (Rrs, chlor_a, Kd_490) or to Sentinel-3 OLCI Level-3 4 km Daily Rrs.",
   "license": "Open access where specified by each dataset's source; see per-item metadata.",
   "keywords": [
     "chlorophyll-a",
@@ -13,6 +13,8 @@
     "BGC-Argo",
     "OOI",
     "PACE",
+    "OLCI",
+    "Sentinel-3",
     "matchups",
     "Fish-PACE"
   ],
@@ -28,7 +30,7 @@
       "bbox": [[-180.0, -90.0, 180.0, 90.0]]
     },
     "temporal": {
-      "interval": [["2024-01-01T00:00:00Z", null]]
+      "interval": [["2024-03-01T00:00:00Z", "2026-10-31T23:59:59Z"]]
     }
   },
   "links": [
@@ -67,6 +69,18 @@
       "href": "./items/chla_ooi_profiles_plus_pace.json",
       "type": "application/geo+json",
       "title": "Global OOI CHLA profile metrics with PACE matchups"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_argo_profiles_plus_olci.json",
+      "type": "application/geo+json",
+      "title": "Global Bio-Argo CHLA profile metrics with OLCI matchups"
+    },
+    {
+      "rel": "item",
+      "href": "./items/chla_ooi_profiles_plus_olci.json",
+      "type": "application/geo+json",
+      "title": "Global OOI CHLA profile metrics with OLCI matchups"
     }
   ]
 }
