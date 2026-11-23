@@ -42,15 +42,22 @@ from in situ observations, with optional matchups to PACE satellite products.
   `CHLA_A_B` is the mean of levels with A < PRES <= B, and `CHLA_A_B_N` is how
   many levels went into it. Profiles with no QC-passing level are dropped.
   Source: Ifremer ERDDAP via argopy 1.5.0 (expert mode), pulled 2026-11-06.
-- **OOI:** samples with `qc_agg == 1`, one row per instrument per day. Bins
-  are A <= depth < B. Fixed-depth instruments that publish z = 0 get their true
-  depth. CHLA is divided by the Sauzède et al. fluorescence:chlorophyll ratio
-  for the site (column `chla_ratio`). `time` is the mean time of that day's
-  good samples, so at continuously sampling moorings it is near local noon.
-- **Bin edges differ by platform:** Argo bins are (A, B] and OOI bins are
-  [A, B), so a level exactly on a bin edge goes to different bins.
+- **OOI:** samples with `qc_agg == 1`, one row per instrument per **3 h
+  window of local mean solar time** (00–03, 03–06, ... h; solar time = UTC +
+  lon/15 h). `time` is the mean time of the window's samples, so each row has
+  its own solar hour. Bins are A < depth <= B, as for Argo. ERDDAP depths are
+  whole metres, so the edge rule matters. Fixed-depth instruments that publish
+  z = 0 get their true depth. CHLA is divided by the Sauzède et al.
+  fluorescence:chlorophyll ratio for the site (column `chla_ratio`).
+  `n_samples` is the number of samples in the window.
 
 ## Matchup details (for +PACE files)
+
+PACE and OLCI Level-3 daily maps composite a day's Level-2 swaths and carry no
+per-pixel observation time. A matchup pairs a profile with the daily map that
+covers its time; it is not a match to the satellite overpass. Time-of-day
+effects on in situ fluorescence (daytime quenching) are left to the model,
+through the solar hour of the in situ sample.
 
 - Products: PACE OCI L3M Daily 4 km **V3.2**: Rrs from `PACE_OCI_L3M_AOP`,
   chlor_a from `PACE_OCI_L3M_BGC`, Kd_490 from `PACE_OCI_L3M_KD` (band

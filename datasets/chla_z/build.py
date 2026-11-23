@@ -4,7 +4,8 @@
     python build.py argo                 # monthly .nc -> data/CHLA_argo_profiles.parquet
     python build.py ooi-fetch            # OOI ERDDAP -> _temp_data/ooi_raw/<id>/<YYYY-MM>.csv.gz
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
-    python build.py pace --product Rrs   # one product's granule matchups (also chlor_a, Kd)
+    python build.py pace --product Rrs   # one product's granule matchups (also chlor_a, Kd);
+                                         # units are (platform, granule), --platform to limit
     python build.py pace-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_PACE.parquet
     python build.py olci                 # OLCI S3A/S3B daily matchups, one unit per day
     python build.py olci-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_OLCI.parquet
@@ -90,7 +91,10 @@ def main():
     ap.add_argument("--limit", type=int, help="olci: only the first N days (for testing)")
     ap.add_argument("--force", action="store_true",
                     help="argo/ooi: rebuild per-unit outputs even if they exist (raw downloads are kept)")
+    ap.add_argument("--platform", choices=list(b.PLATFORMS),
+                    help="pace/olci: match only this platform (default: both)")
     a = ap.parse_args()
+    platforms = [a.platform] if a.platform else list(b.PLATFORMS)
     import chla_z_tables as t
 
     if a.stage == "argo":
@@ -112,19 +116,19 @@ def main():
     elif a.stage == "pace":
         if not a.product:
             ap.error("--product is required for pace")
-        b.pace_points(refresh=False)
         gl = b.pace_granule_list(a.product)
-        units = [(a.product, g["short_name"], g["granule"]) for g in gl]
+        units = [(a.product, g["short_name"], g["granule"], p) for p in platforms for g in gl]
         failed = run_units("pace_granule_unit", units, a.workers)
         report_failures(f"pace-{a.product}", failed)
     elif a.stage == "pace-merge":
         t.write_plus_pace()
     elif a.stage == "olci":
         b.olci_granule_index()
-        days = b.olci_days()
-        if a.limit:
-            days = days[: a.limit]
-        failed = run_units("olci_day_unit", [(d,) for d in days], a.workers)
+        units = []
+        for p in platforms:
+            days = b.olci_days(p)
+            units += [(d, p) for d in (days[: a.limit] if a.limit else days)]
+        failed = run_units("olci_day_unit", units, a.workers)
         report_failures("olci", failed)
     elif a.stage == "olci-merge":
         t.write_plus_olci()

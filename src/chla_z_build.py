@@ -19,6 +19,8 @@ Decisions recorded in fish-pace/fish-pace-datasets#4 (Eli Holmes, 2026-11-21):
   good level in 0-200 dbar are dropped.
 - Dates: 2024-03-01 to 2026-10-31 (UTC) for both platforms.
 - OOI: Sauzède fluorescence:chla correction applied (chla_ratio column kept).
+- (2026-11-23) OOI rows are 3 h windows of local solar time, not UTC days, and
+  OOI bins are (A, B] like Argo.
 - PACE: V3.2 daily 4 km collections AOP (Rrs), BGC (chlor_a), KD (Kd_490),
   standard preferred over NRT.
 """
@@ -48,7 +50,7 @@ TEMP_DIR = DS_DIR / "notebooks" / "_temp_data"
 ARGO_MONTHLY_NC = TEMP_DIR / "CHLA_argo_monthly_nc"
 ARGO_PROFILES_MONTHLY = TEMP_DIR / "argo_profiles_monthly"
 OOI_RAW = TEMP_DIR / "ooi_raw"
-OOI_DAILY = TEMP_DIR / "ooi_daily"
+OOI_DAILY = TEMP_DIR / "ooi_windows"  # 3 h windows (the UTC-day files are in ooi_daily/)
 MATCH_DIR = TEMP_DIR / "matchups_v3_2"
 
 START = "2024-03-01"
@@ -229,6 +231,15 @@ DEPTH_OVERRIDE_M = {
     "ooi-gp03flma-ris01-05-flortd000": 28.0,
     "ooi-gp03flmb-ris01-05-flortd000": 30.0,
     "ooi-rs03axps-pc03a-4c-flordd303": 187.0,
+    # Added 2026-11-23 (Eli): these also publish z = 0. Under the (A, B] bins
+    # a depth of 0 is dropped, so they need a depth. Coastal near-surface
+    # instrument frames sit at about 7 m, the Irminger surface buoy sensor at
+    # about 1 m; only the bin (0-10 m) matters, and it is the same as before.
+    "ooi-ce04ossm-rid27-02-flortd000": 7.0,
+    "ooi-cp10cnsm-rid27-02-flortd000": 7.0,
+    "ooi-cp11nosm-rid27-02-flortd000": 7.0,
+    "ooi-cp11sosm-rid27-02-flortd000": 7.0,
+    "ooi-gi01sumo-sbd12-02-flortd000": 1.0,
 }
 
 # Excluded for reasons that do not depend on the date range. The other
@@ -356,46 +367,61 @@ def ooi_months_for(dataset_id: str) -> list[str]:
     return keep
 
 
-def ooi_daily_profiles(df: pd.DataFrame, dataset_id: str, chl_var: str,
-                       description: str | None) -> pd.DataFrame:
-    """Raw ERDDAP rows -> one row per day with CHLA_A_B daily means.
+OOI_WINDOW_H = 3  # Eli, 2026-11-23: 3 h windows of local solar time, not daily means
 
-    Same rules as `ooi_mooring_save_file()` in the 2025 notebook plus the
-    hackweek fixes: QC qc_agg == 1, depth = -z (or DEPTH_OVERRIDE_M),
-    bins [A, B) via pd.cut(right=False), time = mean observation time of the
-    good samples that day (commit 839c602). One change: lat/lon are taken
-    per day, not per (day, bin), so a day can never split into two rows.
-    """
+
+def ooi_good_samples(df: pd.DataFrame, dataset_id: str, chl_var: str) -> pd.DataFrame:
+    """Raw ERDDAP rows -> QC-passing samples in (0, 200] m with depth and solar time."""
     qc_col = f"{chl_var}_qc_agg"
     df = df.rename(columns={chl_var: "CHLA"})
     df["time"] = pd.to_datetime(df["time"], utc=True)
-    df["date"] = df["time"].dt.floor("D")
     df["depth"] = -df["z"]
     if dataset_id in DEPTH_OVERRIDE_M:
         df["depth"] = DEPTH_OVERRIDE_M[dataset_id]
-    good = df[(df["depth"] >= 0) & (df["depth"] < 200) & (df[qc_col] == 1.0)
-              & np.isfinite(df["CHLA"])].copy()
+    # (A, B] like Argo (bin_index_argo): OOI z is whole metres, so about one
+    # profiler sample in ten sits on a 10 m edge and the rule matters.
+    good = df[(df["depth"] > 0) & (df["depth"] <= 200) & (df[qc_col] == 1.0)
+              & np.isfinite(df["CHLA"])]
+    good = good[["time", "latitude", "longitude", "depth", "CHLA"]].copy()
+    # Local mean solar time from each sample's own longitude.
+    good["solar"] = good["time"] + pd.to_timedelta(good["longitude"] / 15.0, unit="h")
+    return good
+
+
+def ooi_window_profiles(good: pd.DataFrame, dataset_id: str,
+                        description: str | None) -> pd.DataFrame:
+    """QC-passing samples -> one row per 3 h window of local solar time.
+
+    The 2025 table and the first rebuild averaged a UTC day. That put every
+    OOI time near 12 UTC, a solar hour of about 3-9 h at OOI longitudes that
+    said little about when the water was sampled. Each window now has its
+    own time (mean UTC time of its samples) and therefore its own solar hour.
+    lat/lon are taken per window, so a window never splits into two rows.
+    """
     if good.empty:
         return pd.DataFrame()
-    edges = np.arange(0, 210, 10)
-    good["bin"] = pd.cut(good["depth"], bins=edges, labels=BIN_NAMES, right=False)
-    wide = (good.groupby(["date", "bin"], observed=True)["CHLA"].mean()
-                .unstack("bin").reindex(columns=BIN_NAMES))
+    good = good.copy()
+    sdate = good["solar"].dt.floor("D")
+    win = (good["solar"].dt.hour // OOI_WINDOW_H) * OOI_WINDOW_H
+    good["key"] = sdate.dt.strftime("%Y%m%d") + "T" + win.map("{:02d}".format)
+    good["bin"] = bin_index_argo(good["depth"].to_numpy(float))
+    wide = (good.groupby(["key", "bin"])["CHLA"].mean().unstack("bin")
+                .reindex(columns=range(N_BINS)))
     wide.columns = CHLA_COLS
-    day = good.groupby("date").agg(
+    win_meta = good.groupby("key").agg(
         lat=("latitude", "first"), lon=("longitude", "first"),
         # Series.mean() on datetimes, not int64 casting: pandas 3 stores these
         # in microseconds, so an int64 mean re-read as ns lands in 1970.
-        time=("time", "mean"))
-    out = day.join(wide).reset_index()
-    out.insert(0, "profile_id", dataset_id + "_" + out["date"].dt.strftime("%Y%m%d"))
-    out = out.drop(columns=["date"])
+        time=("time", "mean"),
+        n_samples=("CHLA", "size"))
+    out = win_meta.join(wide).reset_index()
+    out.insert(0, "profile_id", dataset_id + "_" + out["key"])
     out["description"] = description
-    return out[["profile_id", "time", "lat", "lon"] + CHLA_COLS + ["description"]]
+    return out[["profile_id", "time", "lat", "lon", "n_samples"] + CHLA_COLS + ["description"]]
 
 
 def ooi_dataset_unit(dataset_id: str, force: bool = False) -> str:
-    """All fetched months of one dataset -> daily profiles parquet."""
+    """All fetched months of one dataset -> 3 h window profiles parquet."""
     out = OOI_DAILY / f"{dataset_id}.parquet"
     empty = OOI_DAILY / f"{dataset_id}.empty"
     if (out.exists() or empty.exists()) and not force:
@@ -412,24 +438,28 @@ def ooi_dataset_unit(dataset_id: str, force: bool = False) -> str:
     for m in months:
         f = d / f"{m}.csv.gz"
         if f.exists():
-            # Daily bins never cross a month boundary (UTC days, UTC months),
-            # so each month is binned on its own and memory stays small.
+            # Solar-time windows can straddle a UTC month boundary, so the
+            # good samples of all months are pooled before windowing. They
+            # are 6 columns, at most ~1.3 M rows per dataset.
             raw = pd.read_csv(f, skiprows=[1])
-            prof = ooi_daily_profiles(raw, dataset_id, ooi_chl_var(dataset_id),
-                                      ooi_datasets()[dataset_id])
-            if len(prof):
-                parts.append(prof)
+            g = ooi_good_samples(raw, dataset_id, ooi_chl_var(dataset_id))
+            if len(g):
+                parts.append(g)
+    if parts:
+        prof = ooi_window_profiles(pd.concat(parts, ignore_index=True), dataset_id,
+                                   ooi_datasets()[dataset_id])
+        parts = [prof] if len(prof) else []
     if not parts:
         write_marker(empty, {"dataset_id": dataset_id, "months": months,
                              "reason": "no QC-passing CHLA in 0-200 m"})
         return f"empty {dataset_id}"
-    prof = pd.concat(parts, ignore_index=True)
+    prof = parts[0]
     atomic_write_parquet(prof, out)
-    return f"done {dataset_id}: {len(prof)} days"
+    return f"done {dataset_id}: {len(prof)} windows"
 
 
 def ooi_combine() -> tuple[pd.DataFrame, dict]:
-    """Per-dataset daily files -> one table with the Sauzède correction."""
+    """Per-dataset window files -> one table with the Sauzède correction."""
     sys.path.insert(0, str(REPO / "src"))
     from sauzede_lut import load_lut, chla_scaling_factor
     files = sorted(OOI_DAILY.glob("*.parquet"))
@@ -492,11 +522,15 @@ def pace_granule_list(product: str, refresh: bool = False) -> list[dict]:
     return out
 
 
-def pace_points(refresh: bool = False) -> pd.DataFrame:
-    """Profile time/position for both platforms, from the rebuilt tables."""
-    path = MATCH_DIR / "_points.parquet"
-    if path.exists() and not refresh:
-        return pd.read_parquet(path)
+PLATFORMS = ("argo", "ooi")
+
+
+def pace_points(platform: str | None = None) -> pd.DataFrame:
+    """Profile time/position, read from the profile tables every time.
+
+    Matchup units are per (platform, granule or day), so when one platform's
+    profiles change (OOI on 2026-11-23) only that platform is re-matched.
+    There is no cache: a cached point list is how stale times would leak in."""
     a = pd.read_parquet(DATA_DIR / "CHLA_argo_profiles.parquet",
                         columns=["profile_id", "TIME", "LATITUDE", "LONGITUDE"])
     a.columns = ["profile_id", "time", "lat", "lon"]
@@ -506,12 +540,13 @@ def pace_points(refresh: bool = False) -> pd.DataFrame:
     o["platform"] = "ooi"
     pts = pd.concat([a, o], ignore_index=True)
     pts["time"] = pd.to_datetime(pts["time"], utc=True)
-    atomic_write_parquet(pts, path)
+    if platform is not None:
+        pts = pts[pts["platform"] == platform].reset_index(drop=True)
     return pts
 
 
-def _granule_out(product: str, granule: str) -> Path:
-    return MATCH_DIR / product / granule.replace(".nc", ".parquet")
+def _granule_out(product: str, granule: str, platform: str) -> Path:
+    return MATCH_DIR / product / platform / granule.replace(".nc", ".parquet")
 
 
 def _rrs_labels(wl: np.ndarray) -> list[int]:
@@ -533,12 +568,13 @@ def _nearest_index(coord: np.ndarray, q: np.ndarray) -> np.ndarray:
     return np.where(np.abs(coord[i1] - q) < np.abs(coord[i0] - q), i1, i0)
 
 
-def pace_granule_unit(product: str, short_name: str, granule: str, attempts: int = 5) -> str:
-    out = _granule_out(product, granule)
+def pace_granule_unit(product: str, short_name: str, granule: str, platform: str,
+                      attempts: int = 5) -> str:
+    out = _granule_out(product, granule, platform)
     empty = out.with_suffix(".empty")
     if out.exists() or empty.exists():
         return f"skip {granule}"
-    pts = pace_points()
+    pts = pace_points(platform)
     cfg = PACE_PRODUCTS[product]
     var = cfg["var"]
     last = None
@@ -620,12 +656,12 @@ def _granule_day(name: pd.Series) -> pd.Series:
     return name.str.extract(r"PACE_OCI\.(\d{8})\.")[0]
 
 
-def pace_select(product: str, pts: pd.DataFrame) -> pd.DataFrame:
+def pace_select(product: str, pts: pd.DataFrame, platform: str) -> pd.DataFrame:
     """All granule matches for a product -> one row per profile.
     Rule from 2025, applied the same way to every product: standard before NRT,
     then the granule whose time window centre is closest to the profile time,
     then file name (only to make ties deterministic, e.g. duplicate KD_NRT)."""
-    files = sorted((MATCH_DIR / product).glob("*.parquet"))
+    files = sorted((MATCH_DIR / product / platform).glob("*.parquet"))
     df = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
     fcol = f"pace_{product}_file"
     df["_nrt"] = df[fcol].str.contains("NRT")
@@ -641,12 +677,10 @@ def pace_select(product: str, pts: pd.DataFrame) -> pd.DataFrame:
 def pace_merge(profiles: pd.DataFrame, platform: str) -> tuple[pd.DataFrame, dict]:
     """Rrs is the base; chlor_a and Kd_490 are attached only when they come
     from the same day and the same stream (standard/NRT) as the Rrs granule."""
-    pts = pace_points()
-    pts = pts[pts["platform"] == platform]
-    rrs = pace_select("Rrs", pts)
-    rrs = rrs[rrs["platform"] == platform]
-    chl = pace_select("chlor_a", pts)
-    kd = pace_select("Kd", pts)
+    pts = pace_points(platform)
+    rrs = pace_select("Rrs", pts, platform)
+    chl = pace_select("chlor_a", pts, platform)
+    kd = pace_select("Kd", pts, platform)
     rrs_cols = [f"pace_Rrs_{x}" for x in RRS_LABELS]
     base = rrs[["profile_id", "_day", "_nrt", "pace_Rrs_file", "pace_Rrs_t_start",
                 "pace_Rrs_t_end", "pace_Rrs_lat", "pace_Rrs_lon"] + rrs_cols]
@@ -726,8 +760,8 @@ def olci_granule_index(refresh: bool = False) -> dict:
     return index
 
 
-def olci_points() -> pd.DataFrame:
-    pts = pace_points().copy()
+def olci_points(platform: str) -> pd.DataFrame:
+    pts = pace_points(platform).copy()
     pts["ymd"] = pts["time"].dt.strftime("%Y%m%d")
     return pts
 
@@ -750,15 +784,15 @@ def _olci_sample(urls: dict, lats, lons) -> dict:
     return out
 
 
-def olci_day_unit(ymd: str, attempts: int = 5) -> str:
-    out = OLCI_DIR / f"{ymd}.parquet"
+def olci_day_unit(ymd: str, platform: str, attempts: int = 5) -> str:
+    out = OLCI_DIR / platform / f"{ymd}.parquet"
     empty = out.with_suffix(".empty")
     if out.exists() or empty.exists():
         return f"skip {ymd}"
     index = olci_granule_index()
     a_urls = index["S3A"].get(ymd, {})
     b_urls = index["S3B"].get(ymd, {})
-    pts = olci_points()
+    pts = olci_points(platform)
     sub = pts[pts["ymd"] == ymd].reset_index(drop=True)
     if sub.empty or not (a_urls or b_urls):
         write_marker(empty, {"day": ymd, "profiles": int(len(sub)),
@@ -798,13 +832,13 @@ def olci_day_unit(ymd: str, attempts: int = 5) -> str:
     return f"done {ymd}: {len(res)} points, {int(np.isfinite(res['olci_Rrs_443']).sum())} with Rrs_443"
 
 
-def olci_days() -> list[str]:
-    return sorted(olci_points()["ymd"].unique())
+def olci_days(platform: str) -> list[str]:
+    return sorted(olci_points(platform)["ymd"].unique())
 
 
 def olci_merge(profiles: pd.DataFrame, platform: str) -> tuple[pd.DataFrame, dict]:
     """Every profile on a day with an OLCI granule, plus PACE flags."""
-    files = sorted(OLCI_DIR.glob("*.parquet"))
+    files = sorted((OLCI_DIR / platform).glob("*.parquet"))
     olci = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
     plus = pd.read_parquet(DATA_DIR / f"CHLA_{platform}_profiles_plus_PACE.parquet")
     rrs_cols = [f"pace_Rrs_{x}" for x in RRS_LABELS]

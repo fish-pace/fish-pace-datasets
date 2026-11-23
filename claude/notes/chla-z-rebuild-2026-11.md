@@ -29,8 +29,9 @@ atomically (`.part` then rename), skipped on rerun, and run in a fresh process
 |---|---|---|
 | `argo` | month | `argo_profiles_monthly/argo_chla_profiles_YYYY-MM.parquet` + `.stats.json` |
 | `ooi-fetch` | dataset × month | `ooi_raw/<id>/<YYYY-MM>.csv.gz` or `.empty` |
-| `ooi` | dataset | `ooi_daily/<id>.parquet` or `.empty` |
-| `pace --product P` | PACE granule | `matchups_v3_2/<P>/<granule>.parquet` or `.empty` |
+| `ooi` | dataset | `ooi_windows/<id>.parquet` or `.empty` (3 h windows; `ooi_daily/` holds the superseded UTC-day files) |
+| `pace --product P` | platform × PACE granule | `matchups_v3_2/<P>/<platform>/<granule>.parquet` or `.empty` |
+| `olci` | platform × UTC day | `matchups_olci/<platform>/<YYYYMMDD>.parquet` or `.empty` |
 
 ERDDAP: retries with backoff on connection errors, timeouts, 408/429/5xx. A
 404 is only "empty" if its body says "no matching results"; any other 404 or
@@ -42,12 +43,16 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
 
 ## Things that look odd but are deliberate
 
-- **Argo bins are (A, B], OOI bins are [A, B).** The Argo code (2025
+- **Both platforms use (A, B] bins** (since 2026-11-23). The Argo code (2025
   `average_profile()`: `depth > z_min & depth <= z_max`) never matched its own
-  metadata, which said `PRES >= A and PRES < B`. The rebuild keeps the code's
-  behaviour (that is what the model was trained on) and fixes the metadata. OOI
-  has always used `pd.cut(right=False)`. The difference is one level at a bin
-  edge; flagged for Eli, not changed.
+  metadata, which said `PRES >= A and PRES < B`; the code's behaviour is kept
+  and the metadata fixed. OOI used `pd.cut(right=False)`, i.e. [A, B), until
+  Eli asked for one rule. This is not a rare edge case: ERDDAP OOI depths are
+  whole metres (2.3 M of 11 M good samples sit on a 10 m edge), and 26% of
+  Argo PRES values are whole numbers (4% on a 10 m edge, 2025-07). A depth of
+  0 is outside (0, 10], so 5 more fixed instruments that publish z = 0 got
+  depth overrides (4 Coastal near-surface frames at 7 m, Irminger surface
+  buoy at 1 m); they stay in the 0–10 m bin.
 - **Argo profiles with no QC-passing level are dropped.** The 2025 table kept
   every profile, even all-NaN ones, because it never filtered on QC.
 - **TIME/LAT/LON "first" is exact.** Within an ascending profile they are
@@ -56,18 +61,25 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
 - **The vectorized binning equals the notebook function.** On 2025-07,
   `argo_bin_profiles()` and `summarize_profile_binned()` agree on every cell of
   1,972 profiles.
-- **OOI lat/lon are per day, not per (day, bin).** The 2025 code took them per
+- **OOI lat/lon are per row, not per (row, bin).** The 2025 code took them per
   (day, bin) and pivoted on (date, lat, lon), so a position change within a day
-  could split one day into two rows. Rows are otherwise reproduced: 9,776 of
-  the 9,782 old OOI profiles reappear, and with the Sauzède ratio undone their
-  surface CHLA equals the old value (median ratio 1.000).
+  could split one day into two rows. Before the 3 h windows, 9,776 of the 9,782
+  old OOI daily profiles were reproduced, and with the Sauzède ratio undone
+  their surface CHLA equalled the old value (median ratio 1.000).
 - **31 OOI datasets the 2025 notebook skipped as "no data in time range" were
   queried again** for the extended range. All still have no data, so the site
   list is the same 30. Three exclusions stay for date-independent reasons (no
   `qc_agg`; 2000 m and deeper).
-- **OOI time is near noon at moorings.** It is now the mean of each day's good
-  samples, not midnight, which removed the duplicate OOI rows of 2025, but for
-  continuously sampling moorings `solar_hour` carries little information.
+- **OOI rows are 3 h windows of local mean solar time** (Eli, 2026-11-23).
+  A UTC-day mean (2025, and the first rebuild) put every OOI time near 12 UTC:
+  a solar hour of about 3–9 h at OOI longitudes, nearly constant per site, so
+  `solar_hour` encoded longitude, not sampling time. Windows are 00–03, 03–06,
+  ... h of solar time (UTC + lon/15 h, per sample); `time` is the mean time of
+  the window's samples. 95,770 rows (was 13,664 days), spread evenly over the 8
+  windows. All windows of one day usually match the same daily PACE and OLCI
+  pixel; they differ in CHLA and solar hour. `profile_id` =
+  `<dataset>_<solar YYYYMMDD>T<HH>`, so a few ids carry a solar date one day
+  off the UTC date of `time`.
 - **PACE band names come from round().** V3.2 AOP band centres are fractional;
   `round()` maps all 172 onto the 2025 integer names (the 2025 names were
   `int()` of V3.1 centres; 640–643 included). The code raises if that ever stops
@@ -95,21 +107,43 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
   sharing the 4 cores with chlor_a and Kd until 22:49.
 - `pace-merge` (`logs/pace_merge_stats.json`): Argo 59,583 profiles → 56,912
   with a matching Rrs granule (2,084 NRT), 9,542 with any non-NaN Rrs; OOI
-  13,664 → 13,102 (242 NRT), 3,187 with Rrs. chlor_a/Kd from a different
-  granule than Rrs or missing (left NaN): 25 and 22 Argo rows, 0 OOI.
+  13,664 → 13,102 (242 NRT), 3,187 with Rrs (UTC-day OOI, superseded; see
+  the 2026-11-23 re-run below). chlor_a/Kd from a different granule than Rrs
+  or missing (left NaN): 25 and 22 Argo rows.
 - `argopy.ipynb` cell 19 read `datasets/chla-z/` (404 since the folder is
   `chla_z`); fixed so the notebook runs end to end.
 - Tables written from the venv built from `requirements.txt`. The notebooks
   were then executed in the hub's notebook env (pandas 2.3.3); their rewrites
   of the tables were checked equal to the venv's and the venv's were kept.
 - Things that changed counts and are expected:
-  - OOI `CHLA_0_10` drops 6,101 → 5,325 although rows rise: the 9
+  - (UTC-day OOI) `CHLA_0_10` dropped 6,101 → 5,325 although rows rose: the 9
     `DEPTH_OVERRIDE_M` instruments (12–187 m) published z = 0 and so filled
     the surface bin in 2025.
   - 2025 OOI `_plus_PACE` had 10,989 rows for 6,415 profile_ids (duplicates);
     now one row per profile_id.
   - The 2025 Argo and OOI `_plus_PACE` both have exactly 2,770 rows with Rrs.
     Checked: coincidence, the values differ.
+
+### OOI re-run as 3 h windows (2026-11-23)
+
+- Matchups were split into per-platform folders (`<product>/argo/`,
+  `<product>/ooi/`, `matchups_olci/<platform>/`) so OOI could be re-matched
+  alone. The existing Argo files were copied into `argo/` (script in
+  `logs/migrate_argo.py`); the Argo `_plus_PACE` and `_plus_OLCI` tables then
+  rebuilt identical (`assert_frame_equal`), and are unchanged after the final
+  merges too.
+- `ooi` stage: 95,770 windows from 30 instruments, median 48 samples per
+  window, `profile_id` unique. Five more fixed instruments published z = 0
+  (added to `DEPTH_OVERRIDE_M`: four at 7 m, GI01SUMO at 1 m, Eli
+  2026-11-23); 14 overrides in all.
+- `pace --platform ooi`: 1,137 Rrs, 1,138 chlor_a, 1,176 Kd granules, then
+  `olci --platform ooi`: 975 days. 0 failed units; 1 retry (OLCI), recovered.
+  ~3 h total.
+- `pace-merge`: OOI 95,770 → 90,338 with a Rrs granule (1,570 NRT), 22,240
+  with Rrs, from all 30 instruments; chlor_a/Kd from another granule or
+  missing: 49 and 36 rows. Windows with Rrs are spread evenly over solar
+  hour (2,100–3,000 per 3 h window). Median 5 windows per instrument-day
+  with Rrs, which share the day's pixel.
 
 ### Before / after
 
@@ -139,31 +173,31 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
 | rows with any Rrs | 2,770 | 9,542 |
 | NRT PACE rows | 1,684 | 2,084 |
 
-**CHLA_ooi_profiles.parquet**
+**CHLA_ooi_profiles.parquet** (3 h windows)
 
 | | 2025_11_01 | rebuild |
 |---|---:|---:|
-| rows | 9,782 | 13,664 |
-| unique profile_id | 9,782 | 13,664 |
+| rows | 9,782 | 95,770 |
+| unique profile_id | 9,782 | 95,770 |
 | floats / instruments | 30 | 30 |
-| non-NaN CHLA bins | 61,331 | 80,464 |
-| CHLA_0_10 non-NaN | 6,101 | 5,325 |
+| non-NaN CHLA bins | 61,331 | 532,803 |
+| CHLA_0_10 non-NaN | 6,101 | 40,948 |
 | first | 2024-03-01 | 2024-03-01 |
 | last | 2025-12-05 | 2026-10-31 |
 
-**CHLA_ooi_profiles_plus_PACE.parquet**
+**CHLA_ooi_profiles_plus_PACE.parquet** (3 h windows)
 
 | | 2025_11_01 | rebuild |
 |---|---:|---:|
-| rows | 10,989 | 13,102 |
-| unique profile_id | 6,415 | 13,102 |
+| rows | 10,989 | 90,338 |
+| unique profile_id | 6,415 | 90,338 |
 | floats / instruments | 30 | 30 |
-| non-NaN CHLA bins | 66,686 | 76,944 |
-| CHLA_0_10 non-NaN | 7,013 | 5,108 |
+| non-NaN CHLA bins | 66,686 | 503,233 |
+| CHLA_0_10 non-NaN | 7,013 | 38,887 |
 | first | 2024-03-06 | 2024-03-05 |
 | last | 2025-12-05 | 2026-10-31 |
-| rows with any Rrs | 2,770 | 3,187 |
-| NRT PACE rows | 2,207 | 242 |
+| rows with any Rrs | 2,770 | 22,240 |
+| NRT PACE rows | 2,207 | 1,570 |
 
 ## OLCI matchups (added 2026-11-23, Eli's request)
 
@@ -185,17 +219,18 @@ day) and `olci-merge`.
   exactly (0 cell mismatches, 0 `olci_sat` mismatches). His other 403 rows are
   October 2026 days after the last OLCI file (2026-10-01): NaN there, and not
   in the new table, whose rows are profiles on a day with an OLCI file.
-- **Run:** 975 days, 6 workers, ~80 min, 0 retries, 0 failures.
+- **Run:** 975 days, 6 workers, ~80 min, 0 retries, 0 failures (Argo and
+  UTC-day OOI). OOI re-run for the 3 h windows: 975 days, 1 retry, 0 failures.
 
 Coverage, March 2024 – September 2026 (both sensors available):
 
 | | rows | OLCI all 11 bands | PACE Rrs valid | both |
 |---|---:|---:|---:|---:|
 | Argo | 57,544 | 12,535 (21.8%) | 9,187 (16.0%) | 4,935 |
-| OOI | 13,434 | 3,309 (24.6%) | 3,124 (23.3%) | 1,953 |
+| OOI (3 h windows) | 94,265 | 23,900 (25.4%) | 21,823 (23.2%) | 13,484 |
 
 So OLCI does give more valid matchups than PACE, mostly for Argo, and only
-about half of each sensor's valid profiles are valid in the other. PACE is
+40–60% of each sensor's valid profiles are valid in the other. PACE is
 matched with a 24 h window from the file's `time_coverage_start`; OLCI with
 the calendar day. That difference in rule is part of the comparison, not just
 the sensors.

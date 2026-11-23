@@ -105,15 +105,20 @@ ARGO_CORE = {
 
 OOI_CORE = {
     "creator": CREATOR,
-    "profile_id_definition": "profile_id = ERDDAP dataset_id + '_' + YYYYMMDD (UTC day).",
+    "profile_id_definition": (
+        "profile_id = ERDDAP dataset_id + '_' + YYYYMMDD + 'T' + HH, where "
+        "YYYYMMDD and HH (00, 03, ..., 21) are the local mean solar date and the "
+        "start hour of the 3 h window. Local mean solar time = UTC + lon / 15 h."),
     "time_definition": (
-        "Mean time (UTC) of the QC-passing observations in that day. Note: for "
-        "moorings that sample all day this is close to 12:00 UTC."),
-    "lat_definition": "lat in the ERDDAP dataset (first value of the day). OOI platforms are fixed.",
-    "lon_definition": "lon in the ERDDAP dataset (first value of the day).",
+        "Mean time (UTC) of the QC-passing observations in the 3 h window, so "
+        "each row's solar hour is the time the water was actually sampled."),
+    "lat_definition": "lat in the ERDDAP dataset (first value of the window). OOI platforms are fixed.",
+    "lon_definition": "lon in the ERDDAP dataset (first value of the window).",
+    "n_samples_definition": "Number of QC-passing samples (all depths) in the window.",
     "CHLA_A_B_definition": (
-        "Daily mean of QC-passing CHLA (qc_agg = 1) with A <= depth < B, where "
-        "depth = -z in m, divided by chla_ratio (see CHLA_processing_description)."),
+        "Mean of QC-passing CHLA (qc_agg = 1) in the 3 h window with "
+        "A < depth <= B (the Argo convention), where depth = -z in m (whole "
+        "metres in ERDDAP), divided by chla_ratio (see CHLA_processing_description)."),
     "chla_ratio_definition": (
         "Sauzède fluorescence:chla ratio at the site (1 deg LUT, nearest cell). "
         "Raw fluorometer CHLA = CHLA_A_B * chla_ratio. NaN where the LUT has no "
@@ -130,9 +135,10 @@ OOI_CORE = {
     "CHLA_processing_description": (
         "CHLA is the OOI variable 'mass_concentration_of_chlorophyll_a_in_sea_water' "
         "for moorings and 'mass_concentration_of_chlorophyll_a_in_sea_water_profiler_depth_enabled' "
-        "for profilers (mg m-3), filtered to qc_agg = 1. For nine fixed-depth "
+        "for profilers (mg m-3), filtered to qc_agg = 1. For 14 fixed-depth "
         "datasets that publish z = 0 the known sensor depth is used instead. "
-        "Values were averaged per UTC day in 10 m depth bins from 0 to 200 m. "
+        "Values were averaged per 3 h window of local solar time in 10 m depth "
+        "bins (A, B] from 0 to 200 m. "
         "To put OOI on the same calibration basis as Argo CHLA_ADJUSTED, values "
         "were divided by the Sauzède fluorescence:chla ratio (Sauzède, R. (2025), "
         "SEANOE, doi:10.17882/105732, CC-BY-4.0)."),
@@ -291,13 +297,13 @@ def write_argo_profiles():
 def write_ooi_profiles():
     combined, lut_info = b.ooi_combine()
     meta = {
-        "title": "OOI CHLA daily profile metrics (0 to 200 m, 10 m bins)",
+        "title": "OOI CHLA 3-hour profile metrics (0 to 200 m, 10 m bins)",
         "source": OOI_SOURCE,
         "description": (
             "OOI fluorometer CHLA from profilers and fixed-depth instruments, "
             "2024-03-01 to 2026-10-31, from the OOI Data Explorer ERDDAP. One row "
-            "per dataset and UTC day. QC qc_agg = 1, daily means in 10 m depth "
-            "bins, Sauzède fluorescence:chla correction applied."),
+            "per dataset and 3 h window of local solar time. QC qc_agg = 1, means "
+            "in 10 m depth bins (A, B], Sauzède fluorescence:chla correction applied."),
         **OOI_CORE, **COVERAGE,
         **_build_block({"build_ooi_fetch_dates": _ooi_fetch_dates(),
                         "build_sauzede_sites_without_lut": lut_info["sites_without_lut"]}),
@@ -315,7 +321,7 @@ def _ooi_fetch_dates() -> str:
 
 
 def _kd_wavelength() -> str:
-    files = sorted((b.MATCH_DIR / "Kd").glob("*.parquet"))[:20]
+    files = sorted((b.MATCH_DIR / "Kd" / "argo").glob("*.parquet"))[:20]
     wl = {round(float(pd.read_parquet(f, columns=["pace_Kd_wavelength"]).iloc[0, 0]), 3) for f in files}
     return ", ".join(map(str, sorted(wl)))
 
