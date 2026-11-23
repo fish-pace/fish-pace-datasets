@@ -13,7 +13,7 @@
     "pace_matchups": true,
     "matchup_time_window_hours": 24,
     "matchup_spatial_method": "nearest_4km_pixel",
-    "tutorial_notebook": "../notebooks/ooi.ipynb",
+    "tutorial_notebook": "../notebooks/03-pace-matchups.ipynb",
     "file_name": "CHLA_ooi_profiles_plus_PACE.parquet"
   },
   "geometry": null,

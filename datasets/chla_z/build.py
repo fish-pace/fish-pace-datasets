@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """Build the CHLA-Z training tables. Resumable: rerun any stage after a crash.
 
+    python build.py argo-fetch           # Ifremer ERDDAP -> _temp_data/raw/ tiles -> monthly .nc
     python build.py argo                 # monthly .nc -> data/CHLA_argo_profiles.parquet
     python build.py ooi-fetch            # OOI ERDDAP -> _temp_data/ooi_raw/<id>/<YYYY-MM>.csv.gz
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
@@ -14,8 +15,11 @@ Each unit runs in its own process (`max_tasks_per_child=1`), so memory is
 returned between units, and an OOM-killed worker only loses its unit: the pool
 is rebuilt and the remaining units continue. Failed units are listed at the end
 and the exit status is non-zero; rerun the same command to retry them.
-The Argo monthly .nc files come from argopy.ipynb Workflow 2 (fetched
-2026-11-06); this driver does not refetch them.
+The released Argo monthly .nc files were fetched on 2026-11-06 by the code
+that is now `argo-fetch` (then in argopy.ipynb Workflow 2). `argo-fetch` skips
+tiles and months that already exist, so it does not refetch them; delete
+_temp_data/raw/ and CHLA_argo_monthly_nc/ for a new snapshot. Use few workers
+for it (2): the ERDDAP server drops requests under load.
 """
 
 import argparse
@@ -85,19 +89,25 @@ def report_failures(stage, failed):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("stage", choices=["argo", "ooi-fetch", "ooi", "pace", "pace-merge", "olci", "olci-merge"])
+    ap.add_argument("stage", choices=["argo-fetch", "argo", "ooi-fetch", "ooi", "pace", "pace-merge", "olci", "olci-merge"])
     ap.add_argument("--product", choices=list(b.PACE_PRODUCTS))
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--limit", type=int, help="olci: only the first N days (for testing)")
     ap.add_argument("--force", action="store_true",
-                    help="argo/ooi: rebuild per-unit outputs even if they exist (raw downloads are kept)")
+                    help="argo-fetch/argo/ooi: rebuild per-unit outputs even if they exist (raw downloads are kept)")
     ap.add_argument("--platform", choices=list(b.PLATFORMS),
                     help="pace/olci: match only this platform (default: both)")
     a = ap.parse_args()
     platforms = [a.platform] if a.platform else list(b.PLATFORMS)
     import chla_z_tables as t
 
-    if a.stage == "argo":
+    if a.stage == "argo-fetch":
+        tiles = [(m, lo, la) for m in b.MONTHS for lo, la in b.ARGO_TILES]
+        failed = run_units("argo_tile_unit", tiles, a.workers)
+        report_failures("argo-fetch", failed)
+        failed = run_units("argo_merge_month_unit", [(m, a.force) for m in b.MONTHS], a.workers)
+        report_failures("argo-merge", failed)
+    elif a.stage == "argo":
         failed = run_units("argo_month_unit", [(m, a.force) for m in b.MONTHS], a.workers)
         report_failures("argo", failed)
         t.write_argo_profiles()

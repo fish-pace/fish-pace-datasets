@@ -10,7 +10,7 @@
     "end_datetime": "2026-10-31T23:59:59Z",
     "platform": "OOI Profilers and Moorings",
     "variables": ["CHLA"],
-    "tutorial_notebook": "../notebooks/ooi.ipynb",
+    "tutorial_notebook": "../notebooks/02-ooi-retrieval-qc.ipynb",
     "file_name": "CHLA_ooi_profiles.parquet"
   },
   "geometry": null,

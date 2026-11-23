@@ -90,6 +90,7 @@ through the solar hour of the in situ sample.
 
 ```bash
 cd datasets/chla_z
+python build.py argo-fetch --workers 2   # skips tiles already in _temp_data/raw/
 python build.py argo
 python build.py ooi-fetch && python build.py ooi
 python build.py pace --product Rrs   # also chlor_a, Kd
@@ -104,10 +105,21 @@ notes: `claude/notes/chla-z-rebuild-2026-11.md`. The previous files are at tag
 
 ## How to get started
 
-Start with one of these notebooks:
-- `notebooks/argopy.ipynb`
-- `notebooks/argo-matchups.ipynb`
-- `notebooks/ooi.ipynb`
+The notebooks in `notebooks/` show how the tables are made, each on a small
+real sample that it checks against the released table. They are data
+methods, not model training; the full build runs from `build.py`.
+
+| Notebook | What it shows |
+|---|---|
+| `01-argo-retrieval-qc.ipynb` | BGC-Argo retrieval, QC, 10 m depth bins |
+| `02-ooi-retrieval-qc.ipynb` | OOI retrieval, QC, 3 h solar-time windows, Sauzède correction |
+| `03-pace-matchups.ipynb` | PACE Rrs, chlor_a and Kd matchups |
+| `04-olci-matchups.ipynb` | Sentinel-3 OLCI Rrs matchups |
+| `05-compare-datasets.ipynb` | how in situ and satellite chlorophyll compare; the effect of solar hour; OLCI vs PACE |
+
+The earlier notebooks (`argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb`)
+are kept at tag
+[`2026_11_23`](https://github.com/fish-pace/fish-pace-datasets/tree/2026_11_23/datasets/chla_z/notebooks).
 
 ## Provenance and metadata
 

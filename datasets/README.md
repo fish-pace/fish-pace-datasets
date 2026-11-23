@@ -8,7 +8,7 @@ loaded directly from GitHub using standard Python and R tools.
 ```python
 import pandas as pd
 
-url = "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_insitu/data/CHLA_argo_profiles.parquet"
+url = "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_z/data/CHLA_argo_profiles.parquet"
 df = pd.read_parquet(url)
 df.head()
 ```
@@ -30,7 +30,9 @@ table.schema.metadata
 ```python
 import xarray as xr
 
-url = "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_insitu/data/argo_na_2024_03.nc"
+# "#mode=bytes" makes netCDF read the file over plain HTTP; without it the
+# URL is taken as an OPeNDAP server and the open fails.
+url = "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_z/data/fluor_to_chla_lut_127630.nc#mode=bytes"
 ds = xr.open_dataset(url)
 ds
 ```
@@ -40,7 +42,7 @@ ds
 ```r
 library(arrow)
 
-url <- "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_insitu/data/CHLA_argo_profiles.parquet"
+url <- "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_z/data/CHLA_argo_profiles.parquet"
 df <- read_parquet(url)
 head(df)
 ```
@@ -50,7 +52,8 @@ head(df)
 ```r
 library(ncdf4)
 
-url <- "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_insitu/data/argo_na_2024_03.nc"
+# "#mode=bytes": read the file over plain HTTP, not as an OPeNDAP server
+url <- "https://raw.githubusercontent.com/fish-pace/fish-pace-datasets/main/datasets/chla_z/data/fluor_to_chla_lut_127630.nc#mode=bytes"
 nc <- nc_open(url)
 print(nc)
 nc_close(nc)

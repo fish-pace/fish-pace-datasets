@@ -11,7 +11,7 @@
     "platform": "BGC-Argo",
     "variables": ["CHLA", "Rrs"],
     "olci_matchups": true,
-    "tutorial_notebook": "../notebooks/argo-matchups.ipynb",
+    "tutorial_notebook": "../notebooks/04-olci-matchups.ipynb",
     "file_name": "CHLA_argo_profiles_plus_OLCI.parquet"
   },
   "geometry": null,
