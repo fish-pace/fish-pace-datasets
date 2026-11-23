@@ -264,7 +264,8 @@ Eli asked for the notebooks to show the data methods, not to build the tables.
   does not link it) had the 2025 descriptions, PACE V3.1, no OOI-profiles or
   OLCI entries, and `raw.githubusercontent.com/.../blob/main/` data hrefs that
   did not resolve. Its CHLA-Z entries are now generated from
-  `datasets/chla_z/items/*.json` (those are the source to edit), keeping the
+  `datasets/chla_z/items/*.json` by `src/update_data_collection.py` (the items
+  are the source to edit; rerun the script after), keeping the
   ids it already published; three entries added. All data hrefs checked 200.
 - `argo-fetch` test (venv, scratch dirs, 2024-03): 23 tiles + 1 empty
   (60–120°E, 45–90°N: no float there measures CHLA); every tile has the same
