@@ -19,15 +19,24 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   Sauzède LUT); the four tables are identical in both. `git fetch --tags`
   warns about it.
 
-## Next task Eli named (2026-11-23), not started
+## Method notebooks (branch `pipeline-notebooks`, PR open 2026-11-23)
 
-Branch `pipeline-notebooks`. Rework the notebooks in `datasets/chla_z/notebooks/`
-(`argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb`, plus OLCI) into **example
-notebooks that show users exactly how data retrieval, QC and matchups are
-done**. They are solely data retrieval, QC and matchup methods, and must be
-labelled as such (not model training). They run small real examples and point
-to `build.py` and `src/chla_z_build.py` for the full pipeline. The build
-runs from the script; the notebooks are for showing the method.
+- `datasets/chla_z/notebooks/01`–`04` show the data methods (Argo, OOI, PACE,
+  OLCI) on small live samples and assert against the released tables;
+  labelled as data methods, not model training. `05-compare-datasets` keeps
+  the in situ vs satellite comparisons Eli wanted, with solar hour (NPQ) as
+  the main point. Eli reviewed them: "look fine".
+- `argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb` are retired, kept at tag
+  `2026_11_23`; the new notebooks and READMEs say so.
+- The global Argo download (was only `argopy.ipynb` Workflow 2, run by hand)
+  is now `build.py argo-fetch`.
+- `datasets/data_collection.json` CHLA-Z entries are generated from the STAC
+  items by `src/update_data_collection.py`: edit the items, rerun the script.
+- Detail and test results: the last section of
+  [notes/chla-z-rebuild-2026-11.md](notes/chla-z-rebuild-2026-11.md).
+- **Where the data lives:** the released tables are plain git files in
+  `datasets/chla_z/data/` on GitHub (no LFS), versioned by release tag.
+  Intermediates (24 GB) are only on the hub, in `_temp_data` (below).
 
 ## Changed after review (Eli, 2026-11-23)
 
@@ -42,19 +51,26 @@ runs from the script; the notebooks are for showing the method.
 
 ## How to rebuild
 
-`datasets/chla_z/build.py` (stages `argo`, `ooi-fetch`, `ooi`, `pace --product`,
-`pace-merge`, `olci`, `olci-merge`; `--platform argo|ooi` for the matchup
-stages); every stage resumes. Code in `src/chla_z_build.py` and
-`src/chla_z_tables.py`; the notebooks call the same functions.
+`datasets/chla_z/build.py` (stages `argo-fetch`, `argo`, `ooi-fetch`, `ooi`,
+`pace --product`, `pace-merge`, `olci`, `olci-merge`; `--platform argo|ooi`
+for the matchup stages); every stage resumes. Code in `src/chla_z_build.py`
+and `src/chla_z_tables.py`; the notebooks call the same functions.
+`argo-fetch` skips the 2026-11-06 tiles already in `_temp_data/raw/`; delete
+them for a new Argo snapshot. Don't use argopy `cache_index=True` (broken with
+fsspec 2026.9).
 
 ## Environment
 
 - **`~` has a quota; `~/shared-public` does not** (ENOSPC while `df` shows free
   space). Venv: `~/shared-public/venvs/chla-z`, built with
   `/srv/conda/envs/notebook/bin/python3.13 -m venv` from `requirements.txt`.
-- `notebooks/_temp_data` is a symlink into shared-public (git-ignored): Argo
-  monthly .nc (7.8 GB, ERDDAP snapshot 2026-11-06), OOI raw CSVs, PACE
-  per-granule matchups (`matchups_v3_2/`), logs.
+- `notebooks/_temp_data` is a symlink into shared-public (git-ignored, 24 GB):
+  Argo tiles (`raw/`) and monthly .nc (7.8 GB, ERDDAP snapshot 2026-11-06),
+  OOI raw CSVs, PACE per-granule matchups (`matchups_v3_2/`), OLCI
+  (`matchups_olci/`), logs.
+- The venv has no `ipykernel`. Notebooks were tested as scripts in the venv
+  (jupytext py:percent sources) and executed for stored outputs in the hub
+  `python3` kernel.
 - The run used a 16 GB / 4-core hub. Rrs matchups are CPU-bound (~19 h).
 - **Clean up `~/shared-public` after the poster work** (Eli): keep what the
   poster needs. Not before.
