@@ -4,19 +4,30 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 ## Repo state (2026-11-23)
 
-- Branch `chla-z-rebuild`: the CHLA-Z training-table rebuild
-  (fish-pace/fish-pace-datasets#4) is built; PR #9 is open for Eli's review.
-  All four `datasets/chla_z/data/` tables are overwritten in place; the old
-  ones are at tag `2025_11_01`. No release cut (Eli does that). Two new tables,
-  `CHLA_{argo,ooi}_profiles_plus_OLCI.parquet` (2026-11-23): OLCI for every
-  profile, flagged by PACE match.
+- The CHLA-Z rebuild (#4) is **released**: tag
+  [`2026_11_23`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_23)
+  "Nov 2026" (PR #9, merged). Six tables in `datasets/chla_z/data/`, including
+  `CHLA_{argo,ooi}_profiles_plus_OLCI.parquet`. The old tables are at
+  `2025_11_01`. Branch `chla-z-rebuild` is deleted.
 - Decisions, deliberate oddities, run log, before/after tables:
   [notes/chla-z-rebuild-2026-11.md](notes/chla-z-rebuild-2026-11.md).
   Argo source comparison (GDAC vs ERDDAP, why ERDDAP):
   [notes/argo-gdac-vs-erddap.md](notes/argo-gdac-vs-erddap.md).
-- Downstream: fish-pace/2026-go-bgc-hackweek branch `rebuilt-training-data`
-  reads these tables with `DATA_RELEASE = "chla-z-rebuild"` (this branch name);
-  switch it to the release tag once the release exists.
+- Downstream: fish-pace/2026-go-bgc-hackweek (PR #19) reads
+  `DATA_RELEASE = "2026_11_23"`.
+- My local `2025_11_01` tag is one commit behind GitHub's (GitHub's adds the
+  Sauzède LUT); the four tables are identical in both. `git fetch --tags`
+  warns about it.
+
+## Next task Eli named (2026-11-23), not started
+
+Branch `pipeline-notebooks`. Rework the notebooks in `datasets/chla_z/notebooks/`
+(`argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb`, plus OLCI) into **example
+notebooks that show users exactly how data retrieval, QC and matchups are
+done**. They are solely data retrieval, QC and matchup methods, and must be
+labelled as such (not model training). They run small real examples and point
+to `build.py` and `src/chla_z_build.py` for the full pipeline. The build
+runs from the script; the notebooks are for showing the method.
 
 ## Changed after review (Eli, 2026-11-23)
 
