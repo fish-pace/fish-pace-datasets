@@ -5,7 +5,7 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 ## Repo state (2026-11-22)
 
 - Branch `chla-z-rebuild`: the CHLA-Z training-table rebuild
-  (fish-pace/fish-pace-datasets#4) is built and goes to a PR for Eli's review.
+  (fish-pace/fish-pace-datasets#4) is built; PR #9 is open for Eli's review.
   All four `datasets/chla_z/data/` tables are overwritten in place; the old
   ones are at tag `2025_11_01`. No release cut (Eli does that).
 - Decisions, deliberate oddities, run log, before/after tables:
