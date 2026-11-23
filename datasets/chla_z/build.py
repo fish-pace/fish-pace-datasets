@@ -6,6 +6,8 @@
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
     python build.py pace --product Rrs   # one product's granule matchups (also chlor_a, Kd)
     python build.py pace-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_PACE.parquet
+    python build.py olci                 # OLCI S3A/S3B daily matchups, one unit per day
+    python build.py olci-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_OLCI.parquet
 
 Each unit runs in its own process (`max_tasks_per_child=1`), so memory is
 returned between units, and an OOM-killed worker only loses its unit: the pool
@@ -82,9 +84,10 @@ def report_failures(stage, failed):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("stage", choices=["argo", "ooi-fetch", "ooi", "pace", "pace-merge"])
+    ap.add_argument("stage", choices=["argo", "ooi-fetch", "ooi", "pace", "pace-merge", "olci", "olci-merge"])
     ap.add_argument("--product", choices=list(b.PACE_PRODUCTS))
     ap.add_argument("--workers", type=int, default=3)
+    ap.add_argument("--limit", type=int, help="olci: only the first N days (for testing)")
     ap.add_argument("--force", action="store_true",
                     help="argo/ooi: rebuild per-unit outputs even if they exist (raw downloads are kept)")
     a = ap.parse_args()
@@ -116,6 +119,15 @@ def main():
         report_failures(f"pace-{a.product}", failed)
     elif a.stage == "pace-merge":
         t.write_plus_pace()
+    elif a.stage == "olci":
+        b.olci_granule_index()
+        days = b.olci_days()
+        if a.limit:
+            days = days[: a.limit]
+        failed = run_units("olci_day_unit", [(d,) for d in days], a.workers)
+        report_failures("olci", failed)
+    elif a.stage == "olci-merge":
+        t.write_plus_olci()
 
 
 if __name__ == "__main__":

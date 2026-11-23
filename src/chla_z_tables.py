@@ -391,3 +391,54 @@ def before_after(tag: str = "2025_11_01") -> str:
             lines.append(f"| {k} | {fmt(fo)} | {fmt(sn[k])} |")
         lines.append("")
     return "\n".join(lines)
+
+
+# ---- OLCI ------------------------------------------------------------------------
+
+OLCI_SOURCE = (
+    "Sentinel-3A and -3B OLCI Level 3 mapped daily 4 km Rrs (NASA OB.DAAC "
+    "collections OLCIS3A_L3m_ERR_RRS and OLCIS3B_L3m_ERR_RRS), via NASA Earthdata "
+    "(earthaccess). Granules exist from 2024-03-01 to 2026-10-01."
+)
+OLCI_CORE = {
+    "olci_matching_description": (
+        "Every in situ profile is matched to the OLCI daily file named for its "
+        "UTC calendar day, at the nearest 4 km grid cell. S3A is read first; S3B "
+        "is read at all of that day's profiles when any has NaN S3A Rrs_443, and "
+        "each band takes S3A where finite, else S3B. These are the rules of "
+        "2026-go-bgc-hackweek contributor_folders/nama/olci_l3_matchups.ipynb, "
+        "whose rows this table reproduces. Rows: profiles on a day with at least "
+        "one OLCI granule; OLCI Rrs is NaN where the pixel is masked."),
+    "olci_sat_definition": "Sensor that gave olci_Rrs_443: 'S3A', 'S3B', or null if neither.",
+    "olci_day_definition": "UTC day (YYYYMMDD) of the OLCI files used.",
+    "olci_S3A_available_definition": "True if at least one S3A band file exists for olci_day.",
+    "olci_S3B_available_definition": "True if at least one S3B band file exists for olci_day.",
+    "olci_Rrs_A_definition": "OLCI Rrs at the A nm band (sr-1). Bands: 400, 412, 443, 490, 510, 560, 620, 665, 674, 681, 709.",
+    "pace_granule_definition": "True if the profile has a row in the matching _plus_PACE table (a PACE V3.2 Rrs file covers its time).",
+    "pace_Rrs_valid_definition": (
+        "True if that PACE row has at least one finite Rrs band. Use olci_Rrs_* "
+        "finite & pace_Rrs_valid to compare OLCI and PACE on the same profiles."),
+}
+
+
+def write_plus_olci():
+    out = {}
+    for platform, fname, core, src, title in [
+        ("argo", "CHLA_argo_profiles", ARGO_CORE, ARGO_SOURCE, "Global BGC-Argo"),
+        ("ooi", "CHLA_ooi_profiles", OOI_CORE, OOI_SOURCE, "OOI"),
+    ]:
+        prof = pd.read_parquet(b.DATA_DIR / f"{fname}.parquet")
+        prof_md = pq.read_schema(b.DATA_DIR / f"{fname}.parquet").metadata
+        merged, stats = b.olci_merge(prof, platform)
+        meta = {
+            "title": f"{title} CHLA profile metrics (0 to 200 m, 10 m bins) with Sentinel-3 OLCI Rrs matchups",
+            "source": f"{src} {OLCI_SOURCE}",
+            "description": prof_md[b"description"].decode() + " Each profile is matched to Sentinel-3 OLCI daily 4 km Rrs (see olci_matching_description), with flags for whether it also has a PACE match.",
+            **core, **OLCI_CORE, **COVERAGE,
+            "spatiotemporal_coverage_time_end": "2026-10-01T23:59:59Z",
+            **_build_block({"build_olci_merge_counts": stats}),
+        }
+        _write(merged, f"{fname}_plus_OLCI.parquet", meta)
+        out[platform] = stats
+    b.write_marker(b.TEMP_DIR / "logs" / "olci_merge_stats.json", out)
+    return out

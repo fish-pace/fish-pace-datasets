@@ -673,3 +673,156 @@ def pace_merge(profiles: pd.DataFrame, platform: str) -> tuple[pd.DataFrame, dic
         raise ValueError("duplicate profile_id after PACE merge")
     stats["rows_out"] = int(len(out))
     return out, stats
+
+
+# ---- OLCI ----------------------------------------------------------------------
+# Sentinel-3 OLCI L3 mapped daily 4 km Rrs (NASA OB.DAAC), matched for *every*
+# in situ profile, with or without a PACE match, so that "OLCI has more data"
+# and "OLCI vs PACE on the same profiles" can both be asked of one table.
+#
+# Matching rules are Nabir Mamnun's (2026-go-bgc-hackweek
+# contributor_folders/nama/olci_l3_matchups.ipynb), kept so his rows reproduce:
+# - the granule is the one named for the profile's UTC calendar day;
+# - nearest 4 km cell (pandas get_indexer "nearest");
+# - S3A is read first; S3B is read only for profiles whose S3A Rrs_443 is NaN;
+#   each band takes S3A where finite, else S3B, and olci_sat says which sensor
+#   gave Rrs_443 (so the 11 bands of one row can come from both sensors).
+# One deliberate difference: a granule that fails to open raises (the day is
+# retried) instead of being recorded as NaN, so a network drop cannot pass for
+# a masked pixel.
+
+OLCI_DIR = TEMP_DIR / "matchups_olci"
+OLCI_BANDS = [400, 412, 443, 490, 510, 560, 620, 665, 674, 681, 709]
+OLCI_SHORT = {"S3A": "OLCIS3A_L3m_ERR_RRS", "S3B": "OLCIS3B_L3m_ERR_RRS"}
+_YMD_RE = re.compile(r"\.(\d{8})\.L3m\.DAY\.")
+
+
+def olci_granule_index(refresh: bool = False) -> dict:
+    """{sat: {YYYYMMDD: {band: https url}}}, from one CMR search per sat x band,
+    cached so every worker and rerun uses the same list."""
+    path = OLCI_DIR / "_granules.json"
+    if path.exists() and not refresh:
+        return json.loads(path.read_text())
+    ea = _earthaccess_login()
+    index = {sat: {} for sat in OLCI_SHORT}
+    dups = []
+    for sat, sn in OLCI_SHORT.items():
+        for nm in OLCI_BANDS:
+            res = ea.search_data(short_name=sn, temporal=(START, END_EXCLUSIVE),
+                                 granule_name=f"*.DAY.*.Rrs_{nm}.4km.nc")
+            for g in res:
+                url = g.data_links(access="external")[0]
+                m = _YMD_RE.search(url)
+                if not m:
+                    continue
+                day = index[sat].setdefault(m.group(1), {})
+                if str(nm) in day and day[str(nm)] != url:
+                    dups.append([sat, m.group(1), nm, day[str(nm)], url])
+                    url = max(day[str(nm)], url)  # deterministic; none seen so far
+                day[str(nm)] = url
+    if dups:
+        log(f"OLCI: {len(dups)} duplicate day/band granules; kept the lexically last URL")
+    write_marker(path, index)
+    return index
+
+
+def olci_points() -> pd.DataFrame:
+    pts = pace_points().copy()
+    pts["ymd"] = pts["time"].dt.strftime("%Y%m%d")
+    return pts
+
+
+def _olci_sample(urls: dict, lats, lons) -> dict:
+    import xarray as xr
+    ea = _earthaccess_login()
+    out = {}
+    for nm in OLCI_BANDS:
+        url = urls.get(str(nm))
+        if url is None:  # no granule for this band and day: genuinely missing
+            out[nm] = np.full(len(lats), np.nan)
+            continue
+        f = ea.open([url], pqdm_kwargs={"disable": True})[0]
+        with xr.open_dataset(f, engine="h5netcdf", chunks={}, cache=False) as ds:
+            var = f"Rrs_{nm}" if f"Rrs_{nm}" in ds.data_vars else "Rrs"
+            i = ds.get_index("lat").get_indexer(np.asarray(lats, float), method="nearest")
+            j = ds.get_index("lon").get_indexer(np.asarray(lons, float), method="nearest")
+            out[nm] = np.asarray(ds[var].isel(lat=xr.DataArray(i), lon=xr.DataArray(j)).values, float)
+    return out
+
+
+def olci_day_unit(ymd: str, attempts: int = 5) -> str:
+    out = OLCI_DIR / f"{ymd}.parquet"
+    empty = out.with_suffix(".empty")
+    if out.exists() or empty.exists():
+        return f"skip {ymd}"
+    index = olci_granule_index()
+    a_urls = index["S3A"].get(ymd, {})
+    b_urls = index["S3B"].get(ymd, {})
+    pts = olci_points()
+    sub = pts[pts["ymd"] == ymd].reset_index(drop=True)
+    if sub.empty or not (a_urls or b_urls):
+        write_marker(empty, {"day": ymd, "profiles": int(len(sub)),
+                             "reason": "no profiles" if sub.empty else "no OLCI granule"})
+        return f"empty {ymd}"
+    lats, lons = sub["lat"].to_numpy(), sub["lon"].to_numpy()
+    last = None
+    for a in range(attempts):
+        try:
+            s3a = _olci_sample(a_urls, lats, lons)
+            need_b = ~np.isfinite(s3a[443])
+            s3b = {nm: np.full(len(sub), np.nan) for nm in OLCI_BANDS}
+            if need_b.any() and b_urls:
+                # As in the notebook: S3B is sampled at *all* of the day's
+                # points once any needs it, so it can also fill another band
+                # where S3A has Rrs_443 but not that band.
+                s3b = _olci_sample(b_urls, lats, lons)
+            break
+        except Exception as e:
+            last = e
+            log(f"  OLCI {ymd} retry {a + 1}/{attempts} after {type(e).__name__}: {str(e)[:200]}")
+            if a < attempts - 1:
+                backoff_sleep(a, base=20)
+    else:
+        raise RuntimeError(f"giving up on OLCI {ymd}: {last}")
+    res = sub[["profile_id"]].copy()
+    sat = np.full(len(sub), None, dtype=object)
+    sat[np.isfinite(s3a[443])] = "S3A"
+    sat[need_b & np.isfinite(s3b[443])] = "S3B"
+    res["olci_sat"] = sat
+    res["olci_day"] = ymd
+    res["olci_S3A_available"] = bool(a_urls)
+    res["olci_S3B_available"] = bool(b_urls)
+    for nm in OLCI_BANDS:
+        res[f"olci_Rrs_{nm}"] = np.where(np.isfinite(s3a[nm]), s3a[nm], s3b[nm])
+    atomic_write_parquet(res, out)
+    return f"done {ymd}: {len(res)} points, {int(np.isfinite(res['olci_Rrs_443']).sum())} with Rrs_443"
+
+
+def olci_days() -> list[str]:
+    return sorted(olci_points()["ymd"].unique())
+
+
+def olci_merge(profiles: pd.DataFrame, platform: str) -> tuple[pd.DataFrame, dict]:
+    """Every profile on a day with an OLCI granule, plus PACE flags."""
+    files = sorted(OLCI_DIR.glob("*.parquet"))
+    olci = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    plus = pd.read_parquet(DATA_DIR / f"CHLA_{platform}_profiles_plus_PACE.parquet")
+    rrs_cols = [f"pace_Rrs_{x}" for x in RRS_LABELS]
+    has_granule = set(plus["profile_id"])
+    has_rrs = set(plus.loc[plus[rrs_cols].notna().any(axis=1), "profile_id"])
+    tcol = "TIME" if "TIME" in profiles.columns else "time"
+    out = profiles.merge(olci, on="profile_id", how="inner").sort_values(tcol).reset_index(drop=True)
+    if out["profile_id"].duplicated().any():
+        raise ValueError("duplicate profile_id after OLCI merge")
+    out["pace_granule"] = out["profile_id"].isin(has_granule)
+    out["pace_Rrs_valid"] = out["profile_id"].isin(has_rrs)
+    ok = out[[f"olci_Rrs_{nm}" for nm in OLCI_BANDS]].notna().all(axis=1)
+    stats = {
+        "profiles": int(len(profiles)),
+        "rows_out (day has an OLCI granule)": int(len(out)),
+        "olci_all_11_bands": int(ok.sum()),
+        "olci_all_11_and_pace_Rrs_valid": int((ok & out["pace_Rrs_valid"]).sum()),
+        "olci_all_11_no_pace_Rrs": int((ok & ~out["pace_Rrs_valid"]).sum()),
+        "pace_Rrs_valid_no_olci": int((~ok & out["pace_Rrs_valid"]).sum()),
+    }
+    return out, stats

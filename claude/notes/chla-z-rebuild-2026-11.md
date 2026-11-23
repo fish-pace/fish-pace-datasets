@@ -164,3 +164,38 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
 | last | 2025-12-05 | 2026-10-31 |
 | rows with any Rrs | 2,770 | 3,187 |
 | NRT PACE rows | 2,207 | 242 |
+
+## OLCI matchups (added 2026-11-23, Eli's request)
+
+Eli asked for OLCI matched to *every* profile, with a flag for whether it also
+has a PACE match. That way "OLCI has more data" and "OLCI vs PACE on the same
+profiles" can be separated. Two new tables:
+`CHLA_{argo,ooi}_profiles_plus_OLCI.parquet`. Stages `olci` (one unit per UTC
+day) and `olci-merge`.
+
+- **Rules are Nabir's** (hackweek `contributor_folders/nama/olci_l3_matchups.ipynb`),
+  kept on purpose so his rows reproduce: the file of the profile's UTC day,
+  nearest cell, S3A first; S3B is read at all of the day's points when any has
+  NaN S3A Rrs_443; each band is S3A where finite, else S3B. So one row's 11
+  bands can come from two sensors. `olci_sat` names the Rrs_443 sensor.
+- **One difference:** a file that fails to open raises and the day is retried.
+  The notebook stored NaN, which would make a network drop look like a masked
+  pixel.
+- **Check:** all 12,326 of Nabir's rows on days with OLCI files are reproduced
+  exactly (0 cell mismatches, 0 `olci_sat` mismatches). His other 403 rows are
+  October 2026 days after the last OLCI file (2026-10-01): NaN there, and not
+  in the new table, whose rows are profiles on a day with an OLCI file.
+- **Run:** 975 days, 6 workers, ~80 min, 0 retries, 0 failures.
+
+Coverage, March 2024 – September 2026 (both sensors available):
+
+| | rows | OLCI all 11 bands | PACE Rrs valid | both |
+|---|---:|---:|---:|---:|
+| Argo | 57,544 | 12,535 (21.8%) | 9,187 (16.0%) | 4,935 |
+| OOI | 13,434 | 3,309 (24.6%) | 3,124 (23.3%) | 1,953 |
+
+So OLCI does give more valid matchups than PACE, mostly for Argo, and only
+about half of each sensor's valid profiles are valid in the other. PACE is
+matched with a 24 h window from the file's `time_coverage_start`; OLCI with
+the calendar day. That difference in rule is part of the comparison, not just
+the sensors.

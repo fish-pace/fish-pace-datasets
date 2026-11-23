@@ -23,6 +23,10 @@ from in situ observations, with optional matchups to PACE satellite products.
   - `CHLA_argo_profiles_plus_PACE.parquet`
   - `CHLA_ooi_profiles_plus_PACE.parquet`
 
+- **I want to compare in situ profiles to OLCI, or OLCI to PACE**
+  - `CHLA_argo_profiles_plus_OLCI.parquet`
+  - `CHLA_ooi_profiles_plus_OLCI.parquet`
+
 ## Platforms
 
 | Platform | CHLA measurement | Description |
@@ -59,6 +63,22 @@ from in situ observations, with optional matchups to PACE satellite products.
 - Rrs band names are rounded band centres (`pace_Rrs_413`, ...). The source
   file of each value is in `pace_Rrs_file`.
 
+## Matchup details (for +OLCI files)
+
+- Product: Sentinel-3A and -3B OLCI L3 mapped daily 4 km Rrs
+  (`OLCIS3A_L3m_ERR_RRS`, `OLCIS3B_L3m_ERR_RRS`), 11 bands from 400 to 709 nm.
+  Files exist up to 2026-10-01.
+- Every profile is matched, with or without PACE. Rows are profiles on a day
+  with an OLCI file. `pace_granule` and `pace_Rrs_valid` say whether the
+  profile also has a PACE match. Select rows with finite `olci_Rrs_*` and
+  `pace_Rrs_valid` to compare the two sensors on the same profiles.
+- Time: the OLCI file of the profile's UTC day. Space: nearest 4 km cell.
+- S3A is read first. When any of the day's profiles has NaN S3A `Rrs_443`, S3B
+  is read for all of them, and each band takes S3A where finite, else S3B.
+  `olci_sat` names the sensor that gave `Rrs_443`. These are the rules of
+  Nabir Mamnun's `olci_l3_matchups.ipynb` (fish-pace/2026-go-bgc-hackweek),
+  and this table reproduces his rows.
+
 ## How to rebuild
 
 ```bash
@@ -67,6 +87,7 @@ python build.py argo
 python build.py ooi-fetch && python build.py ooi
 python build.py pace --product Rrs   # also chlor_a, Kd
 python build.py pace-merge
+python build.py olci && python build.py olci-merge
 ```
 
 Each stage is resumable. If it crashes or a server times out, run the same
