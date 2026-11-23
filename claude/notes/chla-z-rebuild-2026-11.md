@@ -260,9 +260,12 @@ Eli asked for the notebooks to show the data methods, not to build the tables.
   `_temp_data/raw/` tiles count as done. One change: no `cache_index=True`.
   With argopy 1.5.0 and fsspec 2026.9 it raises (`HTTPFileSystem` has no
   `save_cache`), and region fetches work without it.
-- `datasets/data_collection.json` is otherwise stale (2025 descriptions, V3.1,
-  no OLCI items, data hrefs of the form `raw.githubusercontent.com/.../blob/main/`
-  that do not resolve). Only its notebook links were changed.
+- `datasets/data_collection.json` (a standalone flat collection; `catalog.json`
+  does not link it) had the 2025 descriptions, PACE V3.1, no OOI-profiles or
+  OLCI entries, and `raw.githubusercontent.com/.../blob/main/` data hrefs that
+  did not resolve. Its CHLA-Z entries are now generated from
+  `datasets/chla_z/items/*.json` (those are the source to edit), keeping the
+  ids it already published; three entries added. All data hrefs checked 200.
 - `argo-fetch` test (venv, scratch dirs, 2024-03): 23 tiles + 1 empty
   (60–120°E, 45–90°N: no float there measures CHLA); every tile has the same
   N_POINTS as the 2026-11-06 tile; binning the merged month gives all 1,375
