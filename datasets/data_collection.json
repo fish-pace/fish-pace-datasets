@@ -60,7 +60,7 @@
         "license": "Open access (Argo Data Policy); unrestricted use with attribution.",
         "variable": "CHLA",
         "platform": "BGC-Argo",
-        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/notebooks/chla_z/argopy.ipynb",
+        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/chla_z/notebooks/01-argo-retrieval-qc.ipynb",
         "file_name": "CHLA_argo_profiles.parquet"
       },
       "geometry": null,
@@ -95,7 +95,7 @@
           "Kd_490"
         ],
         "platform": "BGC-Argo + PACE OCI",
-        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/chla_z/notebooks/argo-matchups.ipynb",
+        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/chla_z/notebooks/03-pace-matchups.ipynb",
         "file_name": "CHLA_argo_profiles_plus_PACE.parquet"
       },
       "geometry": null,
@@ -130,7 +130,7 @@
           "Kd_490"
         ],
         "platform": "OOI Profilers and Moorings + PACE OCI",
-        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/chla_z/notebooks/ooi.ipynb",
+        "tutorial_notebook": "https://github.com/fish-pace/fish-pace-datasets/blob/main/datasets/chla_z/notebooks/03-pace-matchups.ipynb",
         "file_name": "CHLA_ooi_profiles_plus_PACE.parquet"
       },
       "geometry": null,

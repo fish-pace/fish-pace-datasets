@@ -10,7 +10,7 @@
     "end_datetime": "2026-10-31T23:59:59Z",
     "platform": "BGC-Argo",
     "variables": ["CHLA"],
-    "tutorial_notebook": "../notebooks/argopy.ipynb",
+    "tutorial_notebook": "../notebooks/01-argo-retrieval-qc.ipynb",
     "file_name": "CHLA_argo_profiles.parquet"
   },
   "geometry": null,

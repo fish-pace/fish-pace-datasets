@@ -234,3 +234,36 @@ So OLCI does give more valid matchups than PACE, mostly for Argo, and only
 matched with a 24 h window from the file's `time_coverage_start`; OLCI with
 the calendar day. That difference in rule is part of the comparison, not just
 the sensors.
+
+## Method notebooks and `argo-fetch` (2026-11-23, branch `pipeline-notebooks`)
+
+Eli asked for the notebooks to show the data methods, not to build the tables.
+
+- `notebooks/01`–`04` each run one small live sample through the same
+  `src/chla_z_build.py` functions as `build.py`, and end with an `assert`
+  against the released tables. If one fails later, the first suspect is
+  upstream reprocessing since the release, not the code. Checked: Argo box
+  80–60°W 30–40°N 2025-07, 27/27 profiles equal; OOI CE04OSPS July 2025, 247/249
+  windows equal (the 2 are month-edge solar windows, which the build fills from
+  the next month: expected, and asserted); PACE and OLCI 2025-07-15, all rows
+  equal.
+- `05-compare-datasets` keeps the comparison plots from the old notebooks
+  (Eli wanted them kept), now for both platforms: in situ vs PACE chlor_a, bias
+  vs solar hour (the NPQ signal: median bias ~0.1 at night, ~0.3 Argo / ~0.2 OOI
+  around solar noon), bias vs 1/Kd at night, OLCI vs PACE.
+- `argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb` are retired; they are kept
+  at tag `2026_11_23`, and the new notebooks, README, STAC items and
+  `data_collection.json` say so or point to the new ones.
+- The global Argo download was only ever in `argopy.ipynb` Workflow 2, run by
+  hand. It is now the `argo-fetch` stage (`argo_tile_unit`,
+  `argo_merge_month_unit`), same query, tiles and file names, so the existing
+  `_temp_data/raw/` tiles count as done. One change: no `cache_index=True`.
+  With argopy 1.5.0 and fsspec 2026.9 it raises (`HTTPFileSystem` has no
+  `save_cache`), and region fetches work without it.
+- `datasets/data_collection.json` is otherwise stale (2025 descriptions, V3.1,
+  no OLCI items, data hrefs of the form `raw.githubusercontent.com/.../blob/main/`
+  that do not resolve). Only its notebook links were changed.
+- `argo-fetch` test (venv, scratch dirs, 2024-03): 23 tiles + 1 empty
+  (60–120°E, 45–90°N: no float there measures CHLA); every tile has the same
+  N_POINTS as the 2026-11-06 tile; binning the merged month gives all 1,375
+  released profiles identical, plus 3 profiles ERDDAP has added since.

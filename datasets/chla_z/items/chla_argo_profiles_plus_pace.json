@@ -11,7 +11,7 @@
     "platform": "BGC-Argo",
     "variables": ["CHLA", "Rrs", "chlor_a", "Kd_490"],
     "pace_matchups": true,
-    "tutorial_notebook": "../notebooks/argo-matchups.ipynb",
+    "tutorial_notebook": "../notebooks/03-pace-matchups.ipynb",
     "file_name": "CHLA_argo_profiles_plus_PACE.parquet"
   },
   "geometry": null,

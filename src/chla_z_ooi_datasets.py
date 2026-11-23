@@ -1,4 +1,4 @@
-"""OOI ERDDAP dataset ids used for CHLA-Z, moved out of ooi.ipynb cells 10 and 12
+"""OOI ERDDAP dataset ids used for CHLA-Z, moved out of ooi.ipynb cells 10 and 12 (ooi.ipynb is kept at tag 2026_11_23)
 so the notebook and the build driver share one list.
 
 OOI_DATASETS: dataset_id -> description. MOORING_CHL: ids whose CHLA variable is

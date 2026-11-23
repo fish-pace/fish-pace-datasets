@@ -47,6 +47,7 @@ DS_DIR = REPO / "datasets" / "chla_z"
 DATA_DIR = DS_DIR / "data"
 # _temp_data is git-ignored; on the PACE hub it is a symlink into shared-public.
 TEMP_DIR = DS_DIR / "notebooks" / "_temp_data"
+ARGO_TILES_RAW = TEMP_DIR / "raw"  # one .nc per month x tile (argo-fetch stage)
 ARGO_MONTHLY_NC = TEMP_DIR / "CHLA_argo_monthly_nc"
 ARGO_PROFILES_MONTHLY = TEMP_DIR / "argo_profiles_monthly"
 OOI_RAW = TEMP_DIR / "ooi_raw"
@@ -116,10 +117,119 @@ ARGO_KEY = ["PLATFORM_NUMBER", "CYCLE_NUMBER"]
 ARGO_VARS = ARGO_KEY + ["DIRECTION", "TIME", "LATITUDE", "LONGITUDE", "PRES",
                         "CHLA_ADJUSTED", "CHLA_ADJUSTED_QC"]
 
+# ---- Argo download (stage argo-fetch) ----------------------------------------
+# Moved here from argopy.ipynb Workflow 2 (kept at tag 2026_11_23), which made the 2026-11-06 monthly
+# files. Same query (Ifremer ERDDAP, ds="bgc", params CHLA + PRES, expert mode,
+# 0-200 dbar), same 24 tiles per month, same file names, so the tiles already
+# in _temp_data/raw/ count as done. The whole globe in one request per month
+# is too large for the server, hence tiles.
+ARGO_TILES = [(lon, lat) for lat in range(-90, 90, 45) for lon in range(-180, 180, 60)]
+ARGO_TILE_DLON, ARGO_TILE_DLAT = 60, 45
+
+
+def _argo_tile_path(month: str, lon_min: int, lat_min: int) -> Path:
+    return ARGO_TILES_RAW / (f"argo_bgc_global_{month}_{lon_min}_{lon_min + ARGO_TILE_DLON}"
+                             f"_{lat_min}_{lat_min + ARGO_TILE_DLAT}.nc")
+
+
+def argo_tile_unit(month: str, lon_min: int, lat_min: int, attempts: int = 4) -> str:
+    """Fetch one month x tile from the Ifremer ERDDAP (argopy, expert mode).
+
+    Writes the .nc, or an .empty marker only when the server or argopy says
+    the box has no data. Anything else is retried, then raised, so a dropped
+    connection is never mistaken for an empty box."""
+    import warnings
+    import argopy
+    from argopy import DataFetcher
+    from argopy.errors import DataNotFound, ErddapHTTPNotFound
+    warnings.filterwarnings("ignore", message=".*institution_name.*", category=FutureWarning)
+
+    out = _argo_tile_path(month, lon_min, lat_min)
+    empty = out.with_suffix(".empty")
+    if out.exists() or empty.exists():
+        return f"skip {out.name}"
+    p = pd.Period(month, freq="M")
+    region = [lon_min, lon_min + ARGO_TILE_DLON, lat_min, lat_min + ARGO_TILE_DLAT, 0, 200,
+              p.start_time.strftime("%Y-%m-%d"), (p + 1).start_time.strftime("%Y-%m-%d")]
+    argopy.set_options(api_timeout=300)
+    ds, reason = None, None
+    for a in range(attempts):
+        # cache=False: caching the ERDDAP data requests breaks them. The 2026-11-06
+        # run also cached the GDAC profile index (cache_index=True); with
+        # argopy 1.5.0 and fsspec 2026.9 that fails (HTTPFileSystem has no
+        # save_cache), and the region fetch works without it.
+        fetcher = DataFetcher(ds="bgc", src="erddap", params=["CHLA", "PRES"], mode="expert",
+                              cache=False)
+        try:
+            ds = fetcher.region(region).to_xarray()
+            break
+        except (DataNotFound, ErddapHTTPNotFound) as e:
+            # ERDDAP answers 404 for "no matching results" but also on some
+            # transient failures, so only the last attempt counts as empty.
+            reason = f"{type(e).__name__}: {str(e)[:200]}"
+        except ValueError as e:
+            # argopy raises this before querying when no float in the box
+            # (per the GDAC index) measures the requested parameter.
+            if "not available for this access point" in str(e):
+                reason = f"ValueError: {str(e)[:200]}"
+                break
+            raise
+        except Exception as e:
+            if a == attempts - 1:
+                raise RuntimeError(f"Argo fetch failed for {out.name}") from e
+            log(f"  {out.name} retry {a + 1}/{attempts} after {type(e).__name__}: {str(e)[:200]}")
+        backoff_sleep(a)
+    if ds is not None and ds.sizes.get("N_POINTS", 0) == 0:
+        ds, reason = None, "N_POINTS = 0"
+    if ds is None:
+        write_marker(empty, {"month": month, "region": region, "reason": reason,
+                             "fetched": pd.Timestamp.now("UTC")})
+        return f"empty {out.name}: {reason}"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_name(out.name + ".part")
+    ds.to_netcdf(tmp)
+    os.replace(tmp, out)
+    return f"done {out.name}: {ds.sizes['N_POINTS']} points"
+
+
+def argo_merge_month_unit(month: str, force: bool = False) -> str:
+    """Join a month's 24 tiles into one monthly .nc, which `argo_month_unit` reads."""
+    import xarray as xr
+    out = ARGO_MONTHLY_NC / f"argo_bgc_global_{month}.nc"
+    if out.exists() and not force:
+        return f"skip {out.name}"
+    tiles = [_argo_tile_path(month, lo, la) for lo, la in ARGO_TILES]
+    missing = [t.name for t in tiles if not t.exists() and not t.with_suffix(".empty").exists()]
+    if missing:
+        raise RuntimeError(f"{month}: tiles not fetched yet {missing}")
+    files = [t for t in tiles if t.exists()]
+    if not files:
+        raise RuntimeError(f"{month}: every tile is empty")
+    # Loaded into memory before writing (a month is ~0.5 GB at most) and then
+    # checked: a lazy dask write once produced a 2024-12 file of all zeros.
+    ds = xr.concat([xr.load_dataset(f) for f in files], dim="N_POINTS")
+    ds = ds.sortby("TIME")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    tmp = out.with_name(out.name + ".part")
+    ds.to_netcdf(tmp)
+    n = ds.sizes["N_POINTS"]
+    ds.close()
+    with xr.open_dataset(tmp) as chk:
+        t = pd.to_datetime(chk["TIME"].values)
+        p = pd.Period(month, freq="M")
+        ok = (chk.sizes["N_POINTS"] == n > 0
+              and t.min() >= p.start_time and t.max() <= p.end_time
+              and float(abs(chk["LATITUDE"]).max()) > 0
+              and int(chk["PLATFORM_NUMBER"].max()) > 0)
+    if not ok:
+        raise ValueError(f"merged file for {month} failed checks; left at {tmp}")
+    os.replace(tmp, out)
+    return f"done {out.name}: {len(files)} tiles, {n} points"
+
 
 def bin_index_argo(pres: np.ndarray) -> np.ndarray:
     """10 m bin index for pressure, using the (A, B] convention of the
-    original `average_profile()` in argopy.ipynb (depth > z_min & depth <= z_max).
+    original `average_profile()` in argopy.ipynb, tag 2026_11_23 (depth > z_min & depth <= z_max).
     Returns -1 outside (0, 200]."""
     pres = np.asarray(pres, dtype=float)
     idx = np.ceil(pres / 10.0) - 1

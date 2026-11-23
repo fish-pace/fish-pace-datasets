@@ -13,7 +13,7 @@
     "olci_matchups": true,
     "matchup_time_rule": "same UTC day",
     "matchup_spatial_method": "nearest_4km_pixel",
-    "tutorial_notebook": "../notebooks/argo-matchups.ipynb",
+    "tutorial_notebook": "../notebooks/04-olci-matchups.ipynb",
     "file_name": "CHLA_ooi_profiles_plus_OLCI.parquet"
   },
   "geometry": null,
