@@ -87,7 +87,7 @@ fsspec 2026.9).
 - `notebooks/_temp_data` is a symlink into shared-public (git-ignored, 24 GB):
   Argo tiles (`raw/`) and monthly .nc (7.8 GB, ERDDAP snapshot 2026-11-06),
   OOI raw CSVs, PACE per-granule matchups (`matchups_v3_2/`), OLCI
-  (`matchups_olci/`), logs, and the glider pilot (`glider/`, ~100 MB).
+  (`matchups_olci/`), logs, and the glider pilot (`glider/`, ~270 MB).
 - The venv has no `ipykernel`. Notebooks were tested as scripts in the venv
   (jupytext py:percent sources) and executed for stored outputs in the hub
   `python3` kernel.
