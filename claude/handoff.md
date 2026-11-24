@@ -46,17 +46,25 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - `glider-select` / `glider-fetch` were not re-run through `build.py`; the
   tables came from the pilot's downloads in `_temp_data/glider/`.
 
-## Next (Eli, 2026-11-24)
+## Glider scan (#16, 2026-11-24, branch `glider-scan`)
 
-[#16](https://github.com/fish-pace/fish-pace-datasets/issues/16): scan the
-IOOS Glider DAC for more good chlorophyll deployments, repeatable without
-re-getting those already in the table. Facts: "Scanning for more deployments"
-in [notes/chla-z-glider.md](notes/chla-z-glider.md).
+`build.py glider-scan` (`src/chla_z_glider_scan.py`) scans every DAC dataset
+with a chlorophyll variable (the pilot looked only at `chlorophyll_a`; also
+`chlorophyll`, `fluorescence`, raw Slocum `sci_*`) and checks each whole
+record on sampled days. Result `src/chla_z_glider_candidates.csv`: 296 new
+deployments, 199 `ok`, 45 `check`, 50 `fail`; still none in the Gulf of
+Mexico. Next (Eli, 2026-11-24): [#19](https://github.com/fish-pace/fish-pace-datasets/issues/19),
+a new release with these deployments, deep-offset ones included but
+flagged per row (fetch code still hard-codes `chlorophyll_a`). The
+whole glider table is rebuilt, pilot 20 included, so the flag is on every
+row (the released `2026_11_24` table has `dark_offset` but no flag).
+PR #18 (the scan, closes #16) is open, waiting for Eli's merge. Details: "Scan of the whole DAC" in
+[notes/chla-z-glider.md](notes/chla-z-glider.md).
 
 ## How to rebuild
 
 `datasets/chla_z/build.py`: stages `argo-fetch`, `argo`, `ooi-fetch`, `ooi`,
-`glider-select`, `glider-fetch`, `glider`, `pace --product`, `pace-merge`,
+`glider-select`, `glider-scan`, `glider-fetch`, `glider`, `pace --product`, `pace-merge`,
 `olci`, `olci-merge`. `--platform argo|ooi|glider` on the matchup stages and
 merges rewrites only that platform's tables. Every stage resumes. Code in
 `src/chla_z_{build,tables,glider}.py`; notebooks call the same functions.
