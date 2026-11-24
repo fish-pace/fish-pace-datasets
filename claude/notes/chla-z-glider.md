@@ -77,6 +77,35 @@ Different, on purpose:
      sp041-20250923T1716.
    - Kept: ru43-20260731 (summer shelf, surface ~0.1 under a strong DCM: normal).
 
+### Scanning for more deployments (facts for the next scan, 2026-11-24)
+
+Issue #16: a full scan of IOOS glider chlorophyll for more good
+deployments, and a repeatable way to find new ones without re-getting what is
+already in the table.
+
+- **What exists:** `g.candidates(refresh=True)` re-runs the ERDDAP search
+  (cache `_temp_data/glider/candidates.parquet`, 227 datasets as of
+  2026-11-23); `g.shortlist` → 147; `g.screen_table` (cached per dataset in
+  `_temp_data/glider/screen/`) → 114 "ok". Only 20 of the 114 are used, so
+  ~94 screened passes are already available. Screen is one mid-deployment
+  day only; two of the first picks still failed on the whole record (above),
+  so a full-record check (e.g. a time × depth plot or per-week stats) is needed.
+- **"Already have" key = deployment, not datasetID.** A deployment can appear
+  as realtime and `-delayed` copies (`candidates.deployment` strips the
+  suffix). The table keeps `dataset_id`; `src/chla_z_glider_selection.json` is
+  the committed list. Compare on deployment.
+- **Delayed copies can be stubs:** ru26d-20250107T1348-delayed spans 6
+  minutes with no chlorophyll units, so the realtime copy was kept. Prefer
+  delayed only when its time span covers the realtime one. A delayed copy
+  that appears later for a realtime deployment in the table is a possible
+  swap, not new data.
+- **Deployments still running grow:** compare `maxTime` with the table's last
+  profile per deployment, not just presence.
+- **Time range:** fetch months come from `b.MONTHS` (2024-03 to 2026-10);
+  newer data needs that extended (it is shared with Argo/OOI).
+- Search was only `minTime=2024-03-01` (PACE era) and variable
+  `chlorophyll_a`; other chl variable names on the DAC were not checked.
+
 ### Regions are labels, not coverage
 
 The six regions are coarse boxes on deployment centre (`region_of`). Two
