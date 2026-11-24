@@ -46,6 +46,13 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - `glider-select` / `glider-fetch` were not re-run through `build.py`; the
   tables came from the pilot's downloads in `_temp_data/glider/`.
 
+## Next (Eli, 2026-11-24)
+
+[#16](https://github.com/fish-pace/fish-pace-datasets/issues/16): scan the
+IOOS Glider DAC for more good chlorophyll deployments, repeatable without
+re-getting those already in the table. Facts: "Scanning for more deployments"
+in [notes/chla-z-glider.md](notes/chla-z-glider.md).
+
 ## How to rebuild
 
 `datasets/chla_z/build.py`: stages `argo-fetch`, `argo`, `ooi-fetch`, `ooi`,
