@@ -1,0 +1,25 @@
+{
+ "chosen": "2026-11-23, by an agent from the screening table, for Eli Holmes's glider pilot (20 deployments across six regions). Criteria: passed the one-day sensor screen, >= 14 days in 2024-03..2026-10, delayed mode where it exists, a QC flag preferred, seasons spread within a region. See claude/notes/glider-pilot.md.",
+ "datasets": [
+  "sp020-20250122T1433",
+  "sp011-20250603T1557",
+  "sp041-20250923T1716",
+  "sp203-20250813T1745",
+  "sp058-20241121T1821",
+  "ru39-20240429T1522-delayed",
+  "sp007-20240425T1202",
+  "ru43-20240904T1539-delayed",
+  "maracoos_04-20241203T1457-delayed",
+  "ru43-20260731T1602-delayed",
+  "ru34-20241102T1737-delayed",
+  "ru34-20250113T1244-delayed",
+  "ru34-20250311T1220-delayed",
+  "sp065-20240214T1520",
+  "sp070-20240912T1432",
+  "sp069-20240703T1534",
+  "sp066-20241106T1639",
+  "ru26d-20250107T1348",
+  "ru26d-20260130T2026-delayed",
+  "capex690-20260812T1423-delayed"
+ ]
+}
