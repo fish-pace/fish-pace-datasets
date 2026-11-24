@@ -1,17 +1,20 @@
 """CHLA-Z glider table: IOOS Glider DAC chlorophyll profiles.
 
-Coastal CHLA-Z (Eli Holmes, 2026-11-23/24): 20 glider deployments spread over
-six regions (not every glider deployment; the list can grow), processed like
-OOI (3 h windows of local mean solar time, 10 m bins (A, B] in 0-200 m,
-Sauzède correction). Released like Argo and OOI: `datasets/chla_z/build.py`
-stages `glider-select`, `glider-fetch`, `glider`, then the PACE and OLCI
-stages with `--platform glider`. Design note: `claude/notes/chla-z-glider.md`.
+Coastal CHLA-Z (Eli Holmes): processed like OOI (3 h windows of local mean
+solar time, 10 m bins (A, B] in 0-200 m, Sauzède correction). The 2026_11_24
+release had 20 pilot deployments; since #19 the deployments and their
+metadata (chlorophyll variable, QC variable, region, scan verdict) come from
+the whole-DAC scan, `src/chla_z_glider_candidates.csv` (`chla_z_glider_scan`).
+Released like Argo and OOI: `datasets/chla_z/build.py` stages `glider-scan`
+(optional), `glider-fetch`, `glider`, then the PACE and OLCI stages with
+`--platform glider`. Design note: `claude/notes/chla-z-glider.md`.
 
 Units are resumable like `chla_z_build` (one file per unit, atomic write,
 skipped if present); intermediates go to `_temp_data/glider/`:
 
-    candidates()               ERDDAP search + per-dataset metadata -> candidates.parquet
-    screen_unit(id)            one mid-deployment day, sensor checks -> screen/<id>.json
+    meta()                     the scan CSV, one row per deployment (committed)
+    write_selection()          scan CSV -> chla_z_glider_selection.json (the release list)
+    candidates(), screen_unit  the pilot's search and one-day screen (kept; chose the first 20)
     fetch_unit(id, month)      CHLA samples 0-200 m                  -> raw/<id>/<YYYY-MM>.csv.gz
     fetch_deep_unit(id, month) CHLA samples below 300 m (dark value) -> raw_deep/<id>/<YYYY-MM>.csv.gz
     window_unit(id)            one profile per 3 h solar window      -> windows/<id>.parquet
@@ -197,8 +200,55 @@ def screen_table() -> pd.DataFrame:
 
 
 def selection() -> list[str]:
-    """The deployments in the table, chosen once and committed (see design note)."""
+    """The deployments in the table, committed (written by write_selection)."""
     return json.loads(SELECTION_PATH.read_text())["datasets"]
+
+
+# --------------------------------------------------------------------------
+# Deployment metadata and selection, from the whole-DAC scan (#16, #19)
+# --------------------------------------------------------------------------
+
+META_PATH = SELECTION_PATH.with_name("chla_z_glider_candidates.csv")
+DEEP_OFFSET_FAIL = "deep offset > 0.2"
+_META = None
+
+
+def meta() -> pd.DataFrame:
+    """The committed scan result, indexed by datasetID. Read from the CSV, not
+    from the hub-only scan cache, so the fetch and the table are reproducible
+    from the repo."""
+    global _META
+    if _META is None:
+        m = pd.read_csv(META_PATH)
+        for k in ("minTime", "maxTime"):
+            m[k] = pd.to_datetime(m[k], utc=True)
+        for k in ("qc_var", "fail", "check", "bad_days"):
+            m[k] = m[k].astype(object).where(m[k].notna(), None)
+        _META = m.set_index("datasetID")
+    return _META
+
+
+def select_from_scan(m: pd.DataFrame) -> pd.DataFrame:
+    """Eli, 2026-11-24 (#19): every `ok` and `check` deployment, plus the
+    deployments whose ONLY failure is the deep offset (kept, flagged per row:
+    deep_offset_flag). Other failures (negative offset, flat, no signal,
+    surface < deep, implausibly high, or deep offset together with one of
+    those) stay out. Needs some record inside the fetch months."""
+    keep = m.verdict.isin(["ok", "check"]) | (m.fail == DEEP_OFFSET_FAIL)
+    return m[keep & (m.days_in_months > 0)]
+
+
+def write_selection() -> list[str]:
+    s = select_from_scan(meta())
+    ids = s.reset_index().sort_values(["region", "minTime"]).datasetID.tolist()
+    SELECTION_PATH.write_text(json.dumps({
+        "chosen": ("2026-11-24 (#19), by chla_z_glider.write_selection from "
+                   "src/chla_z_glider_candidates.csv: scan verdict ok or check, or a "
+                   "fail whose only reason is the deep offset (flagged per row), with "
+                   "days inside the fetch months. Includes the 20 pilot deployments of "
+                   "release 2026_11_24. See claude/notes/chla-z-glider.md."),
+        "datasets": ids}, indent=1) + "\n")
+    return ids
 
 
 # --------------------------------------------------------------------------
@@ -206,7 +256,7 @@ def selection() -> list[str]:
 # --------------------------------------------------------------------------
 
 def months_for(dataset_id: str) -> list[str]:
-    c = candidates().set_index("datasetID").loc[dataset_id]
+    c = meta().loc[dataset_id]
     keep = []
     for m in b.MONTHS:
         p = pd.Period(m, freq="M")
@@ -222,15 +272,17 @@ def fetch_unit(dataset_id: str, month: str) -> str:
     out, empty = d / f"{month}.csv.gz", d / f"{month}.empty"
     if out.exists() or empty.exists():
         return f"skip {dataset_id} {month}"
-    c = candidates().set_index("datasetID").loc[dataset_id]
-    cols = ["profile_id", "time", "latitude", "longitude", "precise_time", "depth", "chlorophyll_a"]
-    if isinstance(c.qc_var, str):  # NaN when the dataset has no CHLA flag
+    c = meta().loc[dataset_id]
+    # The raw CSV keeps the dataset's own variable names (chlorophyll,
+    # fluorescence, sci_flbbcd_chlor_units, ...); _standard() renames on read.
+    cols = ["profile_id", "time", "latitude", "longitude", "precise_time", "depth", c.chl_var]
+    if c.qc_var:  # None when the dataset has no CHLA flag
         cols.append(c.qc_var)
     if c.has_precise_lat:
         cols += ["precise_lat", "precise_lon"]
     t0, t1 = b._month_bounds(month)
     df = _tabledap_csv(dataset_id, cols, [f"time>={t0}", f"time<{t1}", "depth<=200",
-                                          "chlorophyll_a!=NaN"])
+                                          f"{c.chl_var}!=NaN"])
     if df is None:
         b.write_marker(empty, {"reason": "no matching results", "fetched": pd.Timestamp.now("UTC")})
         return f"empty {dataset_id} {month}"
@@ -246,6 +298,16 @@ def fetch_unit(dataset_id: str, month: str) -> str:
 # Profiles: one per 3 h window of local solar time
 # --------------------------------------------------------------------------
 
+CHL_RANGE = (-5.0, 100.0)  # the scan's range (day_unit): outside it is a fill value
+
+
+def _standard(df: pd.DataFrame, dataset_id: str) -> pd.DataFrame:
+    """Raw CSV -> chlorophyll in a column named chlorophyll_a, whatever the
+    dataset calls it."""
+    v = meta().loc[dataset_id, "chl_var"]
+    return df.rename(columns={v: "chlorophyll_a"}) if v != "chlorophyll_a" else df
+
+
 def good_samples(df: pd.DataFrame, qc_var: str | None) -> pd.DataFrame:
     """QC-passing samples in (0, 200] m. Sample time is precise_time where
     present: the profile `time` can be ~70 min off the CHLA samples (ru34)."""
@@ -253,7 +315,7 @@ def good_samples(df: pd.DataFrame, qc_var: str | None) -> pd.DataFrame:
     df["profile_time"] = pd.to_datetime(df["time"], utc=True)
     pt = pd.to_datetime(df["precise_time"], utc=True) if "precise_time" in df else None
     df["t"] = df["profile_time"] if pt is None else pt.fillna(df["profile_time"])
-    ok = (df.depth > 0) & (df.depth <= 200) & np.isfinite(df.chlorophyll_a)
+    ok = (df.depth > 0) & (df.depth <= 200) & df.chlorophyll_a.between(*CHL_RANGE, inclusive="neither")
     if qc_var:
         ok &= df[qc_var].isin(QC_KEEP)
     return df[ok]
@@ -309,10 +371,9 @@ def window_unit(dataset_id: str, force: bool = False) -> str:
     missing = [m for m in months if not (d / f"{m}.csv.gz").exists() and not (d / f"{m}.empty").exists()]
     if missing:
         raise RuntimeError(f"{dataset_id}: months not fetched yet {missing}")
-    qc = candidates().set_index("datasetID").loc[dataset_id, "qc_var"]
-    qc = qc if isinstance(qc, str) else None
+    qc = meta().loc[dataset_id, "qc_var"]
     # Pool months first: a solar-time window can straddle a UTC month edge.
-    parts = [good_samples(pd.read_csv(f), qc) for f in sorted(d.glob("*.csv.gz"))]
+    parts = [good_samples(_standard(pd.read_csv(f), dataset_id), qc) for f in sorted(d.glob("*.csv.gz"))]
     parts = [x for x in parts if len(x)]
     prof = window_profiles(pd.concat(parts, ignore_index=True), dataset_id) if parts else pd.DataFrame()
     if prof.empty:
@@ -369,13 +430,16 @@ def fetch_deep_unit(dataset_id: str, month: str) -> str:
     out, empty = d / f"{month}.csv.gz", d / f"{month}.empty"
     if out.exists() or empty.exists():
         return f"skip {dataset_id} {month}"
-    c = candidates().set_index("datasetID").loc[dataset_id]
-    cols = ["profile_id", "time", "precise_time", "depth", "chlorophyll_a"]
-    if isinstance(c.qc_var, str):
+    c = meta().loc[dataset_id]
+    if c.max_z < DARK_MIN_DEPTH:  # never reaches 300 m in the scan: nothing to ask for
+        b.write_marker(empty, {"reason": f"scan max_z {c.max_z:g} m < {DARK_MIN_DEPTH:g} m"})
+        return f"empty {dataset_id} {month} (shallow)"
+    cols = ["profile_id", "time", "precise_time", "depth", c.chl_var]
+    if c.qc_var:
         cols.append(c.qc_var)
     t0, t1 = b._month_bounds(month)
     df = _tabledap_csv(dataset_id, cols, [f"time>={t0}", f"time<{t1}",
-                                          f"depth>={DARK_MIN_DEPTH:g}", "chlorophyll_a!=NaN"])
+                                          f"depth>={DARK_MIN_DEPTH:g}", f"{c.chl_var}!=NaN"])
     if df is None:
         b.write_marker(empty, {"reason": "no matching results", "fetched": pd.Timestamp.now("UTC")})
         return f"empty {dataset_id} {month}"
@@ -399,12 +463,11 @@ def dark_series(dataset_id: str) -> pd.DataFrame:
     cols = ["glider_profile_id", "t", "dark_profile", "n_deep", "dark_smooth"]
     if not files:
         return pd.DataFrame(columns=cols)
-    qc = candidates().set_index("datasetID").loc[dataset_id, "qc_var"]
-    qc = qc if isinstance(qc, str) else None
-    deep = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
+    qc = meta().loc[dataset_id, "qc_var"]
+    deep = _standard(pd.concat([pd.read_csv(f) for f in files], ignore_index=True), dataset_id)
     deep["profile_time"] = pd.to_datetime(deep["time"], utc=True)
     deep["t"] = pd.to_datetime(deep["precise_time"], utc=True).fillna(deep["profile_time"])
-    ok = np.isfinite(deep.chlorophyll_a)
+    ok = deep.chlorophyll_a.between(*CHL_RANGE, inclusive="neither")
     if qc:
         ok &= deep[qc].isin(QC_KEEP)
     deep = deep[ok].sort_values("t").reset_index(drop=True)
@@ -436,6 +499,38 @@ def assign_dark(win: pd.DataFrame, ds: pd.DataFrame) -> pd.Series:
     return out
 
 
+BAD_MID_ABOVE = 0.3   # 150-200 m value above the deployment median by this much
+BAD_ALL_BELOW = 0.02  # or every bin of the profile below this
+MID_COLS = b.CHLA_COLS[15:20]  # (150, 200] m
+
+
+def bad_window_mask(t: pd.DataFrame, max_z: pd.Series) -> pd.Series:
+    """Whole-column failure windows: the scan's bad-day rule
+    (chla_z_glider_scan.fullrec_stats) applied to every window instead of
+    every 4th day, so the days between sampled bad days are caught too (Eli,
+    2026-11-24, #19: drop them). California Sprays near the end of a record
+    go high, or ~0, at every depth (sensor failure or recovery).
+
+    Only for deployments that dive >= 300 m (scan max_z), on the fluorometer
+    (CHLA_FLUOR) 150-200 m mean: on a mixed shelf a bloom really does raise
+    the whole column. Bad = 150-200 m mean > the deployment's median of it +
+    BAD_MID_ABOVE, or every filled bin < BAD_ALL_BELOW with >= 3 bins."""
+    fl = t[MID_COLS]
+    mid = fl.mean(axis=1)
+    allb = t[b.CHLA_COLS]
+    deep = t.dataset_id.map(max_z).fillna(0) >= DARK_MIN_DEPTH
+    med = mid.groupby(t.dataset_id).transform("median")
+    bad = (mid > med + BAD_MID_ABOVE) | ((allb.max(axis=1) < BAD_ALL_BELOW) & (allb.count(axis=1) >= 3))
+    return bad & deep
+
+
+def drop_bad_windows(t: pd.DataFrame, max_z: pd.Series) -> tuple[pd.DataFrame, pd.Series]:
+    """Must run before the Sauzède division (the rule is on fluorometer
+    values). Returns the kept rows and the number dropped per dataset."""
+    bad = bad_window_mask(t, max_z)
+    return t[~bad].reset_index(drop=True), t[bad].groupby("dataset_id").size()
+
+
 def combine() -> tuple[pd.DataFrame, dict]:
     """Window files -> the glider table.
 
@@ -449,17 +544,24 @@ def combine() -> tuple[pd.DataFrame, dict]:
     sys.path.insert(0, str(b.REPO / "src"))
     from sauzede_lut import load_lut, chla_scaling_factor
     ids = selection()
-    missing = [d for d in ids if not (WIN_DIR / f"{d}.parquet").exists()]
+    no_data = [d for d in ids if (WIN_DIR / f"{d}.empty").exists()]
+    missing = [d for d in ids if not (WIN_DIR / f"{d}.parquet").exists() and d not in no_data]
     if missing:
         raise RuntimeError(f"window files missing for {missing}; run the glider stage")
+    ids = [d for d in ids if d not in no_data]
     t = pd.concat([pd.read_parquet(WIN_DIR / f"{d}.parquet") for d in ids], ignore_index=True)
     t = t.sort_values("time").reset_index(drop=True)
     if t.profile_id.duplicated().any():
         raise ValueError("duplicated profile_id")
-    c = candidates().set_index("datasetID")
-    t["region"] = t.dataset_id.map(c.region)
+    c = meta()
+    t["region"] = t.dataset_id.map(c.region)  # chla_z_glider_scan.region (finer than region_of)
     t["platform_type"] = t.dataset_id.map(c.platform_type)
     t["institution"] = t.dataset_id.map(c.institution)
+    # Per-deployment scan results, on every row so QC is a one-line filter
+    # (Eli, 2026-11-24, #19).
+    t["deep_offset_flag"] = t.dataset_id.map(c.fail).fillna("").str.contains(DEEP_OFFSET_FAIL, regex=False)
+    t["scan_check"] = t.dataset_id.map(c.check).fillna("")
+    t, bad = drop_bad_windows(t, c.max_z)
     solar = t.time + pd.to_timedelta(t.lon / 15.0, unit="h")
     t["solar_hour"] = (solar - solar.dt.floor("D")).dt.total_seconds() / 3600
     t["shore_km"] = shore_distance_km(t.lat.to_numpy(), t.lon.to_numpy())
@@ -478,12 +580,16 @@ def combine() -> tuple[pd.DataFrame, dict]:
         t[col] = t[col] / apply
     order = (["profile_id", "time", "lat", "lon", "solar_hour", "n_samples", "max_depth"]
              + b.CHLA_COLS + ["chla_ratio"] + fluor_cols + ["dark_offset"]
+             + ["deep_offset_flag", "scan_check"]
              + ["dataset_id", "glider_profile_id", "profiles_in_window", "platform_type",
                 "institution", "region", "shore_km"])
     t = t[order]
     per = t.groupby("dataset_id").agg(rows=("profile_id", "size"),
                                       dark_offset_rows=("dark_offset", "count"),
                                       dark_median=("dark_offset", "median"))
+    per["bad_windows_dropped"] = bad.reindex(per.index).fillna(0).astype(int)
     return t, {"rows": len(t), "datasets": len(ids),
+               "bad_windows_dropped": int(bad.sum()),
+               "datasets_without_qc_passing_data": no_data,
                "datasets_without_lut": sorted(t.loc[np.isnan(ratio), "dataset_id"].unique().tolist()),
                "by_dataset": per.round(3).to_dict(orient="index")}
