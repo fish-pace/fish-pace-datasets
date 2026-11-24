@@ -22,8 +22,9 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 - [notes/chla-z-rebuild-2026-11.md](notes/chla-z-rebuild-2026-11.md): Argo/OOI
   decisions, deliberate oddities, run log, method notebooks 01–05, changes
-  after Eli's review (OOI 3 h solar windows, (A, B] bins, Oct 2026 PACE = NRT,
-  group OOI train/test splits by instrument).
+  after Eli's review (OOI 3 h solar windows, (A, B] bins, Oct 2026 PACE = NRT).
+  Split design / leakage is decided in the hackweek repo
+  (`claude/notes/paper-leakage-and-ooi-sites.md`), not here.
 - [notes/chla-z-glider.md](notes/chla-z-glider.md): glider deployments,
   processing, dark offset, matchup numbers, open questions.
 - [notes/argo-gdac-vs-erddap.md](notes/argo-gdac-vs-erddap.md): why ERDDAP.
