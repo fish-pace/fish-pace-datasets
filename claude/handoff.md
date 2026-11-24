@@ -11,13 +11,9 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - Both 2026 release notes say: no random row split on OOI (temporal
   autocorrelation); use a space-time grouped split (1° × 30 d), pointing to
   2026-go-bgc-hackweek `claude/notes/paper-leakage-and-ooi-sites.md`.
-- **Downstream:** 2026-go-bgc-hackweek still reads `2026_11_23`. Switching
-  poster v2 (branch `poster-v2-glider`, its #22) to `2026_11_24` is for the
-  hackweek session; Eli told it (2026-11-24). Don't edit that repo from here.
-  This session had started the switch there before Eli stopped it (local
-  worktree + branch `release-2026-11-24`, uncommitted, and
-  `~/shared-public/chla-z/bathymetry/water_depth_2026_11_24.parquet`); the
-  hackweek session was told to clean up.
+- **Downstream:** 2026-go-bgc-hackweek poster v2 (branch
+  `poster-v2-glider`, its #22) reads `2026_11_24` (2026-11-24, not yet merged
+  to its `main`); its `main` (poster v1) stays on `2026_11_23`.
 - #10 (PACE/OLCI time rule) closed 2026-11-24: the release keeps the 24 h
   rule for PACE, UTC day for OLCI.
 - Open threads (not tasks): no `LICENSE` or README "Reuse and citation";
