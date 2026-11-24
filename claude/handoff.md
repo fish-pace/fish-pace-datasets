@@ -53,8 +53,9 @@ with a chlorophyll variable (the pilot looked only at `chlorophyll_a`; also
 `chlorophyll`, `fluorescence`, raw Slocum `sci_*`) and checks each whole
 record on sampled days. Result `src/chla_z_glider_candidates.csv`: 296 new
 deployments, 199 `ok`, 45 `check`, 50 `fail`; still none in the Gulf of
-Mexico. Fetching them is the next step (not started: fetch code hard-codes
-`chlorophyll_a`). Details: "Scan of the whole DAC" in
+Mexico. Next (Eli, 2026-11-24): [#19](https://github.com/fish-pace/fish-pace-datasets/issues/19),
+a new release with these deployments, deep-offset ones included but
+flagged per row (fetch code still hard-codes `chlorophyll_a`). Details: "Scan of the whole DAC" in
 [notes/chla-z-glider.md](notes/chla-z-glider.md).
 
 ## How to rebuild

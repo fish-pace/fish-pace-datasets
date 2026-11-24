@@ -220,8 +220,10 @@ California Sprays), negative offset 13, flat 10, no signal 7, surface < deep
 
 - **Deep offset is the release's own trade-off.** Released `sp020-20250122T1433`
   fails it on the whole record (its one-day screen passed); the release keeps
-  `dark_offset` as a column instead of subtracting it. Whether the other 22
-  deep-offset Sprays are usable on the same terms is Eli's call.
+  `dark_offset` as a column instead of subtracting it. **Decided (Eli,
+  2026-11-24): include the deep-offset deployments in the next release,
+  clearly flagged per row** so an analysis can drop them at QC; the deep
+  offset will be dealt with later (#19).
 - Of the 20 in the table: 18 `ok`, sp203-20250813T1745 `check` (jumpy
   surface, looks real), sp020-20250122T1433 `fail` (deep offset, above).
 - The regions here (`chla_z_glider_scan.region`) are finer than the
