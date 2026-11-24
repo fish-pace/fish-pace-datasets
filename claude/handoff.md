@@ -2,7 +2,7 @@
 
 Read this first. Orientation, not a task list: Eli says what to work on.
 
-## Repo state (2026-11-23)
+## Repo state (2026-11-24)
 
 - The CHLA-Z rebuild (#4) is **released**: tag
   [`2026_11_23`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_23)
@@ -17,6 +17,8 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   `DATA_RELEASE = "2026_11_23"`.
 - Open loose ends (not tasks): the repo has no `LICENSE` or README
   "Reuse and citation" section; `argo-fetch` has only been run on 2024-03.
+- **Open: PR #14 (branch `glider-pilot`), the CHLA-Z glider pilot**, waiting
+  for Eli's review (below).
 - My local `2025_11_01` tag is one commit behind GitHub's (GitHub's adds the
   Sauzède LUT); the four tables are identical in both. `git fetch --tags`
   warns about it.
@@ -39,6 +41,22 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - **Where the data lives:** the released tables are plain git files in
   `datasets/chla_z/data/` on GitHub (no LFS), versioned by release tag.
   Intermediates (24 GB) are only on the hub, in `_temp_data` (below).
+
+## Glider pilot (PR #14, open, 2026-11-24)
+
+- A proof of concept for coastal CHLA-Z from IOOS Glider DAC chlorophyll; not
+  a release. 20 deployments in six regions, 8,923 rows (3 h solar windows,
+  one glider profile each). Tables only on the hub, `_temp_data/glider/`.
+- Code `src/chla_z_glider.py` (+ `chla_z_glider_selection.json`), driver
+  `datasets/chla_z/glider_pilot.py`, notebook `06-glider-pilot.ipynb`.
+  Everything else: [notes/glider-pilot.md](notes/glider-pilot.md).
+- **Open decisions for Eli (not tasks):** keep the dark-offset correction?
+  It brings the deep bins to ~0 but doubles night PACE/glider (1.19 → 1.99;
+  Argo ~1.25). Raw values are kept as `CHLA_FLUOR_*`, so either way needs no
+  re-fetch. PACE time rule: both computed; see #10.
+- On #10 (2026-11-24): PACE daily files mostly start just *after* 00 UTC of
+  their own day, so a UTC-day rule must pick the file by name; OOI is not
+  dark-corrected.
 
 ## Changed after review (Eli, 2026-11-23)
 
@@ -69,7 +87,7 @@ fsspec 2026.9).
 - `notebooks/_temp_data` is a symlink into shared-public (git-ignored, 24 GB):
   Argo tiles (`raw/`) and monthly .nc (7.8 GB, ERDDAP snapshot 2026-11-06),
   OOI raw CSVs, PACE per-granule matchups (`matchups_v3_2/`), OLCI
-  (`matchups_olci/`), logs.
+  (`matchups_olci/`), logs, and the glider pilot (`glider/`, ~100 MB).
 - The venv has no `ipykernel`. Notebooks were tested as scripts in the venv
   (jupytext py:percent sources) and executed for stored outputs in the hub
   `python3` kernel.
