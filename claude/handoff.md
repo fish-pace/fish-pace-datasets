@@ -4,15 +4,19 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 ## Repo state (2026-11-24)
 
-- **Released:** CHLA-Z tag
-  [`2026_11_23`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_23)
-  (Argo + OOI, six tables). Old tables at `2025_11_01`. Downstream:
-  fish-pace/2026-go-bgc-hackweek (PR #19) reads `DATA_RELEASE = "2026_11_23"`.
-- **PR #14 (branch `glider-pilot`): glider tables, ready to merge
-  2026-11-24.** Needs a new release tag after merge (Eli cuts it); the
-  hackweek's `DATA_RELEASE` would then need bumping to get the gliders.
-- Open threads (not tasks): #10, the PACE/OLCI time rule (if changed, re-match
-  all three platforms); no `LICENSE` or README "Reuse and citation";
+- **Latest release: [`2026_11_24`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_24)**
+  "Nov 2026 (gliders)": Argo + OOI (identical to `2026_11_23`) plus the
+  three glider tables (PR #14, merged 2026-11-24; branch deleted). Earlier:
+  `2026_11_23` (Argo/OOI rebuild), `2025_11_01`.
+- Both 2026 release notes say: no random row split on OOI (temporal
+  autocorrelation); use a space-time grouped split (1° × 30 d), pointing to
+  2026-go-bgc-hackweek `claude/notes/paper-leakage-and-ooi-sites.md`.
+- **Downstream:** 2026-go-bgc-hackweek poster v2 (branch
+  `poster-v2-glider`, its #22) reads `2026_11_24` (2026-11-24, not yet merged
+  to its `main`); its `main` (poster v1) stays on `2026_11_23`.
+- #10 (PACE/OLCI time rule) closed 2026-11-24: the release keeps the 24 h
+  rule for PACE, UTC day for OLCI.
+- Open threads (not tasks): no `LICENSE` or README "Reuse and citation";
   `argo-fetch` only run on 2024-03; clean up `~/shared-public` after the
   poster work, not before.
 - My local `2025_11_01` tag is one commit behind GitHub's (adds the Sauzède
@@ -29,7 +33,7 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   processing, dark offset, matchup numbers, open questions.
 - [notes/argo-gdac-vs-erddap.md](notes/argo-gdac-vs-erddap.md): why ERDDAP.
 
-## Glider tables (PR #14)
+## Glider tables (released 2026_11_24)
 
 - IOOS Glider DAC chlorophyll, third CHLA-Z platform, released like Argo/OOI
   (Eli: "pilot" only because it is small). 20 deployments, six regions, 8,923
