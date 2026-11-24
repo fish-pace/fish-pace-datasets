@@ -44,7 +44,10 @@ WIN_DIR = GLIDER_DIR / "windows"
 SELECTION_PATH = Path(__file__).resolve().parent / "chla_z_glider_selection.json"
 
 WINDOW_H = b.OOI_WINDOW_H  # 3 h, the same as OOI
-QC_KEEP = (1, 2)  # both flag schemes: 1 good, 2 not evaluated / probably good
+# Flag schemes: 1 good, 2 not evaluated / probably good. 0 is "no QC performed"
+# in the 0-9 scheme: kept like datasets with no flag at all. Only the Oregon
+# State Seagliders (fluorescence_qc) use it, on every value (2026-11-24, #19).
+QC_KEEP = (0, 1, 2)
 QC_VARS = ("chlorophyll_a_qc", "chlorophyll_a_qartod_summary_flag")
 
 
@@ -343,6 +346,11 @@ def window_profiles(good: pd.DataFrame, dataset_id: str) -> pd.DataFrame:
     p = g.groupby("profile_id").agg(time=("t", "mean"), lat=("plat", "mean"), lon=("plon", "mean"),
                                     n_samples=("chlorophyll_a", "size"),
                                     n_bins=("bin", "nunique"), max_depth=("depth", "max"))
+    # A profile with no position at all cannot be placed (dfo-rosie713 profile 1:
+    # latitude and precise_lat both NaN). Profile-level, so no other row changes.
+    p = p[p.lat.notna() & p.lon.notna()]
+    if p.empty:
+        return pd.DataFrame()
     solar = p.time + pd.to_timedelta(p.lon / 15.0, unit="h")
     win = (solar.dt.hour // WINDOW_H) * WINDOW_H
     p["key"] = solar.dt.floor("D").dt.strftime("%Y%m%d") + "T" + win.map("{:02d}".format)
@@ -551,6 +559,10 @@ def combine() -> tuple[pd.DataFrame, dict]:
     ids = [d for d in ids if d not in no_data]
     t = pd.concat([pd.read_parquet(WIN_DIR / f"{d}.parquet") for d in ids], ignore_index=True)
     t = t.sort_values("time").reset_index(drop=True)
+    # The fetch selects by profile `time`; rows use the samples' precise_time,
+    # which can fall minutes outside the release period (12 rows, 2026-11-24).
+    t = t[(t.time >= pd.Timestamp(b.START, tz="UTC"))
+          & (t.time < pd.Timestamp(b.END_EXCLUSIVE, tz="UTC"))].reset_index(drop=True)
     if t.profile_id.duplicated().any():
         raise ValueError("duplicated profile_id")
     c = meta()
