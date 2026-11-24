@@ -230,7 +230,8 @@ have PACE chlor_a > 8 (3–43 km from shore, median 12 km).
 
 ## Not done / open
 
-- Matchup rule (#10): when decided, re-match all three platforms.
+- Matchup rule: #10 closed by Eli 2026-11-24, keeping the release rules
+  (PACE 24 h, OLCI UTC day); nothing to re-match.
 - The dark offset (above): kept as a column; revisit if the cause is found.
 - OOI is not dark-corrected either (noted on #10, 2026-11-24).
 - No NPQ correction (as OOI); `solar_hour` is there to model it.
