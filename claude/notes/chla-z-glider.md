@@ -1,27 +1,34 @@
-# CHLA-Z glider pilot (2026-11-23)
+# CHLA-Z glider tables (2026-11-23/24)
 
-A proof of concept: can IOOS Glider DAC chlorophyll profiles add coastal
-regions to CHLA-Z, where OOI has only a few sites? Eli asked for about 20 good
-deployments across six regions, processed like OOI, not every profile. Not a
-release: the tables are only on the hub in `notebooks/_temp_data/glider/`.
+IOOS Glider DAC chlorophyll profiles as a third CHLA-Z platform, to add coastal
+regions where OOI has only a few sites. Started as a pilot; Eli then said it
+is a **data release like Argo and OOI** ("only pilot because it was small, not
+all glider data"): `CHLA_glider_profiles.parquet`, `_plus_PACE`, `_plus_OLCI`
+in `datasets/chla_z/data/`, with STAC items and README sections. 20
+deployments across six regions; the selection can grow.
 
-- Code: `src/chla_z_glider.py` (imports `chla_z_build` for the shared pieces);
-  driver `datasets/chla_z/glider_pilot.py`; the chosen deployments are in
-  `src/chla_z_glider_selection.json`.
-- Methods notebook: `datasets/chla_z/notebooks/06-glider-pilot.ipynb`.
-- Source: https://gliders.ioos.us/erddap (tabledap), fetched 2026-11-23.
+- Code: `src/chla_z_glider.py` (selection, fetch, windows, dark offset,
+  combine), `src/chla_z_glider_selection.json` (the deployments). The table
+  is written by `chla_z_tables.write_glider_profiles`; matchups are the
+  release code with platform "glider" (`chla_z_build.PLATFORMS`).
+- Build: `build.py glider-select` (only to choose deployments), `glider-fetch`,
+  `glider`, then `pace --product P --platform glider`, `olci --platform glider`,
+  `pace-merge --platform glider`, `olci-merge --platform glider` (the merges
+  with `--platform` rewrite only that platform's table).
+- Methods notebook: `datasets/chla_z/notebooks/06-glider-retrieval-qc.ipynb`.
+- Source: https://gliders.ioos.us/erddap (tabledap), fetched 2026-11-23/24.
 
 ## Decisions (Eli Holmes, 2026-11-23)
 
 | Question | Decision |
 |---|---|
-| Scope | ~20 deployments across six regions; a proof of concept, not all profiles |
+| Scope | ~20 deployments across six regions, not all glider data; released like Argo and OOI (2026-11-24) |
 | Rows | Like OOI: 3 h windows of local mean solar time |
-| Code location | Branch `glider-pilot`; a glider module in `src/`, a pilot notebook, outputs in `_temp_data/glider/`; `build.py` release stages untouched |
+| Code location | Glider stages in `build.py`; a glider module in `src/`; intermediates in `_temp_data/glider/` |
 | Datasets without chlorophyll units | Ignore |
 | Wonky chlorophyll | Pick another deployment |
-| PACE time rule | **Undecided** (#10); the pilot computes both, see below |
-| Dark offset (2026-11-24) | Correct gliders that reach 300 m; leave the rest uncorrected and flagged; **keep raw and corrected columns in the table** |
+| PACE time rule (2026-11-24) | **Same as the release** (24 h after `time_coverage_start`), so all three platforms change together when #10 is decided |
+| Main `CHLA_A_B` (2026-11-24) | **Sauzède only**, as OOI; raw `CHLA_FLUOR_A_B` and `dark_offset` kept as columns, the offset **not** subtracted |
 
 ## Processing, and where it differs from OOI
 
@@ -90,9 +97,8 @@ and "Gulf of Maine / New England" was ru34 on the southern New England shelf
 
 ## Things that look odd but are deliberate
 
-- **Deep offset: corrected where possible, and the raw values kept** (see
-  "Dark offset" below). Shelf Slocums and capex690 never reach 300 m and stay
-  uncorrected, flagged `dark_corrected = False` (Eli, 2026-11-24).
+- **The deep (dark) offset is a column, not subtracted** (see "Dark offset").
+  It is NaN for shelf Slocums and capex690, which never reach 300 m.
 - **Sauzède ratio is large in the Antarctic (~2.9)** and 1.2–1.7 elsewhere;
   it is applied as for OOI.
 - **Shelf profiles fill few bins** (ru34: ~35 m deep, bins below 40 m NaN).
@@ -116,20 +122,18 @@ East Coast Sprays still have a little real CHLA at 150–200 m (0.04–0.09 vs
   per-profile medians: real-time Slocum sets have ~2 deep CHLA samples per
   profile (ru26d-20250107 went from 3% to 99% corrected with this change).
 - A window uses its own profile's value, else the nearest within 1.5 days.
-- Subtracted **before** the Sauzède division (Argo's order; the ratio is
-  defined on dark-corrected CHLA).
+- Published as `dark_offset`. If subtracted, it goes **before** the Sauzède
+  division (Argo's order): `(CHLA_FLUOR_A_B - dark_offset) / chla_ratio`.
 
 **Raw values kept** (Eli asked): `CHLA_FLUOR_A_B` = published fluorometer bin
-means after QC; `CHLA_A_B = (CHLA_FLUOR_A_B - dark_offset) / chla_ratio`, with
-`dark_offset` = 0 where `dark_corrected` is False. Round trip is exact (4e-15).
-The raw ERDDAP samples also stay on the hub (`raw/`, `raw_deep/`).
+means after QC; `CHLA_A_B = CHLA_FLUOR_A_B / chla_ratio`. The raw ERDDAP
+samples also stay on the hub (`raw/`, `raw_deep/`).
 
-**Result.** 6,867 of 8,923 rows corrected (every deep-diving deployment
-92–100%); the 190–200 m bin is within ±0.01 of 0 after correction. About half
-the deepest bins are slightly negative (noise around 0, residual SD ~0.04);
-kept, as Argo keeps small negative `CHLA_ADJUSTED`.
-
-**But the correction moves the gliders away from PACE and from Argo.** Night
+**What subtracting it did (tested, then not adopted).** 6,867 of 8,923 rows
+have a value (every deep-diving deployment 92–100%); subtracted, the 190–200
+m bin was within ±0.01 of 0, about half the deepest bins slightly negative
+(noise around 0, residual SD ~0.04). **But it moved the gliders away from
+PACE and from Argo**, so Eli chose Sauzède only (2026-11-24). Night
 (solar hour outside 6–18) median PACE chlor_a / in situ 0–10 m:
 
 | | n | night ratio |
@@ -145,12 +149,17 @@ reasons, none tested: the deep reading is not the dark value at the surface
 (ECO dark counts depend on temperature, and 300–500 m water is much colder);
 the published glider CHLA already has a dark/blank removed and the deep signal
 is something else; or Sauzède and a dark correction together over-correct for
-these sensors. **Open decision for Eli**; the raw columns mean any choice can
-be made later without re-fetching.
+these sensors. The raw columns mean it can be revisited without re-fetching.
 
-## Matchups and the time rule (#10)
+## Matchups
 
-PACE units keep every profile inside a granule's whole `time_coverage_start`–
+**Released tables:** the release code and rules (24 h after
+`time_coverage_start` for PACE, UTC-day file for OLCI), platform "glider".
+
+### Time-rule comparison on the glider profiles (#10, superseded code)
+
+Before the release decision, a separate matcher (commit d4cf74f, removed
+since) compared both rules on the same profiles. PACE units kept every profile inside a granule's whole `time_coverage_start`–
 `time_coverage_end` (~26 h); granules whose nominal day is a glider UTC day
 ±1 were sampled (758 per product, standard + NRT). `merge()` then applies
 either rule: `window24` (the release: within 24 h after `time_coverage_start`,
@@ -159,7 +168,7 @@ profile's UTC day, standard before NRT). OLCI uses the release's UTC-day rule.
 Lookup is per cell (`isel`), not dask `vindex`: ~10 s per Rrs granule for
 ~20 points.
 
-### Results (2026-11-24)
+### Results of the rule comparison (2026-11-24, superseded code)
 
 The first PACE run selected profiles by "inside the granule's coverage" only.
 That lost ~300 profiles under `utc_day`: a file often starts a few minutes
@@ -194,9 +203,35 @@ Valid matchups (PACE: any Rrs band; OLCI: Rrs_443; "OLCI+PACE" uses utc_day):
   ≈ 0 or negative, median 12 km from shore (3–43 km), California Current
   Sprays. A coastal training set needs a near-shore or Rrs-quality filter.
 
+### Released tables (build.py, 2026-11-24)
+
+Matched with the release code and rules (`build.py pace --platform glider`,
+three products, then `olci`, `pace-merge`, `olci-merge`; 4 workers, ~4.5 h,
+no failed units). PACE uses the 24 h rule, so the numbers are close to the
+`window24` column above (2,289 vs 2,295: the release matcher picks the nearest
+granule slightly differently). "OLCI+PACE" here uses the release's
+`pace_Rrs_valid`.
+
+| Region | profiles | in a PACE granule | PACE valid Rrs | OLCI | OLCI+PACE |
+|---|---:|---:|---:|---:|---:|
+| Antarctic Peninsula | 955 | 914 | 88 | 72 | 28 |
+| California Current | 3,688 | 3,546 | 1,176 | 1,197 | 757 |
+| Mid-Atlantic Bight and slope | 1,486 | 1,334 | 402 | 461 | 274 |
+| Off Cape Hatteras / South Atlantic Bight | 1,817 | 1,643 | 279 | 546 | 187 |
+| Southern New England shelf | 844 | 820 | 339 | 362 | 265 |
+| Tropical Atlantic | 133 | 133 | 5 | 42 | 0 |
+| **Total** | **8,923** | **8,390** | **2,289** | **2,680** | **1,511** |
+
+`_plus_PACE` has 8,390 rows (profiles in a granule, 2024-03-05 to
+2026-08-29); `_plus_OLCI` keeps all 8,923. PACE/glider CHLA_0_10 by solar hour
+in the released table: 1.39, 1.65, 2.21, 1.60, 1.35 (n 577, 295, 587, 271,
+553); night 1.19 (n = 819), 1.99 with `dark_offset` subtracted. 29 matchups
+have PACE chlor_a > 8 (3–43 km from shore, median 12 km).
+
 ## Not done / open
 
-- Matchup rule (#10); whether to keep the dark correction (above); whether to add gliders to a release.
+- Matchup rule (#10): when decided, re-match all three platforms.
+- The dark offset (above): kept as a column; revisit if the cause is found.
 - OOI is not dark-corrected either (noted on #10, 2026-11-24).
 - No NPQ correction (as OOI); `solar_hour` is there to model it.
 - No check of fluorometer calibration across deployments beyond the screen.

@@ -1,20 +1,21 @@
-"""CHLA-Z glider pilot: IOOS Glider DAC chlorophyll profiles + PACE/OLCI matchups.
+"""CHLA-Z glider table: IOOS Glider DAC chlorophyll profiles.
 
-A proof of concept for coastal CHLA-Z (Eli Holmes, 2026-11-23): about 20
-glider deployments spread over six regions, processed like OOI (3 h windows
-of local mean solar time, 10 m bins (A, B] in 0-200 m, Sauzède correction).
-Not part of a data release. Design note: `claude/notes/glider-pilot.md`.
+Coastal CHLA-Z (Eli Holmes, 2026-11-23/24): 20 glider deployments spread over
+six regions (not every glider deployment; the list can grow), processed like
+OOI (3 h windows of local mean solar time, 10 m bins (A, B] in 0-200 m,
+Sauzède correction). Released like Argo and OOI: `datasets/chla_z/build.py`
+stages `glider-select`, `glider-fetch`, `glider`, then the PACE and OLCI
+stages with `--platform glider`. Design note: `claude/notes/chla-z-glider.md`.
 
-Stages, each resumable like `chla_z_build` (one file per unit, atomic write,
-skipped if present):
+Units are resumable like `chla_z_build` (one file per unit, atomic write,
+skipped if present); intermediates go to `_temp_data/glider/`:
 
-    candidates()            ERDDAP search + per-dataset metadata  -> glider/candidates.parquet
-    screen_unit(id)         one mid-deployment day, sensor checks -> glider/screen/<id>.json
-    fetch_unit(id, month)   CHLA samples 0-200 m                  -> glider/raw/<id>/<YYYY-MM>.csv.gz
-    window_unit(id)         one profile per 3 h solar window      -> glider/windows/<id>.parquet
-    combine()               + Sauzède ratio, region, shore dist.  -> glider/CHLA_glider_profiles.parquet
-    pace_unit(product, sn, granule) / olci_unit(ymd)              -> glider/matchups_*/...
-    merge(rule)             profiles + matchups                   -> glider/CHLA_glider_profiles_plus_*.parquet
+    candidates()               ERDDAP search + per-dataset metadata -> candidates.parquet
+    screen_unit(id)            one mid-deployment day, sensor checks -> screen/<id>.json
+    fetch_unit(id, month)      CHLA samples 0-200 m                  -> raw/<id>/<YYYY-MM>.csv.gz
+    fetch_deep_unit(id, month) CHLA samples below 300 m (dark value) -> raw_deep/<id>/<YYYY-MM>.csv.gz
+    window_unit(id)            one profile per 3 h solar window      -> windows/<id>.parquet
+    combine()                  + Sauzède, dark_offset, region, ...   -> the table (chla_z_tables writes it)
 """
 
 from __future__ import annotations
@@ -37,7 +38,6 @@ CAND_PATH = GLIDER_DIR / "candidates.parquet"
 SCREEN_DIR = GLIDER_DIR / "screen"
 RAW_DIR = GLIDER_DIR / "raw"
 WIN_DIR = GLIDER_DIR / "windows"
-PROFILES_PATH = GLIDER_DIR / "CHLA_glider_profiles.parquet"
 SELECTION_PATH = Path(__file__).resolve().parent / "chla_z_glider_selection.json"
 
 WINDOW_H = b.OOI_WINDOW_H  # 3 h, the same as OOI
@@ -197,7 +197,7 @@ def screen_table() -> pd.DataFrame:
 
 
 def selection() -> list[str]:
-    """The pilot's deployments, chosen once and committed (see design note)."""
+    """The deployments in the table, chosen once and committed (see design note)."""
     return json.loads(SELECTION_PATH.read_text())["datasets"]
 
 
@@ -346,15 +346,15 @@ def shore_distance_km(lat: np.ndarray, lon: np.ndarray) -> np.ndarray:
 # Dark (deep) offset, Eli 2026-11-24
 # --------------------------------------------------------------------------
 # Below 300 m the fluorometer should read ~0. On 2026-11-24 the California
-# Current Sprays read 0.09-0.28 there, flat from 150 to 500 m and drifting
+# Current Sprays read 0.09-0.34 there, flat from 150 to 500 m and drifting
 # within a deployment (sp020 0.28 -> 0.17 -> 0.20); East Coast Sprays and
-# ru26d 0.03-0.10. So the offset is estimated per glider profile and smoothed
-# in time, like Argo's dark correction, and subtracted BEFORE the Sauzède
-# division (the Sauzède ratio is defined on dark-corrected Argo CHLA).
+# ru26d 0.03-0.10. The offset is estimated per glider profile and smoothed in
+# time, like Argo's dark correction, and published as `dark_offset`, but NOT
+# subtracted (Eli, 2026-11-24): subtracting it doubled night PACE/glider
+# (1.19 -> 1.99; Argo ~1.25), and it keeps CHLA on the same basis as OOI.
 # 300 m, not 150 m: East Coast Sprays still have real CHLA at 150-200 m.
-# Gliders that never reach 300 m (shelf Slocums, capex690) are left
-# uncorrected and flagged (dark_corrected = False): their deepest water can
-# hold real chlorophyll, so it is not a dark reference.
+# Gliders that never reach 300 m (shelf Slocums, capex690) get NaN: their
+# deepest water can hold real chlorophyll, so it is not a dark reference.
 
 DEEP_DIR = GLIDER_DIR / "raw_deep"
 DARK_MIN_DEPTH = 300.0
@@ -437,18 +437,22 @@ def assign_dark(win: pd.DataFrame, ds: pd.DataFrame) -> pd.Series:
 
 
 def combine() -> tuple[pd.DataFrame, dict]:
-    """Window files -> one table: dark offset subtracted where the glider
-    reaches 300 m, then Sauzède-corrected like OOI, plus the metadata columns
-    the pilot needs. Eli (2026-11-24) wants the raw values kept in the
-    table: CHLA_FLUOR_A_B are the fluorometer bin means as published (QC,
-    nothing subtracted or divided); CHLA_A_B = (CHLA_FLUOR_A_B - dark_offset)
-    / chla_ratio, with dark_offset treated as 0 where dark_corrected is False."""
+    """Window files -> the glider table.
+
+    CHLA_A_B = CHLA_FLUOR_A_B / chla_ratio (Sauzède, as OOI). CHLA_FLUOR_A_B
+    are the fluorometer bin means as published after QC (Eli asked for the
+    raw values in the table). dark_offset is the fluorometer value below
+    300 m (NaN where the glider does not reach 300 m); it is not subtracted,
+    so a user who wants it removed computes
+    (CHLA_FLUOR_A_B - dark_offset) / chla_ratio."""
     import sys
     sys.path.insert(0, str(b.REPO / "src"))
     from sauzede_lut import load_lut, chla_scaling_factor
     ids = selection()
-    files = [WIN_DIR / f"{d}.parquet" for d in ids if (WIN_DIR / f"{d}.parquet").exists()]
-    t = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    missing = [d for d in ids if not (WIN_DIR / f"{d}.parquet").exists()]
+    if missing:
+        raise RuntimeError(f"window files missing for {missing}; run the glider stage")
+    t = pd.concat([pd.read_parquet(WIN_DIR / f"{d}.parquet") for d in ids], ignore_index=True)
     t = t.sort_values("time").reset_index(drop=True)
     if t.profile_id.duplicated().any():
         raise ValueError("duplicated profile_id")
@@ -456,252 +460,30 @@ def combine() -> tuple[pd.DataFrame, dict]:
     t["region"] = t.dataset_id.map(c.region)
     t["platform_type"] = t.dataset_id.map(c.platform_type)
     t["institution"] = t.dataset_id.map(c.institution)
-    t["solar_hour"] = ((t.time + pd.to_timedelta(t.lon / 15.0, unit="h")) - (
-        t.time + pd.to_timedelta(t.lon / 15.0, unit="h")).dt.floor("D")).dt.total_seconds() / 3600
+    solar = t.time + pd.to_timedelta(t.lon / 15.0, unit="h")
+    t["solar_hour"] = (solar - solar.dt.floor("D")).dt.total_seconds() / 3600
     t["shore_km"] = shore_distance_km(t.lat.to_numpy(), t.lon.to_numpy())
     fluor_cols = [c_.replace("CHLA_", "CHLA_FLUOR_") for c_ in b.CHLA_COLS]
     for raw_col, col in zip(fluor_cols, b.CHLA_COLS):
         t[raw_col] = t[col]
     dark = pd.Series(np.nan, index=t.index)
-    for d in t.dataset_id.unique():
+    for d in ids:
         m = t.dataset_id == d
         dark[m] = assign_dark(t[m], dark_series(d)).to_numpy()
     t["dark_offset"] = dark
-    t["dark_corrected"] = dark.notna()
-    for col in b.CHLA_COLS:
-        t[col] = t[col] - dark.fillna(0.0)
     ratio = chla_scaling_factor(t.lat.values, t.lon.values, lut=load_lut())
     t["chla_ratio"] = ratio
     apply = np.where(np.isnan(ratio), 1.0, ratio)
     for col in b.CHLA_COLS:
         t[col] = t[col] / apply
-    no_lut = sorted(t.loc[np.isnan(ratio), "dataset_id"].unique().tolist())
-    b.atomic_write_parquet(t, PROFILES_PATH)
-    per = t.groupby("dataset_id").agg(corrected=("dark_corrected", "mean"),
-                                      dark_median=("dark_offset", "median"),
-                                      dark_min=("dark_offset", "min"), dark_max=("dark_offset", "max"))
-    return t, {"rows": len(t), "datasets": len(files), "datasets_without_lut": no_lut,
-               "dark_corrected_rows": int(t.dark_corrected.sum()),
-               "dark_by_dataset": per.round(3).to_dict(orient="index")}
-
-
-# --------------------------------------------------------------------------
-# Matchups: PACE (Rrs, chlor_a, Kd_490) and OLCI, same products as the release
-# --------------------------------------------------------------------------
-# The time rule is undecided (fish-pace/fish-pace-datasets#10): the release
-# matches PACE by "profile within 24 h after the granule's time_coverage_start"
-# and OLCI by "file named for the profile's UTC day". So the PACE units here
-# keep every profile inside a granule's whole time coverage (start to end,
-# ~26 h), which contains both candidates, and merge() applies either rule.
-
-PACE_DIR = GLIDER_DIR / "matchups_pace"
-OLCI_GDIR = GLIDER_DIR / "matchups_olci"
-PACE_RULES = ("window24", "utc_day")
-
-
-def points() -> pd.DataFrame:
-    p = pd.read_parquet(PROFILES_PATH, columns=["profile_id", "time", "lat", "lon"])
-    p["time"] = pd.to_datetime(p["time"], utc=True)
-    p["ymd"] = p["time"].dt.strftime("%Y%m%d")
-    return p
-
-
-def pace_granules(product: str) -> list[tuple[str, str]]:
-    """Granules (standard and NRT) whose nominal day is a glider UTC day or
-    one either side: a ~26 h file starting ~23 UTC the day before can hold a
-    profile from the neighbouring day."""
-    days = pd.to_datetime(points()["ymd"].unique(), format="%Y%m%d")
-    want = set()
-    for k in (-1, 0, 1):
-        want |= set((days + pd.Timedelta(days=k)).strftime("%Y%m%d"))
-    gl = b.pace_granule_list(product)  # the release's cached CMR list
-    out = [(g_["short_name"], g_["granule"]) for g_ in gl
-           if (m := pd.Series([g_["granule"]]).str.extract(r"PACE_OCI\.(\d{8})\.")[0][0]) in want]
-    return sorted(out)
-
-
-def pace_unit(product: str, short_name: str, granule: str, attempts: int = 5) -> str:
-    out = PACE_DIR / product / granule.replace(".nc", ".parquet")
-    empty = out.with_suffix(".empty")
-    if out.exists() or empty.exists():
-        return f"skip {granule}"
-    pts = points()
-    last = None
-    for a in range(attempts):
-        try:
-            res = _pace_sample(product, short_name, granule, pts)
-            break
-        except ValueError:
-            raise
-        except Exception as e:
-            last = e
-            b.log(f"  {granule} retry {a + 1}/{attempts} after {type(e).__name__}: {str(e)[:200]}")
-            if a < attempts - 1:
-                b.backoff_sleep(a, base=20)
-    else:
-        raise RuntimeError(f"giving up on {granule}: {last}")
-    if res is None:
-        b.write_marker(empty, {"granule": granule, "reason": "no profiles in time coverage"})
-        return f"empty {granule}"
-    b.atomic_write_parquet(res, out)
-    return f"done {granule}: {len(res)} points"
-
-
-def _pace_sample(product, short_name, granule, pts):
-    """Like chla_z_build._match_one_granule (same grid lookup and bands), but
-    selecting on the granule's whole coverage, so either time rule can be
-    applied later. Kept separate so the released code path is untouched."""
-    import xarray as xr
-    ea = b._earthaccess_login()
-    found = ea.search_data(short_name=short_name, granule_name=granule)
-    if len(found) != 1:
-        raise RuntimeError(f"CMR returned {len(found)} results for {granule}")
-    cfg = b.PACE_PRODUCTS[product]
-    f = ea.open(found, pqdm_kwargs={"disable": True})[0]
-    with xr.open_dataset(f, chunks={}, cache=False) as ds:
-        t0 = pd.to_datetime(ds.attrs["time_coverage_start"], utc=True)
-        t1 = pd.to_datetime(ds.attrs["time_coverage_end"], utc=True)
-        # Coverage for window24, OR the file's nominal day for utc_day: a
-        # file does not always cover the first minutes of its own UTC day
-        # (PACE_OCI.20240420 starts 00:13), and utc_day must still use it.
-        day = granule.split(".")[1]
-        rec = pts[((pts.time >= t0) & (pts.time <= t1)) | (pts.ymd == day)].reset_index(drop=True)
-        if rec.empty:
-            return None
-        lat, lon = ds["lat"].values, ds["lon"].values
-        li = b._nearest_index(lat, rec.lat.to_numpy(float))
-        lo = b._nearest_index(lon, rec.lon.to_numpy(float))
-        da = ds[cfg["var"]]
-        if product == "Kd":
-            wl = ds["wavelength"].values
-            k = int(np.argmin(np.abs(wl - cfg["wavelength"])))
-            if abs(wl[k] - cfg["wavelength"]) > 3:
-                raise ValueError(f"no Kd band near 490 nm in {granule}")
-            da = da.isel(wavelength=k)
-        # Few points, so load only the cells needed (one small read each)
-        # instead of whole chunks via dask vindex.
-        vals = np.stack([np.asarray(da.isel(lat=int(i), lon=int(j)).values, float)
-                         for i, j in zip(li, lo)])
-        cols = {"profile_id": rec.profile_id.to_numpy(), "file": granule,
-                "t_start": t0, "t_end": t1,
-                "pace_lat": lat[li].astype(float), "pace_lon": lon[lo].astype(float)}
-        if product == "Rrs":
-            for j, lab in enumerate(b._rrs_labels(ds["wavelength"].values)):
-                cols[f"pace_Rrs_{lab}"] = vals[:, j]
-        elif product == "Kd":
-            cols["pace_Kd_490"] = vals
-        else:
-            cols["pace_chlor_a"] = vals
-        return pd.DataFrame(cols)
-
-
-def _pace_pick(product: str, rule: str, pts: pd.DataFrame) -> pd.DataFrame:
-    """All granule rows for a product -> one row per profile under `rule`.
-    Both rules: standard before NRT. window24 then follows the release
-    (closest window centre, then file name)."""
-    files = sorted((PACE_DIR / product).glob("*.parquet"))
-    df = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
-    df = df.merge(pts[["profile_id", "time", "ymd"]], on="profile_id")
-    df["_day"] = df["file"].str.extract(r"PACE_OCI\.(\d{8})\.")[0]
-    df["_nrt"] = df["file"].str.contains("NRT")
-    if rule == "window24":
-        df = df[(df.time >= df.t_start) & (df.time < df.t_start + pd.Timedelta(hours=24))]
-    elif rule == "utc_day":
-        df = df[df._day == df.ymd]
-    else:
-        raise ValueError(rule)
-    df["_dt"] = (df.time - (df.t_start + (df.t_end - df.t_start) / 2)).abs()
-    df = df.sort_values(["profile_id", "_nrt", "_dt", "file"]).drop_duplicates("profile_id")
-    return df.drop(columns=["time", "ymd", "_dt"])
-
-
-def pace_merge(rule: str) -> tuple[pd.DataFrame, dict]:
-    """Rrs is the base; chlor_a and Kd_490 attach only from the same day and
-    stream as the Rrs granule (as in the release)."""
-    pts = points()
-    rrs = _pace_pick("Rrs", rule, pts)
-    rrs_cols = [f"pace_Rrs_{x}" for x in b.RRS_LABELS]
-    base = rrs.rename(columns={"file": "pace_Rrs_file", "t_start": "pace_Rrs_t_start",
-                               "t_end": "pace_Rrs_t_end", "pace_lat": "pace_Rrs_lat",
-                               "pace_lon": "pace_Rrs_lon"})
-    for prod, col in (("chlor_a", "pace_chlor_a"), ("Kd", "pace_Kd_490")):
-        x = _pace_pick(prod, rule, pts)[["profile_id", "_day", "_nrt", col]]
-        base = base.merge(x, on=["profile_id", "_day", "_nrt"], how="left")
-    base["pace_nrt"] = base.pop("_nrt")
-    base["pace_day"] = base.pop("_day")
-    prof = pd.read_parquet(PROFILES_PATH)
-    out = prof.merge(base, on="profile_id", how="inner").sort_values("time").reset_index(drop=True)
-    if out.profile_id.duplicated().any():
-        raise ValueError("duplicate profile_id after PACE merge")
-    valid = out[rrs_cols].notna().any(axis=1)
-    return out, {"rule": rule, "rows": len(out), "rrs_valid": int(valid.sum()),
-                 "nrt_rows": int(out.pace_nrt.sum())}
-
-
-def olci_days() -> list[str]:
-    return sorted(points()["ymd"].unique())
-
-
-def olci_unit(ymd: str, attempts: int = 5) -> str:
-    """One UTC day, the release's OLCI rule (S3A, S3B where S3A has no 443)."""
-    out = OLCI_GDIR / f"{ymd}.parquet"
-    empty = out.with_suffix(".empty")
-    if out.exists() or empty.exists():
-        return f"skip {ymd}"
-    index = b.olci_granule_index()
-    a_urls, b_urls = index["S3A"].get(ymd, {}), index["S3B"].get(ymd, {})
-    sub = points()
-    sub = sub[sub.ymd == ymd].reset_index(drop=True)
-    if sub.empty or not (a_urls or b_urls):
-        b.write_marker(empty, {"day": ymd, "reason": "no profiles" if sub.empty else "no OLCI granule"})
-        return f"empty {ymd}"
-    lats, lons = sub.lat.to_numpy(), sub.lon.to_numpy()
-    last = None
-    for a in range(attempts):
-        try:
-            s3a = b._olci_sample(a_urls, lats, lons)
-            need_b = ~np.isfinite(s3a[443])
-            s3b = {nm: np.full(len(sub), np.nan) for nm in b.OLCI_BANDS}
-            if need_b.any() and b_urls:
-                s3b = b._olci_sample(b_urls, lats, lons)
-            break
-        except Exception as e:
-            last = e
-            b.log(f"  OLCI {ymd} retry {a + 1}/{attempts} after {type(e).__name__}: {str(e)[:200]}")
-            if a < attempts - 1:
-                b.backoff_sleep(a, base=20)
-    else:
-        raise RuntimeError(f"giving up on OLCI {ymd}: {last}")
-    res = sub[["profile_id"]].copy()
-    sat = np.full(len(sub), None, dtype=object)
-    sat[np.isfinite(s3a[443])] = "S3A"
-    sat[need_b & np.isfinite(s3b[443])] = "S3B"
-    res["olci_sat"], res["olci_day"] = sat, ymd
-    for nm in b.OLCI_BANDS:
-        res[f"olci_Rrs_{nm}"] = np.where(np.isfinite(s3a[nm]), s3a[nm], s3b[nm])
-    b.atomic_write_parquet(res, out)
-    return f"done {ymd}: {len(res)} points, {int(np.isfinite(res['olci_Rrs_443']).sum())} with Rrs_443"
-
-
-def merge() -> dict:
-    """Write _plus_PACE for both time rules and _plus_OLCI (with a PACE-valid
-    flag per rule), and return counts for the design note."""
-    rrs_cols = [f"pace_Rrs_{x}" for x in b.RRS_LABELS]
-    info, valid_ids = {}, {}
-    for rule in PACE_RULES:
-        t, s = pace_merge(rule)
-        b.atomic_write_parquet(t, GLIDER_DIR / f"CHLA_glider_profiles_plus_PACE_{rule}.parquet")
-        info[f"pace_{rule}"] = s
-        valid_ids[rule] = set(t.loc[t[rrs_cols].notna().any(axis=1), "profile_id"])
-    w, u = valid_ids["window24"], valid_ids["utc_day"]
-    info["pace_rule_overlap"] = {"both": len(w & u), "window24_only": len(w - u), "utc_day_only": len(u - w)}
-    files = sorted(OLCI_GDIR.glob("*.parquet"))
-    olci = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
-    prof = pd.read_parquet(PROFILES_PATH)
-    o = prof.merge(olci, on="profile_id", how="inner").sort_values("time").reset_index(drop=True)
-    for rule in PACE_RULES:
-        o[f"pace_Rrs_valid_{rule}"] = o.profile_id.isin(valid_ids[rule])
-    b.atomic_write_parquet(o, GLIDER_DIR / "CHLA_glider_profiles_plus_OLCI.parquet")
-    info["olci"] = {"rows": len(o), "rrs443_valid": int(np.isfinite(o.olci_Rrs_443).sum()),
-                    "both_olci_and_pace_utc_day": int((np.isfinite(o.olci_Rrs_443) & o.pace_Rrs_valid_utc_day).sum())}
-    return info
+    order = (["profile_id", "time", "lat", "lon", "solar_hour", "n_samples", "max_depth"]
+             + b.CHLA_COLS + ["chla_ratio"] + fluor_cols + ["dark_offset"]
+             + ["dataset_id", "glider_profile_id", "profiles_in_window", "platform_type",
+                "institution", "region", "shore_km"])
+    t = t[order]
+    per = t.groupby("dataset_id").agg(rows=("profile_id", "size"),
+                                      dark_offset_rows=("dark_offset", "count"),
+                                      dark_median=("dark_offset", "median"))
+    return t, {"rows": len(t), "datasets": len(ids),
+               "datasets_without_lut": sorted(t.loc[np.isnan(ratio), "dataset_id"].unique().tolist()),
+               "by_dataset": per.round(3).to_dict(orient="index")}

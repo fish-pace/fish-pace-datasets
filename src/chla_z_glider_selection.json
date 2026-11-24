@@ -1,5 +1,5 @@
 {
- "chosen": "2026-11-23, by an agent from the screening table, for Eli Holmes's glider pilot (20 deployments across six regions). Criteria: passed the one-day sensor screen, >= 14 days in 2024-03..2026-10, delayed mode where it exists, a QC flag preferred, seasons spread within a region. See claude/notes/glider-pilot.md.",
+ "chosen": "2026-11-23, by an agent from the screening table, for the CHLA-Z glider table (20 deployments across six regions; the list can grow). Criteria: passed the one-day sensor screen, >= 14 days in 2024-03..2026-10, delayed mode where it exists, a QC flag preferred, seasons spread within a region. See claude/notes/chla-z-glider.md.",
  "datasets": [
   "sp020-20250122T1433",
   "sp011-20250603T1557",

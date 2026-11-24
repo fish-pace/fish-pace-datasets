@@ -5,11 +5,19 @@
     python build.py argo                 # monthly .nc -> data/CHLA_argo_profiles.parquet
     python build.py ooi-fetch            # OOI ERDDAP -> _temp_data/ooi_raw/<id>/<YYYY-MM>.csv.gz
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
+    python build.py glider-select        # Glider DAC search + one-day sensor screen (to choose deployments)
+    python build.py glider-fetch         # the deployments in src/chla_z_glider_selection.json, 0-200 m and below 300 m
+    python build.py glider               # raw -> data/CHLA_glider_profiles.parquet
     python build.py pace --product Rrs   # one product's granule matchups (also chlor_a, Kd);
                                          # units are (platform, granule), --platform to limit
-    python build.py pace-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_PACE.parquet
+    python build.py pace-merge           # -> data/CHLA_{argo,ooi,glider}_profiles_plus_PACE.parquet
     python build.py olci                 # OLCI S3A/S3B daily matchups, one unit per day
-    python build.py olci-merge           # -> data/CHLA_{argo,ooi}_profiles_plus_OLCI.parquet
+    python build.py olci-merge           # -> data/CHLA_{argo,ooi,glider}_profiles_plus_OLCI.parquet
+
+--platform argo|ooi|glider limits pace, pace-merge, olci and olci-merge to one
+platform; the merges then rewrite only that platform's table. Glider: the
+selection is a committed list; glider-select only helps choose a new one
+(design note claude/notes/chla-z-glider.md).
 
 Each unit runs in its own process (`max_tasks_per_child=1`), so memory is
 returned between units, and an OOM-killed worker only loses its unit: the pool
@@ -89,14 +97,15 @@ def report_failures(stage, failed):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("stage", choices=["argo-fetch", "argo", "ooi-fetch", "ooi", "pace", "pace-merge", "olci", "olci-merge"])
+    ap.add_argument("stage", choices=["argo-fetch", "argo", "ooi-fetch", "ooi", "glider-select",
+                                      "glider-fetch", "glider", "pace", "pace-merge", "olci", "olci-merge"])
     ap.add_argument("--product", choices=list(b.PACE_PRODUCTS))
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--limit", type=int, help="olci: only the first N days (for testing)")
     ap.add_argument("--force", action="store_true",
                     help="argo-fetch/argo/ooi: rebuild per-unit outputs even if they exist (raw downloads are kept)")
     ap.add_argument("--platform", choices=list(b.PLATFORMS),
-                    help="pace/olci: match only this platform (default: both)")
+                    help="pace/olci and their merges: only this platform (default: all)")
     a = ap.parse_args()
     platforms = [a.platform] if a.platform else list(b.PLATFORMS)
     import chla_z_tables as t
@@ -123,6 +132,36 @@ def main():
         failed = run_units("ooi_dataset_unit", [(i, a.force) for i in b.ooi_datasets()], a.workers)
         report_failures("ooi", failed)
         t.write_ooi_profiles()
+    elif a.stage in ("glider-select", "glider-fetch", "glider"):
+        import chla_z_glider as g
+        # Network units are I/O-bound and small: threads, not processes.
+        from concurrent.futures import ThreadPoolExecutor, as_completed
+        def run_threads(fn, units):
+            failed = {}
+            with ThreadPoolExecutor(max_workers=a.workers) as ex:
+                futs = {ex.submit(fn, *u): u for u in units}
+                for i, f in enumerate(as_completed(futs), 1):
+                    try:
+                        msg = f.result()
+                        if not str(msg).startswith("skip"):
+                            b.log(f"[{i}/{len(units)}] {msg}")
+                    except Exception as e:
+                        failed[futs[f]] = f"{type(e).__name__}: {e}"
+                        b.log(f"[{i}/{len(units)}] FAILED {futs[f]}: {str(e)[:300]}")
+            return failed
+        if a.stage == "glider-select":
+            short = g.shortlist(g.candidates(refresh=a.force))
+            report_failures("glider-screen", run_threads(g.screen_unit, [(d,) for d in short.datasetID]))
+            print(short.merge(g.screen_table(), on="datasetID")
+                  .groupby(["region", "verdict"]).size().to_string())
+        elif a.stage == "glider-fetch":
+            units = [(d, m) for d in g.selection() for m in g.months_for(d)]
+            report_failures("glider-fetch", run_threads(g.fetch_unit, units))
+            report_failures("glider-fetch-deep", run_threads(g.fetch_deep_unit, units))
+        else:
+            for d in g.selection():
+                b.log(g.window_unit(d, force=a.force))
+            t.write_glider_profiles()
     elif a.stage == "pace":
         if not a.product:
             ap.error("--product is required for pace")
@@ -131,7 +170,7 @@ def main():
         failed = run_units("pace_granule_unit", units, a.workers)
         report_failures(f"pace-{a.product}", failed)
     elif a.stage == "pace-merge":
-        t.write_plus_pace()
+        t.write_plus_pace(platforms)
     elif a.stage == "olci":
         b.olci_granule_index()
         units = []
@@ -141,7 +180,7 @@ def main():
         failed = run_units("olci_day_unit", units, a.workers)
         report_failures("olci", failed)
     elif a.stage == "olci-merge":
-        t.write_plus_olci()
+        t.write_plus_olci(platforms)
 
 
 if __name__ == "__main__":

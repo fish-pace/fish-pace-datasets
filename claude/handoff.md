@@ -17,7 +17,7 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   `DATA_RELEASE = "2026_11_23"`.
 - Open loose ends (not tasks): the repo has no `LICENSE` or README
   "Reuse and citation" section; `argo-fetch` has only been run on 2024-03.
-- **Open: PR #14 (branch `glider-pilot`), the CHLA-Z glider pilot**, waiting
+- **Open: PR #14 (branch `glider-pilot`), the CHLA-Z glider tables**, waiting
   for Eli's review (below).
 - My local `2025_11_01` tag is one commit behind GitHub's (GitHub's adds the
   Sauzède LUT); the four tables are identical in both. `git fetch --tags`
@@ -42,18 +42,22 @@ Read this first. Orientation, not a task list: Eli says what to work on.
   `datasets/chla_z/data/` on GitHub (no LFS), versioned by release tag.
   Intermediates (24 GB) are only on the hub, in `_temp_data` (below).
 
-## Glider pilot (PR #14, open, 2026-11-24)
+## Glider tables (PR #14, open, 2026-11-24)
 
-- A proof of concept for coastal CHLA-Z from IOOS Glider DAC chlorophyll; not
-  a release. 20 deployments in six regions, 8,923 rows (3 h solar windows,
-  one glider profile each). Tables only on the hub, `_temp_data/glider/`.
-- Code `src/chla_z_glider.py` (+ `chla_z_glider_selection.json`), driver
-  `datasets/chla_z/glider_pilot.py`, notebook `06-glider-pilot.ipynb`.
-  Everything else: [notes/glider-pilot.md](notes/glider-pilot.md).
-- **Open decisions for Eli (not tasks):** keep the dark-offset correction?
-  It brings the deep bins to ~0 but doubles night PACE/glider (1.19 → 1.99;
-  Argo ~1.25). Raw values are kept as `CHLA_FLUOR_*`, so either way needs no
-  re-fetch. PACE time rule: both computed; see #10.
+- IOOS Glider DAC chlorophyll as a third CHLA-Z platform, **for release like
+  Argo and OOI** (Eli: it started as a pilot only because it is small). 20
+  deployments in six regions, 8,923 rows (3 h solar windows, one glider
+  profile each). `CHLA_glider_profiles{,_plus_PACE,_plus_OLCI}.parquet` in
+  `datasets/chla_z/data/`, STAC items, README, `data_collection.json`.
+- Code `src/chla_z_glider.py` (+ `chla_z_glider_selection.json`); `build.py`
+  stages `glider-fetch`, `glider`, and `--platform glider` for the matchup
+  stages and merges. Notebook `06-glider-retrieval-qc.ipynb`. Everything
+  else: [notes/chla-z-glider.md](notes/chla-z-glider.md).
+- Decided 2026-11-24: main `CHLA_A_B` is Sauzède only (as OOI); raw
+  `CHLA_FLUOR_*` and `dark_offset` (below 300 m) are columns, offset not
+  subtracted (it doubled night PACE/glider, 1.19 → 1.99; Argo ~1.25). PACE
+  rule = the release's 24 h rule until #10 is decided.
+- Needs a new release tag after merge (Eli cuts it).
 - On #10 (2026-11-24): PACE daily files mostly start just *after* 00 UTC of
   their own day, so a UTC-day rule must pick the file by name; OOI is not
   dark-corrected.
@@ -72,8 +76,9 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 ## How to rebuild
 
 `datasets/chla_z/build.py` (stages `argo-fetch`, `argo`, `ooi-fetch`, `ooi`,
-`pace --product`, `pace-merge`, `olci`, `olci-merge`; `--platform argo|ooi`
-for the matchup stages); every stage resumes. Code in `src/chla_z_build.py`
+`glider-select`, `glider-fetch`, `glider`, `pace --product`, `pace-merge`,
+`olci`, `olci-merge`; `--platform argo|ooi|glider` for the matchup stages and
+merges, which then rewrite only that platform's tables); every stage resumes. Code in `src/chla_z_build.py`
 and `src/chla_z_tables.py`; the notebooks call the same functions.
 `argo-fetch` skips the 2026-11-06 tiles already in `_temp_data/raw/`; delete
 them for a new Argo snapshot. Don't use argopy `cache_index=True` (broken with
@@ -87,7 +92,7 @@ fsspec 2026.9).
 - `notebooks/_temp_data` is a symlink into shared-public (git-ignored, 24 GB):
   Argo tiles (`raw/`) and monthly .nc (7.8 GB, ERDDAP snapshot 2026-11-06),
   OOI raw CSVs, PACE per-granule matchups (`matchups_v3_2/`), OLCI
-  (`matchups_olci/`), logs, and the glider pilot (`glider/`, ~270 MB).
+  (`matchups_olci/`), logs, and glider intermediates (`glider/`, ~270 MB).
 - The venv has no `ipykernel`. Notebooks were tested as scripts in the venv
   (jupytext py:percent sources) and executed for stored outputs in the hub
   `python3` kernel.
