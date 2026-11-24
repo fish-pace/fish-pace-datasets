@@ -144,6 +144,8 @@ Ifremer ERDDAP pull (argopy 1.5.0, expert mode); see `argo-gdac-vs-erddap.md`.
   missing: 49 and 36 rows. Windows with Rrs are spread evenly over solar
   hour (2,100–3,000 per 3 h window). Median 5 windows per instrument-day
   with Rrs, which share the day's pixel.
+  So a train/test split on the OOI table must be grouped by instrument
+  (Eli, 2026-11-23).
 
 ### Before / after
 
