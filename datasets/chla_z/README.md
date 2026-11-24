@@ -8,6 +8,7 @@ from in situ observations, with optional matchups to PACE satellite products.
 - CHLA(z) profile metrics from:
   - BGC-Argo floats (global)
   - OOI Profilers and Moorings
+  - IOOS gliders (20 Slocum and Spray deployments, mostly coastal)
 - Depth range: 0–200 m (10 m bins)
 - Some datasets include matchups to:
   - PACE OCI Level-3 Daily products
@@ -18,14 +19,17 @@ from in situ observations, with optional matchups to PACE satellite products.
 - **I want in situ profiles only**
   - `CHLA_argo_profiles.parquet`
   - `CHLA_ooi_profiles.parquet`
+  - `CHLA_glider_profiles.parquet`
 
 - **I want to compare in situ profiles to PACE**
   - `CHLA_argo_profiles_plus_PACE.parquet`
   - `CHLA_ooi_profiles_plus_PACE.parquet`
+  - `CHLA_glider_profiles_plus_PACE.parquet`
 
 - **I want to compare in situ profiles to OLCI, or OLCI to PACE**
   - `CHLA_argo_profiles_plus_OLCI.parquet`
   - `CHLA_ooi_profiles_plus_OLCI.parquet`
+  - `CHLA_glider_profiles_plus_OLCI.parquet`
 
 ## Platforms
 
@@ -33,6 +37,7 @@ from in situ observations, with optional matchups to PACE satellite products.
 |--------|------------------|-------------|
 | BGC-Argo | Fluorescence-based chlorophyll-a | Autonomous profiling floats (global coverage) |
 | OOI | Fluorescence-based chlorophyll-a | Fixed moorings and mobile profilers |
+| Glider | Fluorescence-based chlorophyll-a | IOOS Glider DAC Slocum and Spray gliders: California Current, Mid-Atlantic Bight, southern New England shelf, off Cape Hatteras, Antarctic Peninsula, tropical Atlantic |
 
 ## Processing (rebuild of November 2026)
 
@@ -50,6 +55,21 @@ from in situ observations, with optional matchups to PACE satellite products.
   z = 0 get their true depth. CHLA is divided by the Sauzède et al.
   fluorescence:chlorophyll ratio for the site (column `chla_ratio`).
   `n_samples` is the number of samples in the window.
+- **Gliders** (added 2026-11-24): 20 deployments from the IOOS Glider DAC
+  ERDDAP, listed in `src/chla_z_glider_selection.json`, chosen across six
+  regions after a sensor screen; not every glider deployment. Samples pass
+  the dataset's own CHLA flag where it has one (values 1, 2). Rows are 3 h
+  windows of local solar time, as OOI, but a glider moves 10–80 km a day, so
+  each window keeps **one** glider profile (the one with the most filled
+  bins) instead of averaging. Bins A < depth <= B; shelf profiles fill only
+  the bins above the bottom. `CHLA_A_B` is divided by the Sauzède ratio
+  (`chla_ratio`), as OOI. The table also keeps the fluorometer values
+  (`CHLA_FLUOR_A_B`) and `dark_offset`, the fluorometer reading below 300 m
+  (NaN if the glider does not reach 300 m). `dark_offset` is **not**
+  subtracted: doing so doubled the night PACE/glider ratio (1.19 to 1.99;
+  Argo about 1.25). To apply it: `(CHLA_FLUOR_A_B - dark_offset) / chla_ratio`.
+  `shore_km` is the distance to the coast; PACE fails near some coasts
+  (chlor_a of 8–27 with Rrs(442) near zero), so filter near-shore rows.
 
 ## Matchup details (for +PACE files)
 
@@ -93,14 +113,18 @@ cd datasets/chla_z
 python build.py argo-fetch --workers 2   # skips tiles already in _temp_data/raw/
 python build.py argo
 python build.py ooi-fetch && python build.py ooi
+python build.py glider-fetch && python build.py glider
 python build.py pace --product Rrs   # also chlor_a, Kd
 python build.py pace-merge
 python build.py olci && python build.py olci-merge
 ```
 
 Each stage is resumable. If it crashes or a server times out, run the same
-command again. Code: `src/chla_z_build.py`, `src/chla_z_tables.py`. Design
-notes: `claude/notes/chla-z-rebuild-2026-11.md`. The previous files are at tag
+command again. Code: `src/chla_z_build.py`, `src/chla_z_glider.py`,
+`src/chla_z_tables.py`. Design notes: `claude/notes/chla-z-rebuild-2026-11.md`,
+`claude/notes/chla-z-glider.md`. Add `--platform glider` to the `pace`,
+`pace-merge`, `olci` and `olci-merge` stages to (re)build only the glider
+tables. The previous files are at tag
 `2025_11_01`.
 
 ## How to get started
@@ -116,6 +140,7 @@ methods, not model training; the full build runs from `build.py`.
 | `03-pace-matchups.ipynb` | PACE Rrs, chlor_a and Kd matchups |
 | `04-olci-matchups.ipynb` | Sentinel-3 OLCI Rrs matchups |
 | `05-compare-datasets.ipynb` | how in situ and satellite chlorophyll compare; the effect of solar hour; OLCI vs PACE |
+| `06-glider-retrieval-qc.ipynb` | Glider selection, retrieval, QC, one profile per 3 h solar window, dark offset, Sauzède correction |
 
 The earlier notebooks (`argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb`)
 are kept at tag

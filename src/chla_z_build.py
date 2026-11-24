@@ -1,4 +1,7 @@
-"""Build the CHLA-Z training tables (BGC-Argo and OOI CHLA profiles + PACE matchups).
+"""Build the CHLA-Z training tables (BGC-Argo, OOI and glider CHLA profiles + PACE/OLCI matchups).
+
+Glider processing (IOOS Glider DAC) is in `chla_z_glider.py`; once its table
+exists, the PACE and OLCI stages here treat "glider" as a third platform.
 
 This module is the single source of the processing used by the CLI driver
 (`datasets/chla_z/build.py`) and by the notebooks in `datasets/chla_z/notebooks/`.
@@ -632,7 +635,7 @@ def pace_granule_list(product: str, refresh: bool = False) -> list[dict]:
     return out
 
 
-PLATFORMS = ("argo", "ooi")
+PLATFORMS = ("argo", "ooi", "glider")  # glider added 2026-11-24 (src/chla_z_glider.py)
 
 
 def pace_points(platform: str | None = None) -> pd.DataFrame:
@@ -648,7 +651,13 @@ def pace_points(platform: str | None = None) -> pd.DataFrame:
     o = pd.read_parquet(DATA_DIR / "CHLA_ooi_profiles.parquet",
                         columns=["profile_id", "time", "lat", "lon"])
     o["platform"] = "ooi"
-    pts = pd.concat([a, o], ignore_index=True)
+    parts = [a, o]
+    gpath = DATA_DIR / "CHLA_glider_profiles.parquet"
+    if gpath.exists():
+        gl = pd.read_parquet(gpath, columns=["profile_id", "time", "lat", "lon"])
+        gl["platform"] = "glider"
+        parts.append(gl)
+    pts = pd.concat(parts, ignore_index=True)
     pts["time"] = pd.to_datetime(pts["time"], utc=True)
     if platform is not None:
         pts = pts[pts["platform"] == platform].reset_index(drop=True)

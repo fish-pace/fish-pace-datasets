@@ -1,4 +1,4 @@
-"""Write the four CHLA-Z tables in datasets/chla_z/data/ with their parquet metadata.
+"""Write the CHLA-Z tables in datasets/chla_z/data/ with their parquet metadata.
 
 Kept apart from chla_z_build.py so the processing and the description of it can
 be reviewed separately. The text below starts from the metadata in the
@@ -153,6 +153,88 @@ OOI_CORE = {
         "produce the 'fluorometric_chlor_a' data product (reported in approximately "
         "mg m-3). Here those values are then divided by the Sauzède ratio."),
     "license": "Open access; unrestricted use with attribution.",
+}
+
+
+# ---- Glider text (added 2026-11-24) -----------------------------------------
+
+GLIDER_SOURCE = (
+    "U.S. IOOS National Glider Data Assembly Center (Glider DAC) ERDDAP "
+    "https://gliders.ioos.us/erddap (tabledap), 20 deployments listed in "
+    "src/chla_z_glider_selection.json, data from 2024-03-01 to 2026-10-31. "
+    "See dataset_id for the dataset used and institution for the operator."
+)
+GLIDER_CORE = {
+    "creator": CREATOR,
+    "profile_id_definition": (
+        "profile_id = Glider DAC dataset_id + '_' + YYYYMMDD + 'T' + HH, where "
+        "YYYYMMDD and HH (00, 03, ..., 21) are the local mean solar date and the "
+        "start hour of the 3 h window (as OOI). Local mean solar time = UTC + lon / 15 h."),
+    "time_definition": (
+        "Mean precise_time (UTC) of the kept profile's QC-passing samples in 0-200 m "
+        "(the Glider DAC profile time can be ~70 min off its CHLA samples)."),
+    "lat_definition": "Mean precise_lat of the kept samples (Slocum); the profile latitude where the dataset has no precise_lat (Spray).",
+    "lon_definition": "Mean precise_lon of the kept samples (Slocum); the profile longitude where the dataset has no precise_lon (Spray).",
+    "solar_hour_definition": "Local mean solar hour of time at lon (0-24).",
+    "n_samples_definition": "Number of QC-passing CHLA samples in 0-200 m in the kept profile.",
+    "max_depth_definition": "Deepest QC-passing CHLA sample of the kept profile (m, at most 200).",
+    "CHLA_A_B_definition": (
+        "CHLA_FLUOR_A_B / chla_ratio: the Sauzède-corrected mean CHLA with A < depth <= B "
+        "(m), the same basis as the OOI table. The dark offset is not subtracted "
+        "(see dark_offset_definition)."),
+    "chla_ratio_definition": (
+        "Sauzède fluorescence:chla ratio at the profile position (1 deg LUT, nearest "
+        "cell). NaN where the LUT has no value; those rows are uncorrected (ratio 1)."),
+    "CHLA_FLUOR_A_B_definition": (
+        "Fluorometer chlorophyll_a as published by the Glider DAC (mg m-3), mean of "
+        "the kept profile's QC-passing samples with A < depth <= B (m). Nothing "
+        "subtracted or divided."),
+    "dark_offset_definition": (
+        "Fluorometer chlorophyll_a below 300 m, where it should be ~0: the centred "
+        "3-day running median of all QC-passing samples below 300 m of the "
+        "deployment, at the kept profile (else the nearest value within 1.5 days). "
+        "NaN where the glider does not reach 300 m. NOT subtracted from CHLA; "
+        "dark-corrected CHLA = (CHLA_FLUOR_A_B - dark_offset) / chla_ratio. "
+        "Subtracting it doubled the night PACE chlor_a / glider ratio (1.19 to 1.99; "
+        "Argo ~1.25), so the choice is left to the user."),
+    "dataset_id_definition": "Glider DAC ERDDAP dataset id (one deployment; '-delayed' = delayed-mode copy).",
+    "glider_profile_id_definition": "Glider DAC profile_id of the kept profile.",
+    "profiles_in_window_definition": "Number of Glider DAC profiles with CHLA in the 3 h window; one was kept.",
+    "platform_type_definition": "Glider type from the dataset's platform_type attribute (Slocum Glider, Spray Glider).",
+    "institution_definition": "Operating institution from the dataset's institution attribute.",
+    "region_definition": (
+        "Coarse region of the deployment centre: California Current, Mid-Atlantic "
+        "Bight and slope, Southern New England shelf, Off Cape Hatteras / South "
+        "Atlantic Bight, Antarctic Peninsula, Tropical Atlantic."),
+    "shore_km_definition": "Approximate distance to the Natural Earth 10 m coastline (km).",
+    "variable_lat_standard_name": "latitude",
+    "variable_lat_units": "degrees_north",
+    "variable_lon_standard_name": "longitude",
+    "variable_lon_units": "degrees_east",
+    "variable_time_standard_name": "time",
+    "variable_time_units": "UTC",
+    "variable_CHLA_standard_name": "mass_concentration_of_chlorophyll_a_in_sea_water",
+    "variable_CHLA_units": "mg m-3",
+    "CHLA_processing_description": (
+        "Glider DAC tabledap samples with chlorophyll_a in 0-200 m. QC: the "
+        "dataset's own flag where it has one, values 1 or 2 (chlorophyll_a_qc on "
+        "Spray, chlorophyll_a_qartod_summary_flag on Rutgers Slocums); many "
+        "real-time Slocum datasets have no flag. Deployments were screened for "
+        "flat profiles and large deep offsets and their whole records inspected. "
+        "Rows are 3 h windows of local mean solar time, as OOI; because a glider "
+        "moves 10-80 km a day, each window keeps ONE glider profile (the one with "
+        "the most filled 10 m bins, ties to the one nearest the window centre) "
+        "rather than averaging. Bins (A, B] from 0 to 200 m; shelf profiles fill "
+        "only the bins above the bottom. Values were divided by the Sauzède "
+        "fluorescence:chla ratio (Sauzède, R. (2025), SEANOE, doi:10.17882/105732, "
+        "CC-BY-4.0), as OOI."),
+    "CHLA_measurement_description": (
+        "Glider chlorophyll-a is measured with optical fluorometers: WET Labs ECO "
+        "FLBBCD on Slocum gliders and a chlorophyll fluorometer on Spray gliders. "
+        "They excite chlorophyll near 470 nm and detect fluorescence near 695 nm; "
+        "values are factory-calibrated and published by each operator through the "
+        "Glider DAC. Daylight quenching lowers near-surface values (see solar_hour)."),
+    "license": "Open access (U.S. IOOS); unrestricted use with attribution to the Glider DAC and the operating institution.",
 }
 
 # ---- PACE text (shared) ---------------------------------------------------
@@ -313,6 +395,35 @@ def write_ooi_profiles():
     return combined
 
 
+def write_glider_profiles():
+    import chla_z_glider as g
+    prof, info = g.combine()
+    meta = {
+        "title": "Glider CHLA 3-hour profile metrics (0 to 200 m, 10 m bins)",
+        "source": GLIDER_SOURCE,
+        "description": (
+            "Glider fluorometer CHLA from 20 IOOS Glider DAC deployments (Slocum and "
+            "Spray) in six regions, 2024-03-01 to 2026-10-31. One row per deployment "
+            "and 3 h window of local solar time, keeping one glider profile per window. "
+            "Dataset QC flags where present, means in 10 m depth bins (A, B], Sauzède "
+            "fluorescence:chla correction applied; raw fluorometer bins and a deep "
+            "(dark) offset are kept as columns."),
+        **GLIDER_CORE, **COVERAGE,
+        **_build_block({"build_code": "fish-pace/fish-pace-datasets src/chla_z_glider.py via datasets/chla_z/build.py",
+                        "build_glider_fetch_dates": _fetch_dates(g.RAW_DIR),
+                        "build_glider_counts": info}),
+    }
+    _write(prof, "CHLA_glider_profiles.parquet", meta)
+    return prof
+
+
+def _fetch_dates(root) -> str:
+    days = set()
+    for f in root.glob("*/*.csv.gz"):
+        days.add(datetime.fromtimestamp(f.stat().st_mtime, timezone.utc).strftime("%Y-%m-%d"))
+    return f"{min(days)} to {max(days)}" if days else "none"
+
+
 def _ooi_fetch_dates() -> str:
     days = set()
     for f in b.OOI_RAW.glob("*/*.csv.gz"):
@@ -326,14 +437,30 @@ def _kd_wavelength() -> str:
     return ", ".join(map(str, sorted(wl)))
 
 
-def write_plus_pace():
+def _update_stats(path, out: dict):
+    """Merge this run's per-platform stats into the log file, so writing one
+    platform does not erase the others' numbers."""
+    old = json.loads(path.read_text()) if path.exists() else {}
+    old.update(out)
+    b.write_marker(path, old)
+
+
+def _platform_specs(platforms=None):
+    specs = [
+        ("argo", "CHLA_argo_profiles", ARGO_CORE, ARGO_SOURCE, "Global BGC-Argo"),
+        ("ooi", "CHLA_ooi_profiles", OOI_CORE, OOI_SOURCE, "OOI"),
+        ("glider", "CHLA_glider_profiles", GLIDER_CORE, GLIDER_SOURCE, "Glider"),
+    ]
+    return [x for x in specs if platforms is None or x[0] in platforms]
+
+
+def write_plus_pace(platforms=None):
+    """platforms: e.g. ["glider"] to write only that table, so the released
+    tables of the other platforms are not rewritten."""
     pace_meta = dict(PACE_CORE)
     pace_meta["pace_Kd_490_definition"] = pace_meta["pace_Kd_490_definition"].format(kd_wl=_kd_wavelength())
     out = {}
-    for platform, fname, core, src, title in [
-        ("argo", "CHLA_argo_profiles", ARGO_CORE, ARGO_SOURCE, "Global BGC-Argo"),
-        ("ooi", "CHLA_ooi_profiles", OOI_CORE, OOI_SOURCE, "OOI"),
-    ]:
+    for platform, fname, core, src, title in _platform_specs(platforms):
         prof = pd.read_parquet(b.DATA_DIR / f"{fname}.parquet")
         prof_md = pq.read_schema(b.DATA_DIR / f"{fname}.parquet").metadata
         merged, stats = b.pace_merge(prof, platform)
@@ -349,7 +476,7 @@ def write_plus_pace():
         }
         _write(merged, f"{fname}_plus_PACE.parquet", meta)
         out[platform] = stats
-    b.write_marker(b.TEMP_DIR / "logs" / "pace_merge_stats.json", out)
+    _update_stats(b.TEMP_DIR / "logs" / "pace_merge_stats.json", out)
     return out
 
 
@@ -427,12 +554,9 @@ OLCI_CORE = {
 }
 
 
-def write_plus_olci():
+def write_plus_olci(platforms=None):
     out = {}
-    for platform, fname, core, src, title in [
-        ("argo", "CHLA_argo_profiles", ARGO_CORE, ARGO_SOURCE, "Global BGC-Argo"),
-        ("ooi", "CHLA_ooi_profiles", OOI_CORE, OOI_SOURCE, "OOI"),
-    ]:
+    for platform, fname, core, src, title in _platform_specs(platforms):
         prof = pd.read_parquet(b.DATA_DIR / f"{fname}.parquet")
         prof_md = pq.read_schema(b.DATA_DIR / f"{fname}.parquet").metadata
         merged, stats = b.olci_merge(prof, platform)
@@ -446,5 +570,5 @@ def write_plus_olci():
         }
         _write(merged, f"{fname}_plus_OLCI.parquet", meta)
         out[platform] = stats
-    b.write_marker(b.TEMP_DIR / "logs" / "olci_merge_stats.json", out)
+    _update_stats(b.TEMP_DIR / "logs" / "olci_merge_stats.json", out)
     return out

@@ -24,10 +24,14 @@ IDS = {
     "chla_ooi_profiles_plus_pace": "global-ooi-chla-profile-metrics-0-200m-10m-bins-with-pace-oci-matchups",
     "chla_argo_profiles_plus_olci": "global-bio-argo-chla-profile-metrics-0-200m-10m-bins-with-olci-matchups",
     "chla_ooi_profiles_plus_olci": "global-ooi-chla-profile-metrics-0-200m-10m-bins-with-olci-matchups",
+    "chla_glider_profiles": "ioos-glider-chla-profile-metrics-0-200m-10m-bins",
+    "chla_glider_profiles_plus_pace": "ioos-glider-chla-profile-metrics-0-200m-10m-bins-with-pace-oci-matchups",
+    "chla_glider_profiles_plus_olci": "ioos-glider-chla-profile-metrics-0-200m-10m-bins-with-olci-matchups",
 }
 LICENSE = {
     "argo": "Open access (Argo Data Policy); unrestricted use with attribution.",
     "ooi": "Open access; unrestricted use with attribution.",
+    "glider": "Open access (U.S. IOOS); unrestricted use with attribution to the Glider DAC and the operating institution.",
 }
 
 chla = []
@@ -37,7 +41,7 @@ for rel in item_files:
     # The items' "How to load" text refers to the STAC browser's Copy URL
     # button; here the asset href is already absolute.
     p["description"] = p["description"].split("\n\nHow to load")[0]
-    p["license"] = LICENSE["argo" if "argo" in Path(rel).stem else "ooi"]
+    p["license"] = LICENSE[next(k for k in ("argo", "glider", "ooi") if k in Path(rel).stem)]
     p["tutorial_notebook"] = GH + "datasets/chla_z/notebooks/" + p["tutorial_notebook"].split("/")[-1]
     a = it["assets"]["data"]
     chla.append({
@@ -54,9 +58,9 @@ for i in others:  # IFCB: the notebook is Get_WHOI_IFCB.ipynb, not get_WHOI.ipyn
     if nb.endswith("/ifcb/notebooks/get_WHOI.ipynb"):
         i["properties"]["tutorial_notebook"] = nb.replace("get_WHOI.ipynb", "Get_WHOI_IFCB.ipynb")
 dc["items"] = chla + others
-dc["description"] = ("Datasets used in Fish-PACE tutorials and hackweeks: BGC-Argo and OOI "
-                     "CHLA profiles with PACE and OLCI matchups (release 2026_11_23), and IFCB "
-                     "daily abundance.")
+dc["description"] = ("Datasets used in Fish-PACE tutorials and hackweeks: BGC-Argo, OOI and "
+                     "IOOS glider CHLA profiles with PACE and OLCI matchups (versions are the "
+                     "repository's release tags), and IFCB daily abundance.")
 dc["providers"][0]["url"] = "https://github.com/fish-pace/fish-pace-datasets"
 path.write_text(json.dumps(dc, indent=2, ensure_ascii=False) + "\n")
 print([i["id"] for i in dc["items"]])
