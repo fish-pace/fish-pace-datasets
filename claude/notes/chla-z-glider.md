@@ -77,34 +77,11 @@ Different, on purpose:
      sp041-20250923T1716.
    - Kept: ru43-20260731 (summer shelf, surface ~0.1 under a strong DCM: normal).
 
-### Scanning for more deployments (facts for the next scan, 2026-11-24)
+### Scanning for more deployments
 
-Issue #16: a full scan of IOOS glider chlorophyll for more good
-deployments, and a repeatable way to find new ones without re-getting what is
-already in the table.
-
-- **What exists:** `g.candidates(refresh=True)` re-runs the ERDDAP search
-  (cache `_temp_data/glider/candidates.parquet`, 227 datasets as of
-  2026-11-23); `g.shortlist` → 147; `g.screen_table` (cached per dataset in
-  `_temp_data/glider/screen/`) → 114 "ok". Only 20 of the 114 are used, so
-  ~94 screened passes are already available. Screen is one mid-deployment
-  day only; two of the first picks still failed on the whole record (above),
-  so a full-record check (e.g. a time × depth plot or per-week stats) is needed.
-- **"Already have" key = deployment, not datasetID.** A deployment can appear
-  as realtime and `-delayed` copies (`candidates.deployment` strips the
-  suffix). The table keeps `dataset_id`; `src/chla_z_glider_selection.json` is
-  the committed list. Compare on deployment.
-- **Delayed copies can be stubs:** ru26d-20250107T1348-delayed spans 6
-  minutes with no chlorophyll units, so the realtime copy was kept. Prefer
-  delayed only when its time span covers the realtime one. A delayed copy
-  that appears later for a realtime deployment in the table is a possible
-  swap, not new data.
-- **Deployments still running grow:** compare `maxTime` with the table's last
-  profile per deployment, not just presence.
-- **Time range:** fetch months come from `b.MONTHS` (2024-03 to 2026-10);
-  newer data needs that extended (it is shared with Argo/OOI).
-- Search was only `minTime=2024-03-01` (PACE era) and variable
-  `chlorophyll_a`; other chl variable names on the DAC were not checked.
+Done 2026-11-24 (#16): see "Scan of the whole DAC" below. The pilot's
+`candidates` / `shortlist` / `screen_unit` stay as they were (they chose the
+released 20).
 
 ### Regions are labels, not coverage
 
@@ -123,6 +100,142 @@ and "Gulf of Maine / New England" was ru34 on the southern New England shelf
 | Southern New England shelf (Slocum ru34) | 3 | 844 |
 | Tropical Atlantic (Slocum capex690) | 1 | 133 |
 | **Total** | **20** | **8,923** |
+
+## Scan of the whole DAC (#16, 2026-11-24)
+
+Goal: a list of good candidate deployments for the next step (fetching them),
+and a scan that can be re-run later without re-getting what is cached.
+
+- **Result:** `src/chla_z_glider_candidates.csv`, one row per deployment with
+  ≥ 7 days of record since 2024-03-01 (316: 20 in the table, 296 new).
+  Columns: chosen `datasetID` (+ `alt_ids`, the other copies), `status`
+  against the table, `verdict` / `fail` / `check`, region, institution,
+  `chl_var`, units, `qc_var`, `days_in_months` (inside `b.MONTHS`), the
+  whole-record stats, and `bad_days`.
+- **Code:** `src/chla_z_glider_scan.py`; `build.py glider-scan` re-runs it all
+  and rewrites the CSV. `restat()` recomputes stats from the cache only (for
+  changing thresholds). Cache in `_temp_data/glider/scan/` (catalog, per-dataset
+  info) and `_temp_data/glider/sampled/<id>/<day>.csv` (~31 MB).
+
+### What the pilot search missed
+
+The pilot searched only the variable name `chlorophyll_a`. ERDDAP's
+`categorize/variableName` index shows the DAC also uses `chlorophyll`,
+`fluorescence` (Oregon State Seagliders) and raw Slocum names
+(`sci_flbbcd_chlor_units`, `sci_flbb_chlor_units`, `sci_bbfl2s_chlor_scaled`;
+Skidaway, USF, UAF). PACE-era datasets: 227 → 471; deployments with units,
+depth and ≥ 7 days: 316. New sources: OOI gliders (Pioneer now off Hatteras
+`cp_`, Endurance `ce_`, Irminger `gi_`, Station Papa `gp_`), C-PROOF/DFO (BC),
+UAF (Gulf of Alaska), Skidaway/USF (Georgia–NE Florida shelf), Oregon State,
+SWFSC AMLR, BIOS, EPA Great Lakes. The OOI table in this repo has no OOI
+gliders, so they are new data.
+
+- Units are all mg m⁻³ equivalents (`ug L-1`, `ug l-1`, `ugr l-1`, `mg.m-3`,
+  `microgram/L`...). `bios_jack-20240812T1856-delayed` says
+  `micrograms m^-3`, but its values (surface 0.03, maximum 0.3) are mg m⁻³:
+  a label typo.
+- 156 of 316 have no chlorophyll QC variable; others use `chlorophyll_a_qc`,
+  `chlorophyll_a_qartod_summary_flag`, `chlorophyll_qc` or `fluorescence_qc`.
+- **Still nothing in the Gulf of Mexico.** The USF and Skidaway gliders are
+  on the Atlantic shelf off Georgia / NE Florida (29–31.5°N, ~80°W).
+
+### Deployment key and which copy
+
+- Key = glider name lower-cased + start date (`deployment_key`): Stony Brook
+  has `SBU02-20240822T1918-delayed` next to `sbu02-20240822T1916`.
+- Delayed copy only if its span is ≥ 90% of the real-time one (stubs, as
+  ru26d). **Except** delayed copies with > 1000 variables (Skidaway/USF raw
+  Slocum sets, ~2,800 variables): used only when there is no real-time copy,
+  because ERDDAP did not answer a whole-record query on them in 15 min.
+- `status`: `new`, `in table`, `in table, grown` (maxTime > 2 d past the
+  table's last profile, while that is before `END_EXCLUSIVE`),
+  `in table, delayed copy now covers it` (a possible swap). Today: all 20 are
+  plain `in table`.
+
+### How the whole record is checked (and why this way)
+
+- **One day every 4 days** (every day under 20 d of record, every 2nd under
+  40 d), plus the last full day, as daily 10 m-bin means computed by ERDDAP
+  (`orderByMean("time/1day,depth/10")`; `depth` comes back as the bin number).
+  Days are aligned to the calendar from `START`, so a grown deployment adds
+  days and keeps its cache. 6,415 days, ~1.5 h at 4 threads.
+- **Not the whole record in one query:** tried first; ERDDAP opens every
+  profile file, 1–10 min per deployment (~4 h for all) and the raw sets hung.
+  A one-day query takes ~0.5 s because ERDDAP skips files by time. 73
+  whole-record grids from that first try are in `_temp_data/glider/fullrec/`
+  (not used).
+- The DAC under load returns **empty-body 404s and truncated JSON**, which
+  `_get` / `_info` retry (`chla_z_build._http_get` treats any 404 as final).
+  Killing a client does not stop a long query on the server: active requests
+  stayed at 20–25 for an hour after mine were stopped.
+
+**Checks** (`fullrec_stats`). Fail:
+
+| Check | Rule | Why |
+|---|---|---|
+| deep offset | median ≥ 300 m > 0.2 | as the pilot screen (sp034) |
+| negative offset | > 5% of 0–200 m bins < −0.02 and 5th pct < −0.05 | DFO `eva035` (−0.4 at depth), some C-PROOF/OSU |
+| flat | > 30% of days with 0–200 m range < 0.05 and max/min < 1.5, **only if it dives ≥ 100 m** | a 30–40 m mixed shelf is flat for real |
+| no signal above deep value | median profile max < 0.15 and < 0.05 above the 150–200 m value | sp071 (the pilot's whole-record failure; its daily range was not flat enough for the flat rule) |
+| surface < deep | surface (0–20 m) below the ≥ 300 m (else 150–200 m) value − 0.02 for ≥ 14 d | sp055 (caught: 25 d) |
+| implausibly high | median profile max > 50 | `dfo-maria997` (~96) |
+
+Check (look at a plot before using): `jumpy surface` (> 10% of steps with a
+×5 change; mostly real upwelling off OR/WA), `sparse depths` (median share
+of 0–100 m bins filled < 0.7; C-PROOF/DFO sets log chlorophyll at scattered
+depths), `deep drift > 0.1`, `flat` on a shelf, and `N whole-column bad
+day(s)` (gliders diving ≥ 300 m: the 150–200 m value > its median + 0.3, or
+the whole profile < 0.02; days listed in `bad_days`). The last catches
+California Sprays whose final days go high or ~0 at every depth (sensor
+failure or recovery); a fetch can drop those days.
+
+Plots of the `check` group and of BC, Alaska, California and OOI `ok`
+deployments were looked at (2026-11-24, scratch contact sheets): Alaska, OOI
+and most `ok` California look clean; most `jumpy surface` is real.
+
+### Result (2026-11-24)
+
+New deployments (296):
+
+| Region | ok | check | fail | ok days in months |
+|---|---:|---:|---:|---:|
+| Mid-Atlantic Bight and slope | 87 | 3 | 1 | 3,114 |
+| Pacific Northwest (OR/WA) | 30 | 12 | 2 | 1,820 |
+| Gulf of Alaska / Bering | 14 | 1 | 0 | 1,462 |
+| California Current | 23 | 13 | 29 | 1,382 |
+| Irminger / subpolar N Atlantic | 3 | 2 | 0 | 792 |
+| South Atlantic Bight / off Hatteras | 18 | 5 | 5 | 437 |
+| British Columbia / Salish Sea | 10 | 9 | 11 | 395 |
+| Open NW Atlantic (slope sea / Gulf Stream) | 4 | 0 | 0 | 248 |
+| Southern New England / Gulf of Maine | 5 | 0 | 0 | 199 |
+| Sargasso / Bermuda | 3 | 0 | 2 | 102 |
+| Tropical Atlantic / Caribbean | 1 | 0 | 0 | 17 |
+| Great Lakes | 1 | 0 | 0 | 13 |
+| **Total** | **199** | **45** | **50** | **~10,000** |
+
+(2 more: too few days.) 178 of the 199 `ok` have ≥ 14 days inside the
+release months; 4 are entirely after 2026-10. Fails: deep offset 23 (mostly
+California Sprays), negative offset 13, flat 10, no signal 7, surface < deep
+5, implausibly high 2.
+
+- **Deep offset is the release's own trade-off.** Released `sp020-20250122T1433`
+  fails it on the whole record (its one-day screen passed); the release keeps
+  `dark_offset` as a column instead of subtracting it. Whether the other 22
+  deep-offset Sprays are usable on the same terms is Eli's call.
+- Of the 20 in the table: 18 `ok`, sp203-20250813T1745 `check` (jumpy
+  surface, looks real), sp020-20250122T1433 `fail` (deep offset, above).
+- The regions here (`chla_z_glider_scan.region`) are finer than the
+  release's `region_of`, which is unchanged.
+
+### For the fetch (next step, not done)
+
+- `chla_z_glider.fetch_unit` / `fetch_deep_unit` hard-code `chlorophyll_a`
+  and read `candidates.parquet`; they need `chl_var` and `qc_var` from the
+  scan catalog (`scan/catalog.parquet`), and Sprays-without-precise-lat logic
+  as now.
+- Fetch months are `b.MONTHS` (to 2026-10); `days_in_months` shows what that
+  keeps.
+- Drop `bad_days`; look at `check` rows first.
 
 ## Things that look odd but are deliberate
 

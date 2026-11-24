@@ -6,6 +6,8 @@
     python build.py ooi-fetch            # OOI ERDDAP -> _temp_data/ooi_raw/<id>/<YYYY-MM>.csv.gz
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
     python build.py glider-select        # Glider DAC search + one-day sensor screen (to choose deployments)
+    python build.py glider-scan          # all DAC chlorophyll deployments, whole-record check, status vs the table
+                                         # -> src/chla_z_glider_candidates.csv (issue #16)
     python build.py glider-fetch         # the deployments in src/chla_z_glider_selection.json, 0-200 m and below 300 m
     python build.py glider               # raw -> data/CHLA_glider_profiles.parquet
     python build.py pace --product Rrs   # one product's granule matchups (also chlor_a, Kd);
@@ -98,7 +100,7 @@ def report_failures(stage, failed):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("stage", choices=["argo-fetch", "argo", "ooi-fetch", "ooi", "glider-select",
-                                      "glider-fetch", "glider", "pace", "pace-merge", "olci", "olci-merge"])
+                                      "glider-scan", "glider-fetch", "glider", "pace", "pace-merge", "olci", "olci-merge"])
     ap.add_argument("--product", choices=list(b.PACE_PRODUCTS))
     ap.add_argument("--workers", type=int, default=3)
     ap.add_argument("--limit", type=int, help="olci: only the first N days (for testing)")
@@ -132,6 +134,11 @@ def main():
         failed = run_units("ooi_dataset_unit", [(i, a.force) for i in b.ooi_datasets()], a.workers)
         report_failures("ooi", failed)
         t.write_ooi_profiles()
+    elif a.stage == "glider-scan":
+        import chla_z_glider_scan as gs
+        d = gs.scan(refresh=True, workers=a.workers)
+        gs.write_candidates(d)
+        print(d.groupby(["status", "verdict"]).size().to_string())
     elif a.stage in ("glider-select", "glider-fetch", "glider"):
         import chla_z_glider as g
         # Network units are I/O-bound and small: threads, not processes.
