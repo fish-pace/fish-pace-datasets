@@ -55,7 +55,10 @@ record on sampled days. Result `src/chla_z_glider_candidates.csv`: 296 new
 deployments, 199 `ok`, 45 `check`, 50 `fail`; still none in the Gulf of
 Mexico. Next (Eli, 2026-11-24): [#19](https://github.com/fish-pace/fish-pace-datasets/issues/19),
 a new release with these deployments, deep-offset ones included but
-flagged per row (fetch code still hard-codes `chlorophyll_a`). Details: "Scan of the whole DAC" in
+flagged per row (fetch code still hard-codes `chlorophyll_a`). The
+whole glider table is rebuilt, pilot 20 included, so the flag is on every
+row (the released `2026_11_24` table has `dark_offset` but no flag).
+PR #18 (the scan, closes #16) is open, waiting for Eli's merge. Details: "Scan of the whole DAC" in
 [notes/chla-z-glider.md](notes/chla-z-glider.md).
 
 ## How to rebuild
