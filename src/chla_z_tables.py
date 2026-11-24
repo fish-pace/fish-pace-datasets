@@ -160,8 +160,9 @@ OOI_CORE = {
 
 GLIDER_SOURCE = (
     "U.S. IOOS National Glider Data Assembly Center (Glider DAC) ERDDAP "
-    "https://gliders.ioos.us/erddap (tabledap), 20 deployments listed in "
-    "src/chla_z_glider_selection.json, data from 2024-03-01 to 2026-10-31. "
+    "https://gliders.ioos.us/erddap (tabledap), the deployments listed in "
+    "src/chla_z_glider_selection.json (chosen from the whole-DAC scan, "
+    "src/chla_z_glider_candidates.csv), data from 2024-03-01 to 2026-10-31. "
     "See dataset_id for the dataset used and institution for the operator."
 )
 GLIDER_CORE = {
@@ -186,7 +187,9 @@ GLIDER_CORE = {
         "Sauzède fluorescence:chla ratio at the profile position (1 deg LUT, nearest "
         "cell). NaN where the LUT has no value; those rows are uncorrected (ratio 1)."),
     "CHLA_FLUOR_A_B_definition": (
-        "Fluorometer chlorophyll_a as published by the Glider DAC (mg m-3), mean of "
+        "Fluorometer chlorophyll as published by the Glider DAC (mg m-3; the "
+        "dataset's chlorophyll_a, chlorophyll, fluorescence or raw Slocum "
+        "sci_*_chlor variable), mean of "
         "the kept profile's QC-passing samples with A < depth <= B (m). Nothing "
         "subtracted or divided."),
     "dark_offset_definition": (
@@ -197,15 +200,30 @@ GLIDER_CORE = {
         "dark-corrected CHLA = (CHLA_FLUOR_A_B - dark_offset) / chla_ratio. "
         "Subtracting it doubled the night PACE chlor_a / glider ratio (1.19 to 1.99; "
         "Argo ~1.25), so the choice is left to the user."),
+    "deep_offset_flag_definition": (
+        "True for every row of a deployment whose median fluorometer value below "
+        "300 m is > 0.2 mg m-3 on its whole record (glider scan; mostly California "
+        "Current Sprays). Kept so an analysis can drop them in its QC step: "
+        "df[~df.deep_offset_flag]. See dark_offset for the per-row deep value."),
+    "scan_check_definition": (
+        "Per-deployment notes from the whole-record glider scan, empty when it "
+        "passed every check: 'jumpy surface' (> 10% of sampled days change x5 at "
+        "the surface; mostly real upwelling), 'sparse depths' (few 10 m bins "
+        "filled per profile, some DFO / C-PROOF sets), 'flat' (on a mixed shelf), "
+        "'deep drift > 0.1', 'N whole-column bad day(s)' (those windows were "
+        "removed, see CHLA_processing_description)."),
     "dataset_id_definition": "Glider DAC ERDDAP dataset id (one deployment; '-delayed' = delayed-mode copy).",
     "glider_profile_id_definition": "Glider DAC profile_id of the kept profile.",
     "profiles_in_window_definition": "Number of Glider DAC profiles with CHLA in the 3 h window; one was kept.",
-    "platform_type_definition": "Glider type from the dataset's platform_type attribute (Slocum Glider, Spray Glider).",
+    "platform_type_definition": "Glider type from the dataset's platform_type attribute (e.g. Slocum Glider, Spray Glider, Seaglider).",
     "institution_definition": "Operating institution from the dataset's institution attribute.",
     "region_definition": (
-        "Coarse region of the deployment centre: California Current, Mid-Atlantic "
-        "Bight and slope, Southern New England shelf, Off Cape Hatteras / South "
-        "Atlantic Bight, Antarctic Peninsula, Tropical Atlantic."),
+        "Region of the deployment centre (chla_z_glider_scan.region), a label, "
+        "not a coverage claim: e.g. California Current, Pacific Northwest (OR/WA), "
+        "British Columbia / Salish Sea, Gulf of Alaska / Bering, Mid-Atlantic "
+        "Bight and slope, South Atlantic Bight / off Hatteras, Southern New "
+        "England / Gulf of Maine, Irminger / subpolar N Atlantic, Great Lakes, "
+        "Antarctic Peninsula. No deployment is in the Gulf of Mexico."),
     "shore_km_definition": "Approximate distance to the Natural Earth 10 m coastline (km).",
     "variable_lat_standard_name": "latitude",
     "variable_lat_units": "degrees_north",
@@ -216,11 +234,17 @@ GLIDER_CORE = {
     "variable_CHLA_standard_name": "mass_concentration_of_chlorophyll_a_in_sea_water",
     "variable_CHLA_units": "mg m-3",
     "CHLA_processing_description": (
-        "Glider DAC tabledap samples with chlorophyll_a in 0-200 m. QC: the "
-        "dataset's own flag where it has one, values 1 or 2 (chlorophyll_a_qc on "
-        "Spray, chlorophyll_a_qartod_summary_flag on Rutgers Slocums); many "
-        "real-time Slocum datasets have no flag. Deployments were screened for "
-        "flat profiles and large deep offsets and their whole records inspected. "
+        "Glider DAC tabledap chlorophyll samples in 0-200 m, values outside "
+        "(-5, 100) dropped as fill values. QC: the dataset's own flag where it has "
+        "one, values 1 or 2 (<variable>_qc or chlorophyll_a_qartod_summary_flag); "
+        "about half the datasets have no flag. Deployments come from a scan of "
+        "every DAC chlorophyll dataset since 2024-03 on every 4th day of its "
+        "record: those failing for a negative offset, flat or signal-free "
+        "profiles, surface below deep values, or implausibly high values are left "
+        "out; those failing only for a deep offset are kept and flagged "
+        "(deep_offset_flag). Windows with a whole-column failure (gliders diving "
+        ">= 300 m: 150-200 m fluorometer mean > the deployment median + 0.3, or "
+        "every bin < 0.02) are removed. "
         "Rows are 3 h windows of local mean solar time, as OOI; because a glider "
         "moves 10-80 km a day, each window keeps ONE glider profile (the one with "
         "the most filled 10 m bins, ties to the one nearest the window centre) "
@@ -229,8 +253,9 @@ GLIDER_CORE = {
         "fluorescence:chla ratio (Sauzède, R. (2025), SEANOE, doi:10.17882/105732, "
         "CC-BY-4.0), as OOI."),
     "CHLA_measurement_description": (
-        "Glider chlorophyll-a is measured with optical fluorometers: WET Labs ECO "
-        "FLBBCD on Slocum gliders and a chlorophyll fluorometer on Spray gliders. "
+        "Glider chlorophyll-a is measured with optical fluorometers: mostly WET Labs "
+        "ECO FLBBCD / FLBB pucks on Slocum gliders and Seagliders and a chlorophyll "
+        "fluorometer on Spray gliders. "
         "They excite chlorophyll near 470 nm and detect fluorescence near 695 nm; "
         "values are factory-calibrated and published by each operator through the "
         "Glider DAC. Daylight quenching lowers near-surface values (see solar_hour)."),
@@ -402,12 +427,14 @@ def write_glider_profiles():
         "title": "Glider CHLA 3-hour profile metrics (0 to 200 m, 10 m bins)",
         "source": GLIDER_SOURCE,
         "description": (
-            "Glider fluorometer CHLA from 20 IOOS Glider DAC deployments (Slocum and "
-            "Spray) in six regions, 2024-03-01 to 2026-10-31. One row per deployment "
+            f"Glider fluorometer CHLA from {info['datasets']} IOOS Glider DAC deployments "
+            f"(Slocum, Spray, Seaglider) in {prof.region.nunique()} regions, 2024-03-01 to "
+            "2026-10-31. One row per deployment "
             "and 3 h window of local solar time, keeping one glider profile per window. "
             "Dataset QC flags where present, means in 10 m depth bins (A, B], Sauzède "
             "fluorescence:chla correction applied; raw fluorometer bins and a deep "
-            "(dark) offset are kept as columns."),
+            "(dark) offset are kept as columns. deep_offset_flag and scan_check carry "
+            "the per-deployment scan results for QC filtering."),
         **GLIDER_CORE, **COVERAGE,
         **_build_block({"build_code": "fish-pace/fish-pace-datasets src/chla_z_glider.py via datasets/chla_z/build.py",
                         "build_glider_fetch_dates": _fetch_dates(g.RAW_DIR),
