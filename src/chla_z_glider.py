@@ -311,6 +311,16 @@ def _standard(df: pd.DataFrame, dataset_id: str) -> pd.DataFrame:
     return df.rename(columns={v: "chlorophyll_a"}) if v != "chlorophyll_a" else df
 
 
+def _pkey(df: pd.DataFrame) -> pd.Series:
+    """One glider profile = DAC profile_id + its profile `time`. profile_id
+    alone is not unique in 27 selected datasets (DFO / C-PROOF reuse it for
+    profiles days apart; also SEA044, osu592, sg263, sp011, sp030), and
+    grouping by it merged unrelated profiles: positions zigzagged ~45 km
+    (dfo-bumblebee998-20260205), found in notebook 06, 2026-11-25. Not an
+    issue for any of the pilot 20."""
+    return df["profile_id"].astype(str) + "@" + df["time"].astype(str)
+
+
 def good_samples(df: pd.DataFrame, qc_var: str | None) -> pd.DataFrame:
     """QC-passing samples in (0, 200] m. Sample time is precise_time where
     present: the profile `time` can be ~70 min off the CHLA samples (ru34)."""
@@ -343,8 +353,9 @@ def window_profiles(good: pd.DataFrame, dataset_id: str) -> pd.DataFrame:
     else:
         g["plat"], g["plon"] = g.latitude, g.longitude
     g["bin"] = b.bin_index_argo(g.depth.to_numpy(float))
-    p = g.groupby("profile_id").agg(time=("t", "mean"), lat=("plat", "mean"), lon=("plon", "mean"),
-                                    n_samples=("chlorophyll_a", "size"),
+    g["pkey"] = _pkey(g)
+    p = g.groupby("pkey").agg(time=("t", "mean"), lat=("plat", "mean"), lon=("plon", "mean"),
+                                    gpid=("profile_id", "first"), n_samples=("chlorophyll_a", "size"),
                                     n_bins=("bin", "nunique"), max_depth=("depth", "max"))
     # A profile with no position at all cannot be placed (dfo-rosie713 profile 1:
     # latitude and precise_lat both NaN). Profile-level, so no other row changes.
@@ -358,16 +369,16 @@ def window_profiles(good: pd.DataFrame, dataset_id: str) -> pd.DataFrame:
     p["off_centre"] = (solar - centre).abs()
     p = p.sort_values(["key", "n_bins", "off_centre"], ascending=[True, False, True])
     pick = p[~p.key.duplicated()]
-    sel = g[g.profile_id.isin(pick.index)]
-    wide = (sel.groupby(["profile_id", "bin"]).chlorophyll_a.mean().unstack("bin")
+    sel = g[g.pkey.isin(pick.index)]
+    wide = (sel.groupby(["pkey", "bin"]).chlorophyll_a.mean().unstack("bin")
                .reindex(columns=range(b.N_BINS)))
     wide.columns = b.CHLA_COLS
-    out = pick.join(wide).reset_index().rename(columns={"profile_id": "glider_profile_id"})
+    out = pick.join(wide).reset_index().rename(columns={"gpid": "glider_profile_id", "pkey": "_pkey"})
     out["profiles_in_window"] = out.key.map(p.key.value_counts())
     out.insert(0, "profile_id", dataset_id + "_" + out["key"])
     out["dataset_id"] = dataset_id
     return out[["profile_id", "time", "lat", "lon", "n_samples", "max_depth"] + b.CHLA_COLS
-               + ["dataset_id", "glider_profile_id", "profiles_in_window"]]
+               + ["dataset_id", "glider_profile_id", "profiles_in_window", "_pkey"]]
 
 
 def window_unit(dataset_id: str, force: bool = False) -> str:
@@ -391,22 +402,42 @@ def window_unit(dataset_id: str, force: bool = False) -> str:
     return f"done {dataset_id}: {len(prof)} windows"
 
 
-def shore_distance_km(lat: np.ndarray, lon: np.ndarray) -> np.ndarray:
-    """Distance to the Natural Earth 10 m coastline (approximate: degrees
-    scaled by latitude, fine at the few-km level this flag is for)."""
+GREAT_LAKES = ("Lake Superior", "Lake Michigan", "Lake Huron", "Lake Erie", "Lake Ontario")
+
+
+def _shore_geoms(lakes: bool) -> list:
     import cartopy.io.shapereader as shp
+    if not lakes:
+        return list(shp.Reader(shp.natural_earth("10m", "physical", "coastline")).geometries())
+    r = shp.Reader(shp.natural_earth("10m", "physical", "lakes"))
+    return [rec.geometry.boundary for rec in r.records() if rec.attributes.get("name") in GREAT_LAKES]
+
+
+def shore_distance_km(lat: np.ndarray, lon: np.ndarray, lakes: bool = False) -> np.ndarray:
+    """Distance to the Natural Earth 10 m coastline, or with lakes=True to the
+    Great Lakes shorelines (the coastline layer has no lake shores; the one
+    Great Lakes deployment got ~840 km before, 2026-11-25). Approximate:
+    degrees scaled by cos(lat), fine at the few-km level this column is for.
+
+    The search widens until something is found within r (scaled degrees):
+    anything nearer lies within r / cos(lat) unscaled, so the buffered query
+    cannot miss it. Before 2026-11-25 the search stopped at 3 degrees and
+    returned inf offshore (393 rows of the 2026_11_24 table)."""
     import shapely
-    geoms = list(shp.Reader(shp.natural_earth("10m", "physical", "coastline")).geometries())
+    geoms = _shore_geoms(lakes)
     tree = shapely.STRtree(geoms)
     out = np.empty(len(lat))
     for i, (a, o) in enumerate(zip(lat, lon)):
-        k = np.cos(np.deg2rad(a))
-        # nearest in degree space, then exact distance in the local scaled frame
-        cand = tree.query(shapely.Point(o, a).buffer(3.0))
-        best = np.inf
-        for j in cand:
-            g = shapely.affinity.scale(geoms[j], xfact=k, yfact=1.0, origin=(0, 0))
-            best = min(best, g.distance(shapely.Point(o * k, a)))
+        k = max(np.cos(np.deg2rad(a)), 0.05)
+        p = shapely.Point(o * k, a)
+        r, best = 3.0, np.inf
+        while True:
+            for j in tree.query(shapely.Point(o, a).buffer(r / k)):
+                g = shapely.affinity.scale(geoms[j], xfact=k, yfact=1.0, origin=(0, 0))
+                best = min(best, g.distance(p))
+            if best <= r or r >= 180:
+                break
+            r *= 3
         out[i] = best * 111.2
     return out
 
@@ -468,7 +499,7 @@ def dark_series(dataset_id: str) -> pd.DataFrame:
     mean deep-sample time; it needs DARK_MIN_SAMPLES samples in the window.
     dark_profile (the profile's own deep median) is kept for checking."""
     files = sorted((DEEP_DIR / dataset_id).glob("*.csv.gz"))
-    cols = ["glider_profile_id", "t", "dark_profile", "n_deep", "dark_smooth"]
+    cols = ["_pkey", "t", "dark_profile", "n_deep", "dark_smooth"]
     if not files:
         return pd.DataFrame(columns=cols)
     qc = meta().loc[dataset_id, "qc_var"]
@@ -483,10 +514,11 @@ def dark_series(dataset_id: str) -> pd.DataFrame:
         return pd.DataFrame(columns=cols)
     deep["smooth"] = deep.rolling(DARK_SMOOTH, on="t", center=True,
                                   min_periods=DARK_MIN_SAMPLES).chlorophyll_a.median()
-    p = (deep.groupby("profile_id")
+    deep["_pkey"] = _pkey(deep)
+    p = (deep.groupby("_pkey")
          .agg(t=("t", "mean"), dark_profile=("chlorophyll_a", "median"),
               n_deep=("chlorophyll_a", "size"), dark_smooth=("smooth", "median"))
-         .reset_index().rename(columns={"profile_id": "glider_profile_id"}))
+         .reset_index())
     return p.dropna(subset=["dark_smooth"]).sort_values("t").reset_index(drop=True)[cols]
 
 
@@ -496,7 +528,7 @@ def assign_dark(win: pd.DataFrame, ds: pd.DataFrame) -> pd.Series:
     out = pd.Series(np.nan, index=win.index)
     if ds.empty:
         return out
-    own = win.glider_profile_id.map(ds.set_index("glider_profile_id").dark_smooth)
+    own = win._pkey.map(ds.set_index("_pkey").dark_smooth)
     out[:] = own.to_numpy()
     miss = out.isna()
     if miss.any():
@@ -539,6 +571,30 @@ def drop_bad_windows(t: pd.DataFrame, max_z: pd.Series) -> tuple[pd.DataFrame, p
     return t[~bad].reset_index(drop=True), t[bad].groupby("dataset_id").size()
 
 
+SPIKE_KMH = 10.0  # gliders move ~1 km/h; in the Gulf Stream core < ~9 km/h
+
+
+def position_spike_mask(t: pd.DataFrame) -> pd.Series:
+    """Rows whose position is a bad fix: implied speed > SPIKE_KMH both from
+    the previous row and to the next row of the same deployment. Found
+    running notebook 06 (2026-11-25): sp062-20250702 had a row at +37 E
+    (its rows are off Hatteras), sp213 one at 17 N 43 W, sp030 one 600 km
+    away, sg263 two on land, dfo-bumblebee998-20240509 repeated jumps to a
+    fixed point near Vancouver Island; sp058-20241121 (pilot) one 35 km away
+    and back in 3 h. Both sides, so a real fast drift (one long step) stays."""
+    s = t.sort_values(["dataset_id", "time"])
+    g = s.groupby("dataset_id")
+    k = np.cos(np.deg2rad(s.lat))
+
+    def speed(shift):
+        dt = (s.time - g.time.shift(shift)).abs().dt.total_seconds() / 3600
+        dk = 111.2 * np.hypot(s.lat - g.lat.shift(shift), (s.lon - g.lon.shift(shift)) * k)
+        return dk / dt
+
+    bad = (speed(1) > SPIKE_KMH) & (speed(-1) > SPIKE_KMH)
+    return bad.reindex(t.index).fillna(False)
+
+
 def combine() -> tuple[pd.DataFrame, dict]:
     """Window files -> the glider table.
 
@@ -565,8 +621,19 @@ def combine() -> tuple[pd.DataFrame, dict]:
           & (t.time < pd.Timestamp(b.END_EXCLUSIVE, tz="UTC"))].reset_index(drop=True)
     if t.profile_id.duplicated().any():
         raise ValueError("duplicated profile_id")
+    spike = position_spike_mask(t)
+    spikes = t[spike].groupby("dataset_id").size()
+    t = t[~spike].reset_index(drop=True)
     c = meta()
-    t["region"] = t.dataset_id.map(c.region)  # chla_z_glider_scan.region (finer than region_of)
+    # Region of the median position of the deployment's rows, with the scan's
+    # region(). Not the scan CSV's label: that uses the ERDDAP bounding-box
+    # centre, and some boxes hold a stray position (gp_276-20231024 has
+    # maxLongitude -70.9 while it sits at Station Papa, 145 W; sp062-20250702
+    # has a centre at 21.5 W while its rows are off Georgia), 2026-11-25.
+    import chla_z_glider_scan as gs
+    pos = t.groupby("dataset_id")[["lat", "lon"]].median()
+    t["region"] = t.dataset_id.map(pd.Series([gs.region(a, o) for a, o in zip(pos.lat, pos.lon)],
+                                             index=pos.index))
     t["platform_type"] = t.dataset_id.map(c.platform_type)
     t["institution"] = t.dataset_id.map(c.institution)
     # Per-deployment scan results, on every row so QC is a one-line filter
@@ -577,6 +644,9 @@ def combine() -> tuple[pd.DataFrame, dict]:
     solar = t.time + pd.to_timedelta(t.lon / 15.0, unit="h")
     t["solar_hour"] = (solar - solar.dt.floor("D")).dt.total_seconds() / 3600
     t["shore_km"] = shore_distance_km(t.lat.to_numpy(), t.lon.to_numpy())
+    lake = (t.region == "Great Lakes").to_numpy()
+    if lake.any():
+        t.loc[lake, "shore_km"] = shore_distance_km(t.lat[lake].to_numpy(), t.lon[lake].to_numpy(), lakes=True)
     fluor_cols = [c_.replace("CHLA_", "CHLA_FLUOR_") for c_ in b.CHLA_COLS]
     for raw_col, col in zip(fluor_cols, b.CHLA_COLS):
         t[raw_col] = t[col]
@@ -600,8 +670,10 @@ def combine() -> tuple[pd.DataFrame, dict]:
                                       dark_offset_rows=("dark_offset", "count"),
                                       dark_median=("dark_offset", "median"))
     per["bad_windows_dropped"] = bad.reindex(per.index).fillna(0).astype(int)
+    per["position_spikes_dropped"] = spikes.reindex(per.index).fillna(0).astype(int)
     return t, {"rows": len(t), "datasets": len(ids),
                "bad_windows_dropped": int(bad.sum()),
+               "position_spikes_dropped": int(spikes.sum()),
                "datasets_without_qc_passing_data": no_data,
                "datasets_without_lut": sorted(t.loc[np.isnan(ratio), "dataset_id"].unique().tolist()),
                "by_dataset": per.round(3).to_dict(orient="index")}

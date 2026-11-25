@@ -218,13 +218,16 @@ GLIDER_CORE = {
     "platform_type_definition": "Glider type from the dataset's platform_type attribute (e.g. Slocum Glider, Spray Glider, Seaglider).",
     "institution_definition": "Operating institution from the dataset's institution attribute.",
     "region_definition": (
-        "Region of the deployment centre (chla_z_glider_scan.region), a label, "
+        "Region of the median position of the deployment's rows "
+        "(chla_z_glider_scan.region), a label, "
         "not a coverage claim: e.g. California Current, Pacific Northwest (OR/WA), "
         "British Columbia / Salish Sea, Gulf of Alaska / Bering, Mid-Atlantic "
         "Bight and slope, South Atlantic Bight / off Hatteras, Southern New "
         "England / Gulf of Maine, Irminger / subpolar N Atlantic, Great Lakes, "
         "Antarctic Peninsula. No deployment is in the Gulf of Mexico."),
-    "shore_km_definition": "Approximate distance to the Natural Earth 10 m coastline (km).",
+    "shore_km_definition": (
+        "Approximate distance to the Natural Earth 10 m coastline (km); for the "
+        "Great Lakes deployment, to the Great Lakes shorelines (Natural Earth 10 m lakes)."),
     "variable_lat_standard_name": "latitude",
     "variable_lat_units": "degrees_north",
     "variable_lon_standard_name": "longitude",
@@ -244,7 +247,10 @@ GLIDER_CORE = {
         "out; those failing only for a deep offset are kept and flagged "
         "(deep_offset_flag). Windows with a whole-column failure (gliders diving "
         ">= 300 m: 150-200 m fluorometer mean > the deployment median + 0.3, or "
-        "every bin < 0.02) are removed. "
+        "every bin < 0.02) are removed, and so are bad position fixes (implied "
+        "speed > 10 km/h both into and out of the row). A glider profile is the "
+        "DAC profile_id together with its profile time (some datasets reuse "
+        "profile_id). "
         "Rows are 3 h windows of local mean solar time, as OOI; because a glider "
         "moves 10-80 km a day, each window keeps ONE glider profile (the one with "
         "the most filled 10 m bins, ties to the one nearest the window centre) "
