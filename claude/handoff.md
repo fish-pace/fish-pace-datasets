@@ -2,7 +2,7 @@
 
 Read this first. Orientation, not a task list: Eli says what to work on.
 
-## Repo state (2026-11-24)
+## Repo state (2026-11-25)
 
 - **Latest release: [`2026_11_24`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_24)**
   "Nov 2026 (gliders)": Argo + OOI (identical to `2026_11_23`) plus the
@@ -46,20 +46,16 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - `glider-select` / `glider-fetch` were not re-run through `build.py`; the
   tables came from the pilot's downloads in `_temp_data/glider/`.
 
-## Glider scan (#16, 2026-11-24, branch `glider-scan`)
+## Glider rebuild (#19, branch `glider-release`, 2026-11-25)
 
-`build.py glider-scan` (`src/chla_z_glider_scan.py`) scans every DAC dataset
-with a chlorophyll variable (the pilot looked only at `chlorophyll_a`; also
-`chlorophyll`, `fluorescence`, raw Slocum `sci_*`) and checks each whole
-record on sampled days. Result `src/chla_z_glider_candidates.csv`: 296 new
-deployments, 199 `ok`, 45 `check`, 50 `fail`; still none in the Gulf of
-Mexico. Next (Eli, 2026-11-24): [#19](https://github.com/fish-pace/fish-pace-datasets/issues/19),
-a new release with these deployments, deep-offset ones included but
-flagged per row (fetch code still hard-codes `chlorophyll_a`). The
-whole glider table is rebuilt, pilot 20 included, so the flag is on every
-row (the released `2026_11_24` table has `dark_offset` but no flag).
-PR #18 (the scan, closes #16) is open, waiting for Eli's merge. Details: "Scan of the whole DAC" in
-[notes/chla-z-glider.md](notes/chla-z-glider.md).
+PR #18 (scan) merged. The glider table is rebuilt from the scan, pilot 20
+included: 280 deployments, 98,586 rows, 25,442 valid PACE / 26,851 OLCI
+matchups; per-row `deep_offset_flag` and `scan_check`; whole-column bad
+windows dropped; finer scan regions. Fetch, build and all glider matchups
+ran 2026-11-24/25; tables, README, STAC items and `data_collection.json` are
+on the branch. **Not yet:** PR, merge, release tag (Eli decides), and
+notebook 06 still shows the pilot. Details and decisions: "Rebuild with the
+scanned deployments" in [notes/chla-z-glider.md](notes/chla-z-glider.md).
 
 ## How to rebuild
 

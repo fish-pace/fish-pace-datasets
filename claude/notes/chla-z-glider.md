@@ -229,15 +229,88 @@ California Sprays), negative offset 13, flat 10, no signal 7, surface < deep
 - The regions here (`chla_z_glider_scan.region`) are finer than the
   release's `region_of`, which is unchanged.
 
-### For the fetch (next step, not done)
+## Rebuild with the scanned deployments (#19, 2026-11-24/25, branch `glider-release`)
 
-- `chla_z_glider.fetch_unit` / `fetch_deep_unit` hard-code `chlorophyll_a`
-  and read `candidates.parquet`; they need `chl_var` and `qc_var` from the
-  scan catalog (`scan/catalog.parquet`), and Sprays-without-precise-lat logic
-  as now.
-- Fetch months are `b.MONTHS` (to 2026-10); `days_in_months` shows what that
-  keeps.
-- Drop `bad_days`; look at `check` rows first.
+The whole glider table was rebuilt, pilot 20 included, through one code path.
+
+**Decided (Eli, 2026-11-24):**
+- Selection = scan verdict `ok` or `check`, plus fails whose **only** reason
+  is `deep offset > 0.2`, with days inside `b.MONTHS`
+  (`chla_z_glider.select_from_scan` → `write_selection()` →
+  `chla_z_glider_selection.json`). 280 deployments: 213 ok, 46 check, 21
+  deep-offset (20 new + pilot sp020-20250122T1433). #19 said 23 deep-offset;
+  3 of those also fail flat / surface < deep and stay out. 4 `ok` lie
+  entirely after 2026-10.
+- All 45 new `check` deployments are included; per-row `scan_check` = the
+  scan's `check` text (empty when ok). Per-row `deep_offset_flag` = scan
+  `fail` contains the deep-offset reason.
+- Whole-column bad days: the scan's rule applied **per window** (not to the
+  listed `bad_days`, which are only every 4th day), and those windows
+  **dropped** (`bad_window_mask`): deployments with scan `max_z` >= 300,
+  CHLA_FLUOR 150-200 m mean > deployment median + 0.3, or every bin < 0.02
+  with >= 3 bins. 1,469 windows in 41 deployments (sp025-20240515 217,
+  sp211-20260603 169, sp020-20260519 161, ...). Of the pilot, 10: sp020
+  2025-05-02/03 (4, near its end) and sp203 2025-08-19/20 (6, a week after
+  its start), all 0.4-0.9 down to 200 m vs medians 0.12-0.20.
+
+**Code changes (agent):**
+- Metadata from the committed CSV (`meta()`), not the hub-only catalog or
+  the pilot's `candidates.parquet`. `region` is now the scan's finer
+  `chla_z_glider_scan.region` (the old `region_of` would have labelled
+  Alaska and Oregon "California Current" and the Great Lakes "Mid-Atlantic").
+- Raw CSVs keep the dataset's own variable name; `_standard()` renames it to
+  `chlorophyll_a` on read. Values outside (-5, 100) dropped as fill values
+  (the scan's range).
+- **QC flag 0 kept** (`QC_KEEP = (0, 1, 2)`): Oregon State Seagliders /
+  OSU sets flag every `fluorescence_qc` value 0 = "no_qc_performed"; with
+  (1, 2) seven deployments came out empty. No other selected dataset uses 0.
+- Profiles with no position at all are dropped (dfo-rosie713 profile 1).
+- Rows clipped to [START, END_EXCLUSIVE): the fetch is by profile `time`,
+  rows use precise_time (12 rows fell outside).
+- `fetch_deep_unit` skips deployments whose scan `max_z` < 300 m.
+- **Check:** the pilot 20 rebuilt this way equal the 2026_11_24 table value
+  for value on all 8,913 shared rows (only region labels and the 10 dropped
+  windows differ).
+
+**Run (2026-11-24/25):** fetch 820 dataset-months, 3 workers, 50 min, no
+failures (raw 1.4 GB, raw_deep 300 MB). PACE three products + OLCI at 4
+workers, 4.5 h, no failures. The pilot's glider matchup units were moved to
+`matchups_v3_2/<product>/glider_2026_11_24/` and
+`matchups_olci/glider_2026_11_24/` (they would have been skipped as done).
+Log: `~/shared-public/fish-pace-datasets/glider-match-2026-11-24.log`.
+
+| Region | deployments | profiles | in PACE granule | PACE valid | OLCI valid | both |
+|---|---:|---:|---:|---:|---:|---:|
+| California Current | 58 | 35,223 | 33,578 | 10,305 | 10,510 | 6,317 |
+| Mid-Atlantic Bight and slope | 93 | 23,081 | 21,750 | 7,603 | 7,704 | 4,700 |
+| Pacific Northwest (OR/WA) | 42 | 14,342 | 13,670 | 3,048 | 3,219 | 1,864 |
+| Gulf of Alaska / Bering | 15 | 6,691 | 6,284 | 735 | 862 | 475 |
+| South Atlantic Bight / off Hatteras | 28 | 6,271 | 5,870 | 1,573 | 2,022 | 855 |
+| British Columbia / Salish Sea | 19 | 3,973 | 3,805 | 632 | 745 | 429 |
+| Irminger / subpolar N Atlantic | 5 | 3,465 | 3,276 | 280 | 291 | 162 |
+| Southern New England / Gulf of Maine | 8 | 2,435 | 2,213 | 627 | 738 | 409 |
+| Open NW Atlantic | 4 | 1,113 | 1,071 | 355 | 375 | 229 |
+| Antarctic Peninsula | 2 | 955 | 914 | 88 | 72 | 28 |
+| Sargasso / Bermuda | 3 | 694 | 684 | 149 | 186 | 70 |
+| Tropical Atlantic / Caribbean | 2 | 239 | 238 | 6 | 75 | 0 |
+| Great Lakes | 1 | 104 | 103 | 41 | 52 | 37 |
+| **Total** | **280** | **98,586** | **93,456** | **25,442** | **26,851** | **15,575** |
+
+- 13,216 rows have `deep_offset_flag`. PACE chlor_a / CHLA_0_10: median
+  1.44; night 1.20 (n = 12,493; 1.27 without flagged rows); pilot night 1.19.
+- `_plus_OLCI` lacks 2,866 profiles, all 2026-10: no OLCI granule after
+  2026-10-01 (same for Argo/OOI in the 2026_11_23 tables).
+- Table files are 27-37 MB each (~92 MB for the three; plain git).
+
+**Not done / open:**
+- Great Lakes (gavia-20250829, 104 rows) gets the nearest ocean Sauzède cell
+  (1.32); not meant for a lake. sp062-20250702T1440 has no LUT value (ratio 1).
+- Notebook `06-glider-retrieval-qc.ipynb` still describes the pilot 20; not
+  re-run.
+- 3,793 rows fill < 3 bins: 3,501 have a kept profile shallower than 40 m,
+  only 51 are sparse-depth sets. Not only shelves (Mid-Atlantic 1,424, Gulf
+  of Alaska 862, Irminger 772): probably shallow partial dives chosen when a
+  window has no full one. Not looked into.
 
 ## Things that look odd but are deliberate
 

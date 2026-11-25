@@ -8,7 +8,7 @@ from in situ observations, with optional matchups to PACE satellite products.
 - CHLA(z) profile metrics from:
   - BGC-Argo floats (global)
   - OOI Profilers and Moorings
-  - IOOS gliders (20 Slocum and Spray deployments, mostly coastal)
+  - IOOS gliders (280 Slocum, Spray and Seaglider deployments, mostly coastal)
 - Depth range: 0–200 m (10 m bins)
 - Some datasets include matchups to:
   - PACE OCI Level-3 Daily products
@@ -37,7 +37,7 @@ from in situ observations, with optional matchups to PACE satellite products.
 |--------|------------------|-------------|
 | BGC-Argo | Fluorescence-based chlorophyll-a | Autonomous profiling floats (global coverage) |
 | OOI | Fluorescence-based chlorophyll-a | Fixed moorings and mobile profilers |
-| Glider | Fluorescence-based chlorophyll-a | IOOS Glider DAC Slocum and Spray gliders: California Current, Mid-Atlantic Bight, southern New England shelf, off Cape Hatteras, Antarctic Peninsula, tropical Atlantic |
+| Glider | Fluorescence-based chlorophyll-a | IOOS Glider DAC Slocum, Spray and Seagliders: US East and West coasts, British Columbia, Gulf of Alaska, Irminger Sea, Bermuda, Great Lakes, Antarctic Peninsula (none in the Gulf of Mexico) |
 
 ## Processing (rebuild of November 2026)
 
@@ -55,10 +55,21 @@ from in situ observations, with optional matchups to PACE satellite products.
   z = 0 get their true depth. CHLA is divided by the Sauzède et al.
   fluorescence:chlorophyll ratio for the site (column `chla_ratio`).
   `n_samples` is the number of samples in the window.
-- **Gliders** (added 2026-11-24): 20 deployments from the IOOS Glider DAC
-  ERDDAP, listed in `src/chla_z_glider_selection.json`, chosen across six
-  regions after a sensor screen; not every glider deployment. Samples pass
-  the dataset's own CHLA flag where it has one (values 1, 2). Rows are 3 h
+- **Gliders** (added 2026-11-24, extended 2026-11-25 to 280 deployments):
+  every IOOS Glider DAC deployment with chlorophyll since 2024-03 was scanned
+  on every 4th day of its record (`src/chla_z_glider_candidates.csv`); the
+  table keeps those that passed or need a look (`scan_check`) and those that
+  failed only for a deep offset, listed in `src/chla_z_glider_selection.json`.
+  Deployments with a negative offset, flat or signal-free profiles, surface
+  below deep values, or implausible values are left out. **QC columns:**
+  `deep_offset_flag` is True for every row of a deployment whose fluorometer
+  reads > 0.2 below 300 m (mostly California Current Sprays), so
+  `df[~df.deep_offset_flag]` removes them; `scan_check` holds the scan's notes
+  (e.g. "jumpy surface", "sparse depths"), empty when the deployment passed.
+  Windows where the whole column failed (150–200 m value > deployment median
+  + 0.3, or every bin < 0.02; gliders diving to 300 m) were removed. Samples
+  pass the dataset's own CHLA flag where it has one (1, 2, or 0 = "no QC
+  performed"); about half the datasets have no flag. Rows are 3 h
   windows of local solar time, as OOI, but a glider moves 10–80 km a day, so
   each window keeps **one** glider profile (the one with the most filled
   bins) instead of averaging. Bins A < depth <= B; shelf profiles fill only
@@ -66,10 +77,13 @@ from in situ observations, with optional matchups to PACE satellite products.
   (`chla_ratio`), as OOI. The table also keeps the fluorometer values
   (`CHLA_FLUOR_A_B`) and `dark_offset`, the fluorometer reading below 300 m
   (NaN if the glider does not reach 300 m). `dark_offset` is **not**
-  subtracted: doing so doubled the night PACE/glider ratio (1.19 to 1.99;
-  Argo about 1.25). To apply it: `(CHLA_FLUOR_A_B - dark_offset) / chla_ratio`.
+  subtracted: on the first 20 deployments doing so doubled the night
+  PACE/glider ratio (1.19 to 1.99; Argo about 1.25; 1.20 on the 280 without
+  it). To apply it: `(CHLA_FLUOR_A_B - dark_offset) / chla_ratio`.
   `shore_km` is the distance to the coast; PACE fails near some coasts
-  (chlor_a of 8–27 with Rrs(442) near zero), so filter near-shore rows.
+  (chlor_a of 8–27 with Rrs(442) near zero), so filter near-shore rows. The
+  one Great Lakes deployment (`region == "Great Lakes"`) gets the Sauzède
+  ratio of the nearest ocean cell, which is not meant for lakes.
 
 ## Matchup details (for +PACE files)
 
@@ -113,7 +127,7 @@ cd datasets/chla_z
 python build.py argo-fetch --workers 2   # skips tiles already in _temp_data/raw/
 python build.py argo
 python build.py ooi-fetch && python build.py ooi
-python build.py glider-fetch && python build.py glider
+python build.py glider-fetch && python build.py glider   # selection: src/chla_z_glider_selection.json
 python build.py pace --product Rrs   # also chlor_a, Kd
 python build.py pace-merge
 python build.py olci && python build.py olci-merge
