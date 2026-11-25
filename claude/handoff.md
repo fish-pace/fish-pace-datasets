@@ -49,13 +49,15 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 ## Glider rebuild (#19, branch `glider-release`, 2026-11-25)
 
 PR #18 (scan) merged. The glider table is rebuilt from the scan, pilot 20
-included: 280 deployments, 98,586 rows, 25,442 valid PACE / 26,851 OLCI
+included: 280 deployments, 98,659 rows, 25,446 valid PACE / 26,856 OLCI
 matchups; per-row `deep_offset_flag` and `scan_check`; whole-column bad
-windows dropped; finer scan regions. Fetch, build and all glider matchups
-ran 2026-11-24/25; tables, README, STAC items and `data_collection.json` are
-on the branch. **Not yet:** PR, merge, release tag (Eli decides), and
-notebook 06 still shows the pilot. Details and decisions: "Rebuild with the
-scanned deployments" in [notes/chla-z-glider.md](notes/chla-z-glider.md).
+windows and bad position fixes dropped; profile = profile_id + time;
+`shore_km` and `region` fixed (all found by running notebook 06).
+Notebook 05 now compares all three platforms; 05 and 06 re-run on the final
+tables. Tables, README, STAC items and `data_collection.json` are on the
+branch. **Not yet:** PR, merge, release tag (Eli decides). Details and
+decisions: "Rebuild with the scanned deployments" in
+[notes/chla-z-glider.md](notes/chla-z-glider.md).
 
 ## How to rebuild
 

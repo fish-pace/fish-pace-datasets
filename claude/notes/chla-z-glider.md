@@ -272,6 +272,34 @@ The whole glider table was rebuilt, pilot 20 included, through one code path.
   for value on all 8,913 shared rows (only region labels and the 10 dropped
   windows differ).
 
+**Found by running notebook 06 (2026-11-25, Eli asked to run it before the PR):**
+- **profile_id is not unique** in 27 selected datasets (DFO / C-PROOF reuse it
+  for profiles days apart; also SEA044, osu592, sg263, sp011-20240806,
+  sp030-20260701; none of the pilot 20). `window_profiles` and `dark_series`
+  grouped by it and merged unrelated profiles (positions zigzagging ~45 km,
+  dfo-bumblebee998-20260205). Now a profile = `profile_id` + profile `time`
+  (`_pkey`, kept in the window files, not in the table). 1,236 rows in 26
+  deployments changed or were new, so the PACE/OLCI units of their days ±1
+  were re-run (1,748 unit files moved to `*/glider_pre_pkey_fix/`).
+- **Bad position fixes** (`position_spike_mask`): rows with implied speed >
+  10 km/h both into and out of them are dropped: 6 rows (sp062 at +37 E,
+  sp213 at 17 N 43 W, sp030 600 km off, cp_379 two rows ~200 km off,
+  sp058-20241121 (pilot) 35 km off). sp062's stray fix was also why it had
+  no Sauzède value and a bounding-box centre at 21.5 W. Before the pkey fix
+  this rule also caught 16 DFO / sg263 rows; those were merged profiles.
+- **`shore_km` was inf offshore** (search stopped at 3 degrees; 393 rows of
+  the released 2026_11_24 table, 3,127 here) and under-searched elsewhere:
+  340 pilot values were too large (capex690 670 -> 438 km, the distance to
+  Barbados). The search now widens until the nearest is certain. The Great
+  Lakes deployment uses the Great Lakes shorelines (was ~840 km; now 6-40).
+- **`region` from the median row position**, not the ERDDAP bounding-box
+  centre: gp_276-20231024 (Station Papa) has maxLongitude -70.9 and was
+  labelled Mid-Atlantic. 18 deployments changed label, most across the
+  41 N (OR/CA) or 48 N (WA/BC) lines.
+- Pilot 20 after all of this: 8,912 of 8,923 rows (10 bad windows, 1 bad
+  fix), every value equal except `shore_km` (733 rows: 393 inf, 340 too large)
+  and `region`.
+
 **Run (2026-11-24/25):** fetch 820 dataset-months, 3 workers, 50 min, no
 failures (raw 1.4 GB, raw_deep 300 MB). PACE three products + OLCI at 4
 workers, 4.5 h, no failures. The pilot's glider matchup units were moved to
@@ -279,35 +307,43 @@ workers, 4.5 h, no failures. The pilot's glider matchup units were moved to
 `matchups_olci/glider_2026_11_24/` (they would have been skipped as done).
 Log: `~/shared-public/fish-pace-datasets/glider-match-2026-11-24.log`.
 
+Final tables (2026-11-25, after the fixes below in "Found by running notebook 06";
+regions from the median row position):
+
 | Region | deployments | profiles | in PACE granule | PACE valid | OLCI valid | both |
 |---|---:|---:|---:|---:|---:|---:|
-| California Current | 58 | 35,223 | 33,578 | 10,305 | 10,510 | 6,317 |
-| Mid-Atlantic Bight and slope | 93 | 23,081 | 21,750 | 7,603 | 7,704 | 4,700 |
-| Pacific Northwest (OR/WA) | 42 | 14,342 | 13,670 | 3,048 | 3,219 | 1,864 |
-| Gulf of Alaska / Bering | 15 | 6,691 | 6,284 | 735 | 862 | 475 |
-| South Atlantic Bight / off Hatteras | 28 | 6,271 | 5,870 | 1,573 | 2,022 | 855 |
-| British Columbia / Salish Sea | 19 | 3,973 | 3,805 | 632 | 745 | 429 |
+| California Current | 54 | 32,217 | 30,677 | 9,418 | 9,757 | 5,859 |
+| Mid-Atlantic Bight and slope | 93 | 22,564 | 21,202 | 7,489 | 7,680 | 4,638 |
+| Pacific Northwest (OR/WA) | 42 | 15,976 | 15,244 | 3,891 | 3,907 | 2,304 |
+| Gulf of Alaska / Bering | 17 | 8,189 | 7,696 | 812 | 974 | 506 |
+| South Atlantic Bight / off Hatteras | 28 | 6,112 | 5,860 | 1,578 | 1,903 | 822 |
+| British Columbia / Salish Sea | 22 | 4,245 | 4,051 | 623 | 726 | 425 |
 | Irminger / subpolar N Atlantic | 5 | 3,465 | 3,276 | 280 | 291 | 162 |
 | Southern New England / Gulf of Maine | 8 | 2,435 | 2,213 | 627 | 738 | 409 |
-| Open NW Atlantic | 4 | 1,113 | 1,071 | 355 | 375 | 229 |
+| Open NW Atlantic | 5 | 1,975 | 1,864 | 551 | 591 | 355 |
 | Antarctic Peninsula | 2 | 955 | 914 | 88 | 72 | 28 |
-| Sargasso / Bermuda | 3 | 694 | 684 | 149 | 186 | 70 |
-| Tropical Atlantic / Caribbean | 2 | 239 | 238 | 6 | 75 | 0 |
+| Tropical Atlantic / Caribbean | 2 | 240 | 239 | 6 | 75 | 0 |
+| Sargasso / Bermuda | 1 | 182 | 178 | 42 | 90 | 31 |
 | Great Lakes | 1 | 104 | 103 | 41 | 52 | 37 |
-| **Total** | **280** | **98,586** | **93,456** | **25,442** | **26,851** | **15,575** |
+| **Total** | **280** | **98,659** | **93,517** | **25,446** | **26,856** | **15,576** |
 
 - 13,216 rows have `deep_offset_flag`. PACE chlor_a / CHLA_0_10: median
-  1.44; night 1.20 (n = 12,493; 1.27 without flagged rows); pilot night 1.19.
-- `_plus_OLCI` lacks 2,866 profiles, all 2026-10: no OLCI granule after
+  1.44; night 1.20 (n = 11,617; 1.27 without flagged rows); pilot night 1.19.
+  California Current at night: PACE / in situ 0.99 for flagged deployments
+  (deep value 0.32) vs 1.33 for the rest (0.15) (notebook 05, section 6).
+- `_plus_OLCI` lacks 2,865 profiles, all 2026-10: no OLCI granule after
   2026-10-01 (same for Argo/OOI in the 2026_11_23 tables).
-- Table files are 27-37 MB each (~92 MB for the three; plain git).
+- Table files 26-36 MB each (~88 MB for the three; plain git).
+- Checked after the re-match: every PACE unit row of a table profile is on
+  that profile's pixel (|dlat|, |dlon| <= 0.0208) and inside the 24 h rule,
+  for Rrs, chlor_a and Kd; `_plus_*` times and positions equal the table's.
 
 **Not done / open:**
 - Great Lakes (gavia-20250829, 104 rows) gets the nearest ocean Sauzède cell
-  (1.32); not meant for a lake. sp062-20250702T1440 has no LUT value (ratio 1).
-- Notebook `06-glider-retrieval-qc.ipynb` still describes the pilot 20; not
-  re-run.
-- 3,793 rows fill < 3 bins: 3,501 have a kept profile shallower than 40 m,
+  (1.32); not meant for a lake. (sp062-20250702's missing LUT value was its bad position fix.)
+- Notebooks 05 (now all three platforms) and 06 (now the 280-deployment
+  build) re-run 2026-11-25 on the final tables.
+- 3,795 rows fill < 3 bins: ~3,500 have a kept profile shallower than 40 m,
   only 51 are sparse-depth sets. Not only shelves (Mid-Atlantic 1,424, Gulf
   of Alaska 862, Irminger 772): probably shallow partial dives chosen when a
   window has no full one. Not looked into.

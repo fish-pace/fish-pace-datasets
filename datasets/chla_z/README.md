@@ -67,7 +67,9 @@ from in situ observations, with optional matchups to PACE satellite products.
   `df[~df.deep_offset_flag]` removes them; `scan_check` holds the scan's notes
   (e.g. "jumpy surface", "sparse depths"), empty when the deployment passed.
   Windows where the whole column failed (150–200 m value > deployment median
-  + 0.3, or every bin < 0.02; gliders diving to 300 m) were removed. Samples
+  + 0.3, or every bin < 0.02; gliders diving to 300 m) were removed, as were
+  6 bad position fixes (implied speed > 10 km/h into and out of the row).
+  `region` is a label for the median position of the deployment. Samples
   pass the dataset's own CHLA flag where it has one (1, 2, or 0 = "no QC
   performed"); about half the datasets have no flag. Rows are 3 h
   windows of local solar time, as OOI, but a glider moves 10–80 km a day, so
@@ -81,9 +83,10 @@ from in situ observations, with optional matchups to PACE satellite products.
   PACE/glider ratio (1.19 to 1.99; Argo about 1.25; 1.20 on the 280 without
   it). To apply it: `(CHLA_FLUOR_A_B - dark_offset) / chla_ratio`.
   `shore_km` is the distance to the coast; PACE fails near some coasts
-  (chlor_a of 8–27 with Rrs(442) near zero), so filter near-shore rows. The
-  one Great Lakes deployment (`region == "Great Lakes"`) gets the Sauzède
-  ratio of the nearest ocean cell, which is not meant for lakes.
+  (chlor_a of 8–27 with Rrs(442) near zero), so filter near-shore rows; for
+  the one Great Lakes deployment it is the distance to the lake shore. That
+  deployment (`region == "Great Lakes"`) gets the Sauzède ratio of the
+  nearest ocean cell, which is not meant for lakes.
 
 ## Matchup details (for +PACE files)
 
@@ -153,8 +156,8 @@ methods, not model training; the full build runs from `build.py`.
 | `02-ooi-retrieval-qc.ipynb` | OOI retrieval, QC, 3 h solar-time windows, Sauzède correction |
 | `03-pace-matchups.ipynb` | PACE Rrs, chlor_a and Kd matchups |
 | `04-olci-matchups.ipynb` | Sentinel-3 OLCI Rrs matchups |
-| `05-compare-datasets.ipynb` | how in situ and satellite chlorophyll compare; the effect of solar hour; OLCI vs PACE |
-| `06-glider-retrieval-qc.ipynb` | Glider selection, retrieval, QC, one profile per 3 h solar window, dark offset, Sauzède correction |
+| `05-compare-datasets.ipynb` | Argo, OOI and gliders side by side: where they sample, profile shapes, in situ vs PACE, the effect of solar hour, glider regions and deep offset, OLCI vs PACE |
+| `06-glider-retrieval-qc.ipynb` | Glider selection from the DAC scan, retrieval, QC, one profile per 3 h solar window, dark offset, Sauzède correction, QC columns |
 
 The earlier notebooks (`argopy.ipynb`, `ooi.ipynb`, `argo-matchups.ipynb`)
 are kept at tag
