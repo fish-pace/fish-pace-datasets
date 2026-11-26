@@ -5,7 +5,7 @@
     python build.py argo                 # monthly .nc -> data/CHLA_argo_profiles.parquet
     python build.py ooi-fetch            # OOI ERDDAP -> _temp_data/ooi_raw/<id>/<YYYY-MM>.csv.gz
     python build.py ooi                  # raw -> data/CHLA_ooi_profiles.parquet (Sauzède corrected)
-    python build.py glider-select        # Glider DAC search + one-day sensor screen (to choose deployments)
+    python build.py glider-select        # the pilot's search + one-day screen (chose the first 20; kept for reference)
     python build.py glider-scan          # all DAC chlorophyll deployments, whole-record check, status vs the table
                                          # -> src/chla_z_glider_candidates.csv (issue #16)
     python build.py glider-fetch         # the deployments in src/chla_z_glider_selection.json, 0-200 m and below 300 m
@@ -18,8 +18,9 @@
 
 --platform argo|ooi|glider limits pace, pace-merge, olci and olci-merge to one
 platform; the merges then rewrite only that platform's table. Glider: the
-selection is a committed list; glider-select only helps choose a new one
-(design note claude/notes/chla-z-glider.md).
+selection is a committed list, written from the scan CSV by
+chla_z_glider.write_selection() (#19); a re-run of glider-scan does not change
+it until that is called again (design note claude/notes/chla-z-glider.md).
 
 Each unit runs in its own process (`max_tasks_per_child=1`), so memory is
 returned between units, and an OOM-killed worker only loses its unit: the pool
