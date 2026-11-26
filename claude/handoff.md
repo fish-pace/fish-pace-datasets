@@ -4,23 +4,25 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 ## Repo state (2026-11-26)
 
-- **Latest release: [`2026_11_24`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_24)**
-  "Nov 2026 (gliders)": Argo + OOI (identical to `2026_11_23`) plus the
-  three glider tables (PR #14, merged 2026-11-24; branch deleted). Earlier:
-  `2026_11_23` (Argo/OOI rebuild), `2025_11_01`.
-- Both 2026 release notes say: no random row split on OOI (temporal
-  autocorrelation); use a space-time grouped split (1° × 30 d), pointing to
-  2026-go-bgc-hackweek `claude/notes/paper-leakage-and-ooi-sites.md`.
+- **Latest release: [`2026_11_26`](https://github.com/fish-pace/fish-pace-datasets/releases/tag/2026_11_26)**
+  "Nov 2026 (gliders, 280 deployments)": glider tables rebuilt from the
+  whole-DAC scan (PR #20, merged 2026-11-26; #19 closed; branch deleted).
+  Argo and OOI identical to `2026_11_23`. Earlier: `2026_11_24` (20 pilot
+  gliders; its `shore_km` is `inf` for 393 offshore rows), `2026_11_23`
+  (Argo/OOI rebuild), `2025_11_01`.
+- Release notes since 2026_11_23 say: no random row split (OOI, gliders);
+  use a space-time grouped split, pointing to 2026-go-bgc-hackweek
+  `claude/notes/paper-leakage-and-ooi-sites.md`.
 - **Downstream:** 2026-go-bgc-hackweek poster v2 (branch
-  `poster-v2-glider`, its #22) reads `2026_11_24` (2026-11-24, not yet merged
-  to its `main`); its `main` (poster v1) stays on `2026_11_23`.
-- #10 (PACE/OLCI time rule) closed 2026-11-24: the release keeps the 24 h
-  rule for PACE, UTC day for OLCI.
-- Open threads (not tasks): no `LICENSE` or README "Reuse and citation";
-  `argo-fetch` only run on 2024-03; clean up `~/shared-public` after the
-  poster work, not before.
+  `poster-v2-glider`, its #22) reads `2026_11_24`; `2026_11_26` has 14x the
+  glider rows and fixes `shore_km`. Not changed there (other repo).
+- #10 (PACE/OLCI time rule) closed: 24 h rule for PACE, UTC day for OLCI.
+- Open issues: #13 (OOI biofouling/calibration the QC misses), #7 (BBP700
+  idea). Open threads (not tasks): no `LICENSE` or README "Reuse and
+  citation"; `argo-fetch` only run on 2024-03; clean up `~/shared-public`
+  after the poster work, not before.
 - My local `2025_11_01` tag is one commit behind GitHub's (adds the Sauzède
-  LUT; tables identical); `git fetch --tags` warns about it.
+  LUT; tables identical); `git fetch --tags` errors on it.
 
 ## Notes
 
@@ -35,17 +37,12 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 
 ## Gliders
 
-- **Released `2026_11_24`:** 20 pilot deployments, 8,923 rows. Its
-  `shore_km` is `inf` for 393 offshore rows (fixed in #20).
-- **PR [#20](https://github.com/fish-pace/fish-pace-datasets/pull/20)
-  (branch `glider-release`, open, waiting for Eli's review/merge):** #19's
-  rebuild from the whole-DAC scan, pilot 20 included. 280 deployments,
-  98,659 rows, 25,446 valid PACE / 26,856 OLCI matchups; per-row
-  `deep_offset_flag` and `scan_check`; whole-column bad windows and bad
-  position fixes dropped; profile = profile_id + time; `shore_km` and
-  `region` fixed. Notebook 05 now compares all three platforms; 05 and 06
-  re-run on the final tables. **After merge:** tag the release (not done)
-  and close #19 (Eli).
+- **Released `2026_11_26`:** 280 IOOS Glider DAC deployments (scan of every
+  DAC chlorophyll dataset, #16; selection #19), 98,659 rows, 25,446 valid
+  PACE / 26,856 OLCI matchups. Per-row `deep_offset_flag` and `scan_check`;
+  whole-column bad windows and bad position fixes dropped; profile =
+  profile_id + time. Notebook 05 compares all three platforms; 06 is the
+  glider methods notebook.
 - Decided (Eli): `CHLA_A_B` Sauzède only, raw `CHLA_FLUOR_*` and
   `dark_offset` as columns, offset not subtracted (2026-11-24); deep-offset
   deployments kept with a flag; all `check` deployments kept; whole-column
@@ -53,11 +50,13 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - **Where things are:** data problems in Glider DAC sets → "Known problems
   in Glider DAC data" in [notes/chla-z-glider.md](notes/chla-z-glider.md)
   (also the #19 comment of 2026-11-25); decisions and run log → "Rebuild
-  with the scanned deployments" there.
-- Hub intermediates: pilot matchup units in
-  `matchups_*/…/glider_2026_11_24/`, pre-fix units in
-  `…/glider_pre_pkey_fix/` (both can go once #20 is released); logs
-  `~/shared-public/fish-pace-datasets/glider-match-2026-11-2{4,5-redo}.log`.
+  with the scanned deployments" there. Open: Great Lakes gets an ocean
+  Sauzède ratio; 3,795 rows fill < 3 bins.
+- Adding deployments: re-run `glider-scan`, then `write_selection()`,
+  `glider-fetch`, `glider`, matchups with `--platform glider`. A fix that
+  moves rows needs their days ±1 re-matched (units are skipped if present).
+- Hub: the superseded glider matchup backups were deleted 2026-11-26; only
+  the live `glider/` unit folders remain.
 
 ## How to rebuild
 
