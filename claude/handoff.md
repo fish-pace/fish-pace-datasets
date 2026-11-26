@@ -55,10 +55,8 @@ Read this first. Orientation, not a task list: Eli says what to work on.
 - Adding deployments: re-run `glider-scan`, then `write_selection()`,
   `glider-fetch`, `glider`, matchups with `--platform glider`. A fix that
   moves rows needs their days ±1 re-matched (units are skipped if present).
-- **Hub cleanup left for Eli** (the guard hook blocks `rm -r` in
-  `~/shared-public`): `_temp_data/matchups_v3_2/{Rrs,chlor_a,Kd}/glider_{2026_11_24,pre_pkey_fix}`
-  and `_temp_data/matchups_olci/glider_{2026_11_24,pre_pkey_fix}` (~170 MB,
-  superseded backups).
+- Hub: the superseded glider matchup backups were deleted 2026-11-26; only
+  the live `glider/` unit folders remain.
 
 ## How to rebuild
 
