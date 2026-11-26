@@ -30,6 +30,33 @@ deployments across six regions; the selection can grow.
 | PACE time rule (2026-11-24) | **Same as the release** (24 h after `time_coverage_start`), so all three platforms change together when #10 is decided |
 | Main `CHLA_A_B` (2026-11-24) | **Sauzède only**, as OOI; raw `CHLA_FLUOR_A_B` and `dark_offset` kept as columns, the offset **not** subtracted |
 
+## Known problems in Glider DAC data (and what the build does)
+
+One place for the data problems found so far (#16 scan, #19 rebuild,
+2026-11-24/25). Details are in the sections below; the issue comment on
+#19 has the same list. Anyone adding deployments should expect these again.
+
+| Problem | Example | What the build does (code) |
+|---|---|---|
+| `profile_id` reused for profiles days apart | 27 datasets, mostly DFO / C-PROOF; also SEA044, osu592, sg263, sp011-20240806, sp030-20260701 | profile = `profile_id` + profile `time` (`_pkey`) |
+| Bad position fixes (one profile far off) | sp062 at +37 E, sp213 at 17 N 43 W, sp030 600 km off, cp_379 ~200 km off | drop rows with > 10 km/h into and out of them (`position_spike_mask`) |
+| Profiles with no position at all | dfo-rosie713 profile 1 | drop (`window_profiles`) |
+| Stray position in the ERDDAP bounding box | gp_276-20231024 maxLongitude -70.9 at Station Papa | `region` from the median row position, not the box centre |
+| Deep (dark) offset, drifting | California Sprays 0.1-0.35 below 300 m | `dark_offset` column, not subtracted; `deep_offset_flag` when > 0.2 |
+| Whole-column sensor failure days | California Sprays near record ends (sp025 Jul-Aug 2024) | drop windows (`bad_window_mask`) |
+| QC flag 0 = "no QC performed" on every value | Oregon State Seagliders (`fluorescence_qc`) | keep 0, 1, 2 (`QC_KEEP`) |
+| Many chlorophyll variable names | `chlorophyll`, `fluorescence`, `sci_flbbcd_chlor_units`, ... | per-dataset `chl_var` from the scan CSV, renamed on read |
+| Half the datasets have no chlorophyll QC flag | 156 of 316 | no flag filter; values outside (-5, 100) dropped as fill |
+| Profile `time` ~70 min off the samples | ru34 delayed sets | sample time = `precise_time` |
+| Unit label typo | bios_jack-20240812 says `micrograms m^-3`, values are mg m-3 | none needed (values used as mg m-3) |
+| Sparse depths: chlorophyll at scattered depths | DFO / C-PROOF | kept; `scan_check` says "sparse depths" |
+| Real-time vs delayed copies; delayed stubs; 2,800-variable raw Slocum sets that ERDDAP cannot query whole | ru26d-20250107 delayed spans 6 min; Skidaway / USF | scan picks one copy per deployment (`deployments`) |
+| DAC drops requests under load: empty-body 404s, truncated JSON | ~120 of 471 info requests at 6 threads | retry (`chla_z_glider_scan._get`); keep workers at 3 |
+
+Not data errors but limits of the matchups: PACE atmospheric-correction
+failures within ~25 km of the coast (chlor_a > 8, Rrs(442) <= 0; filter on
+`shore_km`), and the Great Lakes deployment gets an ocean Sauzède ratio.
+
 ## Processing, and where it differs from OOI
 
 Same as OOI: 3 h windows of local mean solar time (UTC + lon/15 h); 10 m bins
